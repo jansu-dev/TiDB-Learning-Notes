@@ -89,8 +89,8 @@ export PATH
 | --ca string              |      |   TLS ca根证书连接路径 |
 | --case-sensitive         |      |   是否区分大小写 |
 | --cert string            |      |   客户端TLS证书连接路径 |
-| --consistency string     |      |   导出过程中的一致性隔离级别: {auto\none\flush\lock\snapshot} (默认："auto") |
-| --csv-null-value string  |      |   The null value used when export to csv (default "\\N") |
+| --consistency string     |      |   flush: dump 前用 FTWRL、snapshot: 通过TSO来指、dump某个快照时间点的TiDB数据、lock:对需要dump的所有表执行lock tables read命令、none:不加锁dump无法保证一致性、auto:MySQL默认用flush, TiDB 默认用 snapshot (默认："auto") |
+| --csv-null-value string  |      |   csv 文件空值的表示 (默认："\\N") |
 | --database strings       |  -B, |   导出数据库 |
 | --dump-empty-database    |      |   导出数据库元数据信息 (默认:true) |
 | --escape-backslash       |      |   使用反斜线导出特殊字符 (默认:true) |
@@ -112,9 +112,9 @@ export PATH
 | --rows uint              |  -r, |   将表切分为n行的chunk,默认:unlimited |
 | --snapshot string        |      |   快照位置 (来之pd server的uint64格式的时间戳)。 仅当快照一致性时有效(consistency=snapshot) |
 | --sql string             |  -S, |   导出sql语句内容的数据，这个参数不支持并发导出 |
-| --statement-size uint    |  -s, |   Attempted size of INSERT statement in bytes |
-| --status-addr string     |      |   dumpling API server and pprof addr (default ":8281") |
-| --tables-list strings    |  -T, |   Comma delimited table list to dump; must be qualified table names |
+| --statement-size uint    |  -s, |   控制 INSERT SQL 语句的大小，单位 bytes |
+| --status-addr string     |      |   Dumpling 的服务地址，包含了 Prometheus 拉取 metrics 信息及 pprof 调试的地址 |
+| --tables-list strings    |  -T, |   导出指定数据表，表明必须加双引号 |
 | --threads int            |  -t, |   goroutines携程（并行导出）使用的数量, 默认：4个 (default 4) |
 | --tidb-mem-quota-query uint|      |   单条SQL导出最大内存使用限制, 以bytes为单位。 默认: 32GB (default 34359738368) |
 | --user string            |  -u, |   连接用户名 (默认："root") |
