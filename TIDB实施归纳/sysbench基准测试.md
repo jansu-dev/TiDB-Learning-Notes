@@ -11,7 +11,7 @@
 ## sysbench
 
 * **sysbench是什么？**
-在sysbench主要支持 MySQL,pgsql,oracle 这3种数据库
+sysbench是一款基准测试工具，有助于加强测试人员对当前服务器资源及数据库处理能力的认识，目前sysbench支持 MySQL,pgsql,oracle 这3种数据库。
 
 
 
@@ -293,8 +293,71 @@ sysbench --num-threads=12 --max-requests=10000 --test=memory --memory-block-size
 
 
 * **OLTP基准测试比较**
-```
+```shell
+[tidb@tidb01-41 sysbench]$  sysbench /usr/share/sysbench/oltp_read_write.lua --mysql-host=192.168.1.41 --mysql-port=4000 --mysql-db=jan --mysql-user=root --mysql-password= --table_size=5000 --tables=1  --events=10000 --report-interval=10 --time=0 run
+sysbench 1.0.17 (using system LuaJIT 2.0.4)
 
+Running the test with following options:
+Number of threads: 1
+Report intermediate results every 10 second(s)
+Initializing random number generator from current time
+
+
+Initializing worker threads...
+
+Threads started!
+
+[ 10s ] thds: 1 tps: 40.19 qps: 804.84 (r/w/o: 563.59/160.77/80.48) lat (ms,95%): 36.89 err/s: 0.00 reconn/s: 0.00
+[ 20s ] thds: 1 tps: 40.10 qps: 801.54 (r/w/o: 560.93/160.41/80.20) lat (ms,95%): 36.89 err/s: 0.00 reconn/s: 0.00
+[ 30s ] thds: 1 tps: 39.80 qps: 796.86 (r/w/o: 558.07/159.19/79.60) lat (ms,95%): 37.56 err/s: 0.00 reconn/s: 0.00
+[ 40s ] thds: 1 tps: 41.70 qps: 834.05 (r/w/o: 583.84/166.81/83.41) lat (ms,95%): 33.12 err/s: 0.00 reconn/s: 0.00
+[ 50s ] thds: 1 tps: 40.50 qps: 810.47 (r/w/o: 567.08/162.39/81.00) lat (ms,95%): 36.24 err/s: 0.00 reconn/s: 0.00
+[ 60s ] thds: 1 tps: 39.80 qps: 795.40 (r/w/o: 557.00/158.80/79.60) lat (ms,95%): 37.56 err/s: 0.00 reconn/s: 0.00
+[ 70s ] thds: 1 tps: 42.00 qps: 839.43 (r/w/o: 587.42/168.01/84.00) lat (ms,95%): 36.24 err/s: 0.00 reconn/s: 0.00
+[ 80s ] thds: 1 tps: 42.10 qps: 841.89 (r/w/o: 589.29/168.40/84.20) lat (ms,95%): 34.95 err/s: 0.00 reconn/s: 0.00
+[ 90s ] thds: 1 tps: 39.40 qps: 788.78 (r/w/o: 552.39/157.60/78.80) lat (ms,95%): 38.25 err/s: 0.00 reconn/s: 0.00
+[ 100s ] thds: 1 tps: 40.20 qps: 804.22 (r/w/o: 562.91/160.90/80.40) lat (ms,95%): 37.56 err/s: 0.00 reconn/s: 0.00
+[ 110s ] thds: 1 tps: 34.40 qps: 686.78 (r/w/o: 480.49/137.50/68.80) lat (ms,95%): 37.56 err/s: 0.00 reconn/s: 0.00
+[ 120s ] thds: 1 tps: 38.80 qps: 777.52 (r/w/o: 544.31/155.60/77.60) lat (ms,95%): 36.89 err/s: 0.00 reconn/s: 0.00
+[ 130s ] thds: 1 tps: 34.10 qps: 681.10 (r/w/o: 476.90/136.00/68.20) lat (ms,95%): 38.25 err/s: 0.00 reconn/s: 0.00
+[ 140s ] thds: 1 tps: 32.50 qps: 649.68 (r/w/o: 454.68/130.00/65.00) lat (ms,95%): 49.21 err/s: 0.00 reconn/s: 0.00
+[ 150s ] thds: 1 tps: 33.80 qps: 675.61 (r/w/o: 472.80/135.20/67.60) lat (ms,95%): 41.85 err/s: 0.00 reconn/s: 0.00
+[ 160s ] thds: 1 tps: 31.90 qps: 639.57 (r/w/o: 447.78/127.99/63.80) lat (ms,95%): 43.39 err/s: 0.00 reconn/s: 0.00
+[ 170s ] thds: 1 tps: 31.00 qps: 618.64 (r/w/o: 433.03/123.61/62.00) lat (ms,95%): 41.10 err/s: 0.00 reconn/s: 0.00
+[ 180s ] thds: 1 tps: 36.70 qps: 734.69 (r/w/o: 514.50/146.80/73.40) lat (ms,95%): 36.89 err/s: 0.00 reconn/s: 0.00
+[ 190s ] thds: 1 tps: 37.70 qps: 753.58 (r/w/o: 527.38/150.80/75.40) lat (ms,95%): 36.24 err/s: 0.00 reconn/s: 0.00
+[ 200s ] thds: 1 tps: 39.10 qps: 782.74 (r/w/o: 548.13/156.41/78.20) lat (ms,95%): 33.72 err/s: 0.00 reconn/s: 0.00
+[ 210s ] thds: 1 tps: 39.50 qps: 788.79 (r/w/o: 551.79/158.00/79.00) lat (ms,95%): 34.33 err/s: 0.00 reconn/s: 0.00
+[ 220s ] thds: 1 tps: 39.00 qps: 779.80 (r/w/o: 545.80/156.00/78.00) lat (ms,95%): 34.33 err/s: 0.00 reconn/s: 0.00
+[ 230s ] thds: 1 tps: 30.50 qps: 611.28 (r/w/o: 428.29/122.00/61.00) lat (ms,95%): 48.34 err/s: 0.00 reconn/s: 0.00
+[ 240s ] thds: 1 tps: 36.20 qps: 723.11 (r/w/o: 505.91/144.80/72.40) lat (ms,95%): 41.10 err/s: 0.00 reconn/s: 0.00
+[ 250s ] thds: 1 tps: 33.60 qps: 673.41 (r/w/o: 471.40/134.80/67.20) lat (ms,95%): 41.85 err/s: 0.00 reconn/s: 0.00
+[ 260s ] thds: 1 tps: 37.70 qps: 753.20 (r/w/o: 527.40/150.40/75.40) lat (ms,95%): 36.24 err/s: 0.00 reconn/s: 0.00
+SQL statistics:
+    queries performed:
+        read:                            140000   # 读总次数
+        write:                           40000    # 写总次数
+        other:                           20000    # 其他总次数(如：commit等)
+        total:                           200000   # 全部次数
+    transactions:                        10000  (37.40 per sec.)  # 总事务数（每秒事务数）
+    queries:                             200000 (747.97 per sec.)
+    ignored errors:                      0      (0.00 per sec.)
+    reconnects:                          0      (0.00 per sec.)
+
+General statistics:
+    total time:                          267.3881s   #  总耗时间 
+    total number of events:              10000       #  总事务数
+
+Latency (ms):
+         min:                                   17.69  # 最短
+         avg:                                   26.73  # 平均
+         max:                                  896.12  # 最长
+         95th percentile:                       38.94  # 95%的响应时间
+         sum:                               267344.54
+
+Threads fairness:
+    events (avg/stddev):           10000.0000/0.00
+    execution time (avg/stddev):   267.3445/0.00
 ```
 
 
@@ -303,3 +366,5 @@ sysbench --num-threads=12 --max-requests=10000 --test=memory --memory-block-size
 [美团tech：https://tech.meituan.com/2017/07/14/sysbench-meituan.html](https://tech.meituan.com/2017/07/14/sysbench-meituan.html)
 
 [老叶茶馆：https://yq.aliyun.com/articles/640848](https://yq.aliyun.com/articles/640848)
+
+[sysbench基础测试工具安装、测试、结果分析:https://www.jianshu.com/p/875fd384a41b](https://www.jianshu.com/p/875fd384a41b)
