@@ -22,7 +22,7 @@ yum install sysbench
 sysbench --version
 ```
 
-[**sysbench project link** :https://github.com/akopytov/sysbench](https://github.com/akopytov/sysbench)
+* [**sysbench project link** :https://github.com/akopytov/sysbench](https://github.com/akopytov/sysbench)
 
 
 ### 测试CPU性能
