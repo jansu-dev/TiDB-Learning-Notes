@@ -83,7 +83,7 @@ export PATH
 ## 参数简介
 
 | 参数名 | 参数简写 | 参数意义 |
-| --- | --- | --- | --- |
+| --- | --- | --- |
 | --ca string              |      |  The path name to the certificate authority file for TLS connection |
 | --case-sensitive         |      |   whether the filter should be case-sensitive |
 | --cert string            |      |   The path name to the client certificate file for TLS connection |
