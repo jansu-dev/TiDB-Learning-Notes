@@ -86,22 +86,22 @@ export PATH
 
 | 参数名 | 参数简写 | 参数意义 |  
 | --- | --- | --- |
-| --ca string              |      |  The path name to the certificate authority file for TLS connection |
-| --case-sensitive         |      |   whether the filter should be case-sensitive |
-| --cert string            |      |   The path name to the client certificate file for TLS connection |
-| --consistency string     |      |   Consistency level during dumping: {auto|none|flush|lock|snapshot} (default "auto") |
+| --ca string              |      |   TLS ca根证书连接路径 |
+| --case-sensitive         |      |   是否区分大小写 |
+| --cert string            |      |   客户端TLS证书连接路径 |
+| --consistency string     |      |   导出过程中的一致性隔离级别: {auto\none\flush\lock\snapshot} (默认："auto") |
 | --csv-null-value string  |      |   The null value used when export to csv (default "\\N") |
 | --database strings       |  -B, |   导出数据库 |
 | --dump-empty-database    |      |   导出数据库元数据信息 (默认:true) |
-| --escape-backslash       |      |   use backslash to escape special characters (default true) |
+| --escape-backslash       |      |   使用反斜线导出特殊字符 (默认:true) |
 | --filesize string        |  -F, |   导出文件的最大大小 |
 | --filetype string        |      |   导出文件的类型(sql/csv) (默认:"sql") |
-| --filter stringArray     |  -f, |   filter to select which tables to dump (default [*.*]) |
+| --filter stringArray     |  -f, |   过滤出需要导出的表名 (默认全部导出:[*.*]) |
 | --host string            |  -h, |   连接host (default "127.0.0.1") |
-| --key string             |      |   The path name to the client private key file for TLS connection |
+| --key string             |      |   客户端TLS私钥连接路径 |
 | --logfile path           |  -L, |   日志文件路径, leave empty to write to console |
 | --logfmt format          |      |   日志格式: {text/json} (默认 "text") |
-| --loglevel string        |      |   Log level: {debug/info/warn/error/dpanic/panic/fatal} (default "info") |
+| --loglevel string        |      |   日志级别: {debug/info/warn/error/dpanic/panic/fatal} (默认:"info") |
 | --no-data                |  -d, |   不导出数据 |
 | --no-header              |      |   不导出CSV表头信息 |
 | --no-schemas             |  -m, |   导出的表数据不含有模式信息 |
@@ -115,11 +115,11 @@ export PATH
 | --statement-size uint    |  -s, |   Attempted size of INSERT statement in bytes |
 | --status-addr string     |      |   dumpling API server and pprof addr (default ":8281") |
 | --tables-list strings    |  -T, |   Comma delimited table list to dump; must be qualified table names |
-| --threads int            |  -t, |   Number of goroutines to use, default 4 (default 4) |
-| --tidb-mem-quota-query uint|      |   The maximum memory limit for a single SQL statement, in bytes. Default: 32GB (default 34359738368) |
-| --user string            |  -u, |   Username with privileges to run the dump (default "root") |
-| --version                |  -V, |   Print Dumpling version |
-| --where string           |      |   Dump only selected records |
+| --threads int            |  -t, |   goroutines携程（并行导出）使用的数量, 默认：4个 (default 4) |
+| --tidb-mem-quota-query uint|      |   单条SQL导出最大内存使用限制, 以bytes为单位。 默认: 32GB (default 34359738368) |
+| --user string            |  -u, |   连接用户名 (默认："root") |
+| --version                |  -V, |   输出dumpling工具版本 |
+| --where string           |      |   仅导出谓词过滤部分包含的数据 |
 
 ## 操作案例
 
