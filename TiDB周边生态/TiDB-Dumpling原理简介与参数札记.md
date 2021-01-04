@@ -91,34 +91,34 @@ export PATH
 | --cert string            |      |   客户端TLS证书连接路径 |
 | --consistency string     |      |   flush: dump 前用 FTWRL、snapshot: 通过TSO来指、dump某个快照时间点的TiDB数据、lock:对需要dump的所有表执行lock tables read命令、none:不加锁dump无法保证一致性、auto:MySQL默认用flush, TiDB 默认用 snapshot (默认："auto") |
 | --csv-null-value string  |      |   csv 文件空值的表示 (默认："\\N") |
-| --database strings       |  -B, |   导出数据库 |
+| --database strings       |  -B |   导出数据库 |
 | --dump-empty-database    |      |   导出数据库元数据信息 (默认:true) |
 | --escape-backslash       |      |   使用反斜线导出特殊字符 (默认:true) |
-| --filesize string        |  -F, |   导出文件的最大大小 |
+| --filesize string        |  -F |   导出文件的最大大小 |
 | --filetype string        |      |   导出文件的类型(sql/csv) (默认:"sql") |
-| --filter stringArray     |  -f, |   过滤出需要导出的表名 (默认全部导出:[*.*]) |
-| --host string            |  -h, |   连接host (default "127.0.0.1") |
+| --filter stringArray     |  -f |   过滤出需要导出的表名 (默认全部导出:[*.*]) |
+| --host string            |  -h |   连接host (default "127.0.0.1") |
 | --key string             |      |   客户端TLS私钥连接路径 |
-| --logfile path           |  -L, |   日志文件路径, leave empty to write to console |
+| --logfile path           |  -L |   日志文件路径, leave empty to write to console |
 | --logfmt format          |      |   日志格式: {text/json} (默认 "text") |
 | --loglevel string        |      |   日志级别: {debug/info/warn/error/dpanic/panic/fatal} (默认:"info") |
-| --no-data                |  -d, |   不导出数据 |
+| --no-data                |  -d |   不导出数据 |
 | --no-header              |      |   不导出CSV表头信息 |
-| --no-schemas             |  -m, |   导出的表数据不含有模式信息 |
-| --no-views               |  -W, |   不导出视图，默认为true |
-| --output string          |  -o, |   导出文件位置路径，默认为："./export-2021-01-04T08:50:25-05:00" |
-| --password string        |  -p, |   用户密码 |
-| --port int               |  -P, |   连接端口，默认端口号：4000 |
-| --rows uint              |  -r, |   将表切分为n行的chunk,默认:unlimited |
+| --no-schemas             |  -m |   导出的表数据不含有模式信息 |
+| --no-views               |  -W |   不导出视图，默认为true |
+| --output string          |  -o |   导出文件位置路径，默认为："./export-2021-01-04T08:50:25-05:00" |
+| --password string        |  -p |   用户密码 |
+| --port int               |  -P |   连接端口，默认端口号：4000 |
+| --rows uint              |  -r |   将表切分为n行的chunk,默认:unlimited |
 | --snapshot string        |      |   快照位置 (来之pd server的uint64格式的时间戳)。 仅当快照一致性时有效(consistency=snapshot) |
-| --sql string             |  -S, |   导出sql语句内容的数据，这个参数不支持并发导出 |
-| --statement-size uint    |  -s, |   控制 INSERT SQL 语句的大小，单位 bytes |
+| --sql string             |  -S |   导出sql语句内容的数据，这个参数不支持并发导出 |
+| --statement-size uint    |  -s |   控制 INSERT SQL 语句的大小，单位 bytes |
 | --status-addr string     |      |   Dumpling 的服务地址，包含了 Prometheus 拉取 metrics 信息及 pprof 调试的地址 |
-| --tables-list strings    |  -T, |   导出指定数据表，表明必须加双引号 |
-| --threads int            |  -t, |   goroutines携程（并行导出）使用的数量, 默认：4个 (default 4) |
+| --tables-list strings    |  -T |   导出指定数据表，表明必须加双引号 |
+| --threads int            |  -t |   goroutines携程（并行导出）使用的数量, 默认：4个 (default 4) |
 | --tidb-mem-quota-query uint|      |   单条SQL导出最大内存使用限制, 以bytes为单位。 默认: 32GB (default 34359738368) |
-| --user string            |  -u, |   连接用户名 (默认："root") |
-| --version                |  -V, |   输出dumpling工具版本 |
+| --user string            |  -u |   连接用户名 (默认："root") |
+| --version                |  -V |   输出dumpling工具版本 |
 | --where string           |      |   仅导出谓词过滤部分包含的数据 |
 
 ## 操作案例
