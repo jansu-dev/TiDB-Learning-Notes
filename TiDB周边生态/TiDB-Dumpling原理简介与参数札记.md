@@ -10,7 +10,9 @@
 > - [参数简介](#参数简介)    
 > - [注意事项](#注意事项)  
 > - [操作案例](#操作案例)  
->   - [导出到csv文件](#导出到csv文件)  
+>   - [MySQL测试dumping](#MySQL测试dumping)  
+>   - [TiDB导出到csv文件](#TiDB导出到csv文件)  
+>   - [TiDB导出到sql文件](#TiDB导出到sql文件)  
 >   - [thread参数case精讲](#thread参数case精讲)  
 >   - [filiter参数case精讲](#filiter参数case精讲)  
 >   - [rows参数case精讲](#rows参数case精讲)  
@@ -146,7 +148,10 @@ export PATH
 
 ## 操作案例
 
-#### 导出到 sql 文件
+
+#### MySQL测试dumping
+
+#### TiDB导出到 sql 文件
 ```shell
 
 # 执行dumpling导出命令
@@ -207,7 +212,7 @@ INSERT INTO `` (`id`,`k`,`c`,`pad`) VALUES
 ```
 可以看到导出的result文件中为101行，证明--sql参数也适用于sql文件的导出。
 
-#### 导出到csv文件
+#### TiDB导出到csv文件
 ```shell
 
 # 执行dumpling导出命令
@@ -279,4 +284,4 @@ Finished dump at: 2021-01-04 09:11:00   # 导出的起始时间
 [B站-yi888long对dumpling的讲解：https://www.bilibili.com/video/BV1kK4y1Z7tE?from=search&seid=8438422389068483544](https://www.bilibili.com/video/BV1kK4y1Z7tE?from=search&seid=8438422389068483544)
 
 
-[B站-【High Performance TiDB】Lesson 12：生态工具优化https://www.bilibili.com/video/BV1D5411L7z5](https://www.bilibili.com/video/BV1D5411L7z5)
+[B站-【High Performance TiDB】Lesson 12 生态工具优化：https://www.bilibili.com/video/BV1D5411L7z5](https://www.bilibili.com/video/BV1D5411L7z5)
