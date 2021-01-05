@@ -151,6 +151,97 @@ export PATH
 
 #### MySQL测试dumping
 
+将dumpling工具相关机器上传入测试MySQL的服务器/usr/local/bin路径下,全局可用状态；
+```
+[tidb@tidb01-41 bin]$ scp dumpling root@192.168.1.44:/usr/local/bin/
+root@192.168.1.44's password: 
+dumpling                                                             100%   21MB  33.6MB/s   00:00
+```
+
+实验环境准备；
+```shell
+# 创建测试数据库
+
+mysql> create database jan_db;
+mysql> use jan_db
+mysql> create table jan_test (id int,name varchar(20)) DEFAULT CHARACTER SET utf8;
+mysql> insert into jan_test values (1,'jan_1'),(2,'jan_2'),(3,'jan_3'),(4,'jan_4');
+
+
+# 创建测试用户并授权
+
+create user 'jan'@'tidb04-44' identified by '123123';
+
+grant reload,replication client on *.* to 'jan'@'tidb04-44';
+
+grant lock tables on jan_db.* to 'jan'@'tidb04-44';
+
+grant select on jan_db.* to 'jan'@'tidb04-44';
+
+flush privileges;
+
+# grant select on mysql.tidb to 'jan'@'%';
+```
+
+MySQL端使用dumpling导出，并更改表名将数据导回数据库；
+```shell
+# 成功使用dumpling导出MySQL数据
+
+[root@tidb04-44 ~]# dumpling -h192.168.1.44 -ujan -p123123 -P 3306 -T "jan_db.jan_test" -o /root/dumpdir 
+Release version: v4.0.2
+Git commit hash: ff92fcf2fa8fc77127df21820280f6b2088b8309
+Git branch:      heads/v4.0.2
+Build timestamp: 2020-07-01 09:42:00Z
+Go version:      go version go1.13 linux/amd64
+
+[2021/01/05 09:12:23.633 -05:00] [INFO] [config.go:139] ["detect server type"] [type=MySQL]
+[2021/01/05 09:12:23.633 -05:00] [INFO] [config.go:157] ["detect server version"] [version=5.6.50]
+[2021/01/05 09:12:23.634 -05:00] [INFO] [sql.go:419] ["session variable is not supported by db"] [variable=tidb_mem_quota_query] [value=34359738368]
+[2021/01/05 09:12:23.643 -05:00] [INFO] [main.go:195] ["dump data successfully, dumpling will exit now"]
+
+# 列出导出数据目录下
+[root@tidb04-44 dumpdir]# ll
+total 16
+-rwxr-xr-x. 1 root root 111 Jan  5 09:12 jan_db.jan_test.0.sql       #  导出的逻辑数据sql文件
+-rwxr-xr-x. 1 root root 129 Jan  5 09:12 jan_db.jan_test-schema.sql  #  导出的表schema逻辑语句文件
+-rwxr-xr-x. 1 root root  67 Jan  5 09:12 jan_db-schema-create.sql    #  导出的数据库schema逻辑语句文件
+-rwxr-xr-x. 1 root root  95 Jan  5 09:12 metadata                    #  导出的元数据记录文件
+
+
+# root用户下更改表名将数据导回数据库
+
+[root@tidb04-44 dumpdir]# mysql -uroot -p123123 
+mysql> use jan_db
+mysql> source jan_db.jan_test-schema.sql
+mysql> source jan_db.jan_test.0.sql
+mysql> show tables;
++------------------+
+| Tables_in_jan_db |
++------------------+
+| jan_test         |
+| jan_test_bak     |
++------------------+
+2 rows in set (0.00 sec)
+
+mysql> select count(*) from jan_test;
++----------+
+| count(*) |
++----------+
+|        4 |
++----------+
+1 row in set (0.00 sec)
+
+mysql> select count(*) from jan_test_bak;
++----------+
+| count(*) |
++----------+
+|        4 |
++----------+
+1 row in set (0.00 sec)
+
+```
+
+
 #### TiDB导出到 sql 文件
 ```shell
 
