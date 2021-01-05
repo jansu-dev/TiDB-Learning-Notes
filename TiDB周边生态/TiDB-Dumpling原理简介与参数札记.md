@@ -372,8 +372,16 @@ Finished dump at: 2021-01-04 09:11:00   # 导出的起始时间
 # 如果导出的数据非常大，如：数据量超过60GB或导出时常超过10分钟；
 # 推荐调整tikv_gc_life_time以避免由于TiDB GC导致的失败；
 
-导出前调整:update mysql.tidb set VARIABLE_VALUE = '720h' where VARIABLE_NAME = 'tikv_gc_life_time';
-导出后调整:update mysql.tidb set VARIABLE_VALUE = '10m' where VARIABLE_NAME = 'tikv_gc_life_time';
+
+update mysql.tidb set VARIABLE_VALUE = '720h' where VARIABLE_NAME = 'tikv_gc_life_time';           # 导出前调整
+update mysql.tidb set VARIABLE_VALUE = '10m' where VARIABLE_NAME = 'tikv_gc_life_time';            # 导出后调整
+MySQL [(none)]> select * from mysql.tidb where variable_name like 'tikv_gc_life_time'\G            # 查询调涨结果
+*************************** 1. row ***************************
+ VARIABLE_NAME: tikv_gc_life_time
+VARIABLE_VALUE: 720h
+       COMMENT: All versions within life time will not be collected by GC, at least 10m, in Go format.
+1 row in set (0.01 sec)
+
 ```
 
 
