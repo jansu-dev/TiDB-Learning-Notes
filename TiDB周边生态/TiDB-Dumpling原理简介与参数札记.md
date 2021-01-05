@@ -95,6 +95,14 @@ export PATH
 ```
 
 
+#### tiup工具使用dumpling
+
+```
+tiup install dumpling
+
+tiup dumpling  -h192.168.1.44 -ujan -p123123 -P 3306 -T "jan_db.jan_test"  ......
+```
+
 ## 参数简介
 
 | 参数名 | 参数简写 | 参数意义 |  
@@ -212,6 +220,7 @@ total 16
 
 [root@tidb04-44 dumpdir]# mysql -uroot -p123123 
 mysql> use jan_db
+mysql> rename table jan_test to jan_test_bak;
 mysql> source jan_db.jan_test-schema.sql
 mysql> source jan_db.jan_test.0.sql
 mysql> show tables;
@@ -284,7 +293,7 @@ Started dump at: 2021-01-04 09:26:42
 SHOW MASTER STATUS:
 		Log: tidb-binlog        #  binlog日志名称
 		Pos: 421991652309860365 #  master binary log 的位置
-Finished dump at: 2021-01-04 09:26:42   # 导出的起始时间
+Finished dump at: 2021-01-04 09:26:42   #  导出的起始时间
 
 
 # 查看result.0.csv文件的前5行
@@ -358,14 +367,27 @@ Finished dump at: 2021-01-04 09:11:00   # 导出的起始时间
 3,2495,"49376827441-24903985029-56844662308-79012577859-40518387141-60588419212-24399130405-42612257832-29494881732-71506024440","26843035807-96849339132-53943793991-69741192222-48634174017"
 4,2594,"85762858421-36258200885-10758669419-44272723583-12529521893-95630803635-53907705724-07005352902-43001596772-53048338959","37979424284-37912826784-31868864947-42903702727-96097885121"
 
+
+
+# 如果导出的数据非常大，如：数据量超过60GB或导出时常超过10分钟；
+# 推荐调整tikv_gc_life_time以避免由于TiDB GC导致的失败；
+
+导出前调整:update mysql.tidb set VARIABLE_VALUE = '720h' where VARIABLE_NAME = 'tikv_gc_life_time';
+导出后调整:update mysql.tidb set VARIABLE_VALUE = '10m' where VARIABLE_NAME = 'tikv_gc_life_time';
 ```
 
-#### filiter参数case精讲
 
-#### rows参数case精讲
+#### thread参数case精讲  
 
-#### filesize参数case精讲
+#### filiter参数case精讲  
 
+#### rows参数case精讲  
+
+#### filesize参数case精讲  
+
+#### snapshot参数case精讲  
+
+#### consistency参数case精讲  
 
 
 ## 参考文章
