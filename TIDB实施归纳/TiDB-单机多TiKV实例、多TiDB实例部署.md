@@ -12,7 +12,7 @@
 >   - [部署TiDB集群软件](#部署TiDB集群软件)  
 >   - [安装Dashboard依赖包](#安装Dashboard依赖包)
 >   - [执行start启动TiDB集群](#执行start启动TiDB集群)
-> - [pd-ctl命令行验证是否成功](#pd-ctl命令行验证是否成功)
+> - [验证是否安装成功](#验证是否安装成功)
 
 
 
