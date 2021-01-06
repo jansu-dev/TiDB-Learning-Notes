@@ -116,14 +116,14 @@ readpool:
 
 如果多个 TiKV 实例部署在同一块物理磁盘上，需要修改 conf/tikv.yml 中的 capacity 参数，限制每个 TiKV 实例所能使用的磁盘容量，官方推荐配置：capacity = 磁盘总容量 / TiKV 实例数量。
 
-本例：各节点限制使用磁盘容量为 5 GB ，capacity = "5GB"
+本例：各节点限制使用磁盘容量为 5 GB ，capacity = 5GB
 
 ```
 vi ~/tidb-ansible/conf/tikv.yml
 
 
 raftstore:
-  capacity = "5GB"
+  capacity = 5GB
 ```
 
 ## 中控机操作部署机建用户
