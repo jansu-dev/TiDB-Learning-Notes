@@ -1,7 +1,7 @@
 # TiDB-单机多TiKV部署
 
 ## summary
-> - [配置inventory.ini的TiKV部分](#配置inventory.ini的TiKV部分)  
+> - [配置inventory的TiKV部分](#配置inventory的TiKV部分)  
 >   - [TiKV分层架构](#TiKV分层架构)
 
 [tikv_servers]
@@ -25,8 +25,8 @@ TiKV3-2 ansible_host=172.16.10.6 deploy_dir=/data2/deploy tikv_port=20172 tikv_s
 
 
 
-## 配置inventory.ini的TiKV部分
-[tidb@tidb01-41 tidb-ansible]$ vi inventory.ini
+## 配置inventory的TiKV部分
+[tidb@tidb01-41 tidb-ansible]$ vi inventory
 使用上述命令，在tikv_servers和monitored_servers中分别追加新部署节点的IP地址；
 
 5132bd5af713ee6e76bf91a87f58d87.png
@@ -37,8 +37,8 @@ dea88cbf26d02fa12d699d69bf343c8.png
 执行以下命令，依据输入部署目标机器的 root 用户密码；
 本例新增节点IP为192.168.1.44；
 
-[tidb@tidb01-41 tidb-ansible]$ vi hosts.ini 
-[tidb@tidb01-41 tidb-ansible]$ cat hosts.ini 
+[tidb@tidb01-41 tidb-ansible]$ vi hosts 
+[tidb@tidb01-41 tidb-ansible]$ cat hosts 
 [servers]
 192.168.1.44
 
@@ -49,7 +49,7 @@ ntp_server = cn.pool.ntp.org
 
 
 
-[tidb@tidb01-41 tidb-ansible]$ ansible-playbook -i hosts.ini create_users.yml -u root -k
+[tidb@tidb01-41 tidb-ansible]$ ansible-playbook -i hosts create_users.yml -u root -k
 SSH password: 
 
 PLAY [all] ***************************************************************************************************************
@@ -70,7 +70,7 @@ Congrats! All goes well. :-)
 ## 中控机操作部署机配置ntp服务
 注意：生产上应该指向自己的ntp服务器，本次测试采用了公网公用的ntp服务不稳定。
 
-[tidb@tidb01-41 tidb-ansible]$ ansible-playbook -i hosts.ini deploy_ntp.yml -u tidb -b
+[tidb@tidb01-41 tidb-ansible]$ ansible-playbook -i hosts deploy_ntp.yml -u tidb -b
 
 PLAY [all] ***************************************************************************************************************
 
@@ -107,7 +107,7 @@ Congrats! All goes well. :-)
 中控及操作部署机设置CPU模式
 调整CPU模式，如果同本文出现一样的报错，说明此版本的操作系统不支持CPU模式修改，可直接跳过。
 
-[tidb@tidb01-41 tidb-ansible]$ ansible -i hosts.ini all -m shell -a "cpupower frequency-set --governor performance" -u tidb -b
+[tidb@tidb01-41 tidb-ansible]$ ansible -i hosts all -m shell -a "cpupower frequency-set --governor performance" -u tidb -b
 192.168.1.44 | FAILED | rc=237 >>
 Setting cpu: 0
 Error setting new values. Common errors:
