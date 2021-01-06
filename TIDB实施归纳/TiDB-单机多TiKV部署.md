@@ -4,6 +4,8 @@
 > - [配置inventory的TiKV部分](#配置inventory的TiKV部分)  
 >   - [TiKV分层架构](#TiKV分层架构)
 
+
+```
 [tikv_servers]
 TiKV1-1 ansible_host=172.16.10.4 deploy_dir=/data1/deploy tikv_port=20171 tikv_status_port=20181 labels="host=tikv1"
 TiKV1-2 ansible_host=172.16.10.4 deploy_dir=/data2/deploy tikv_port=20172 tikv_status_port=20182 labels="host=tikv1"
@@ -11,6 +13,7 @@ TiKV2-1 ansible_host=172.16.10.5 deploy_dir=/data1/deploy tikv_port=20171 tikv_s
 TiKV2-2 ansible_host=172.16.10.5 deploy_dir=/data2/deploy tikv_port=20172 tikv_status_port=20182 labels="host=tikv2"
 TiKV3-1 ansible_host=172.16.10.6 deploy_dir=/data1/deploy tikv_port=20171 tikv_status_port=20181 labels="host=tikv3"
 TiKV3-2 ansible_host=172.16.10.6 deploy_dir=/data2/deploy tikv_port=20172 tikv_status_port=20182 labels="host=tikv3"
+```
 
 
 
@@ -24,21 +27,30 @@ TiKV3-2 ansible_host=172.16.10.6 deploy_dir=/data2/deploy tikv_port=20172 tikv_s
 
 
 
+### 配置inventory的TiKV部分
 
-## 配置inventory的TiKV部分
-[tidb@tidb01-41 tidb-ansible]$ vi inventory
+```
+[tidb@tidb01-41 tidb-ansible]$ vi inventory.ini
+```
 使用上述命令，在tikv_servers和monitored_servers中分别追加新部署节点的IP地址；
 
-5132bd5af713ee6e76bf91a87f58d87.png
+![5132bd5af713ee6e76bf91a87f58d87.png](http://cdn.lifemini.cn/dbblog/20201227/c45b87c46cc143f8a0def8b154e35c6c.png)
 
-dea88cbf26d02fa12d699d69bf343c8.png
 
-## 中控机操作部署机建用户
-执行以下命令，依据输入部署目标机器的 root 用户密码；
+![dea88cbf26d02fa12d699d69bf343c8.png](http://cdn.lifemini.cn/dbblog/20201227/15323cdc7b4a49c2a7b30532829c1c83.png)
+
+
+
+### 中控机操作部署机建用户
+
+执行以下命令，依据输入***部署目标机器***的 root 用户密码；
 本例新增节点IP为192.168.1.44；
 
-[tidb@tidb01-41 tidb-ansible]$ vi hosts 
-[tidb@tidb01-41 tidb-ansible]$ cat hosts 
+
+
+```
+[tidb@tidb01-41 tidb-ansible]$ vi hosts.ini 
+[tidb@tidb01-41 tidb-ansible]$ cat hosts.ini 
 [servers]
 192.168.1.44
 
@@ -49,7 +61,7 @@ ntp_server = cn.pool.ntp.org
 
 
 
-[tidb@tidb01-41 tidb-ansible]$ ansible-playbook -i hosts create_users.yml -u root -k
+[tidb@tidb01-41 tidb-ansible]$ ansible-playbook -i hosts.ini create_users.yml -u root -k
 SSH password: 
 
 PLAY [all] ***************************************************************************************************************
@@ -67,10 +79,15 @@ PLAY RECAP *********************************************************************
 192.168.1.44               : ok=3    changed=1    unreachable=0    failed=0   
 
 Congrats! All goes well. :-)
-## 中控机操作部署机配置ntp服务
-注意：生产上应该指向自己的ntp服务器，本次测试采用了公网公用的ntp服务不稳定。
 
-[tidb@tidb01-41 tidb-ansible]$ ansible-playbook -i hosts deploy_ntp.yml -u tidb -b
+```
+
+### 中控机操作部署机配置ntp服务
+
+***注意：生产上应该指向自己的ntp服务器，本次测试采用了公网公用的ntp服务不稳定。***
+
+```
+[tidb@tidb01-41 tidb-ansible]$ ansible-playbook -i hosts.ini deploy_ntp.yml -u tidb -b
 
 PLAY [all] ***************************************************************************************************************
 
@@ -104,10 +121,19 @@ PLAY RECAP *********************************************************************
 192.168.1.44               : ok=6    changed=3    unreachable=0    failed=0   
 
 Congrats! All goes well. :-)
-中控及操作部署机设置CPU模式
+
+```
+
+
+
+
+### 中控及操作部署机设置CPU模式
+
+
 调整CPU模式，如果同本文出现一样的报错，说明此版本的操作系统不支持CPU模式修改，可直接跳过。
 
-[tidb@tidb01-41 tidb-ansible]$ ansible -i hosts all -m shell -a "cpupower frequency-set --governor performance" -u tidb -b
+```
+[tidb@tidb01-41 tidb-ansible]$ ansible -i hosts.ini all -m shell -a "cpupower frequency-set --governor performance" -u tidb -b
 192.168.1.44 | FAILED | rc=237 >>
 Setting cpu: 0
 Error setting new values. Common errors:
@@ -118,7 +144,11 @@ Error setting new values. Common errors:
    for example because of hardware which cannot be set to a specific frequency
    or because the userspace governor isn't loaded?non-zero return code
 
-## 执行bootstrap.yml创建模板
+```
+
+
+### 执行bootstrap创建模板
+```
 [tidb@tidb01-41 tidb-ansible]$ ansible-playbook bootstrap.yml -l 192.168.1.44
 
 PLAY [initializing deployment target] ************************************************************************************
@@ -136,7 +166,13 @@ PLAY RECAP *********************************************************************
 192.168.1.44               : ok=21   changed=0    unreachable=0    failed=0   
 
 Congrats! All goes well. :-)
-执行start.yml启动tikv服务
+```
+
+
+
+### 执行start.yml启动tikv服务
+
+```
 Congrats! All goes well. :-)
 [tidb@tidb01-41 tidb-ansible]$ ansible-playbook start.yml -l 192.168.1.44
 
@@ -150,7 +186,11 @@ PLAY RECAP *********************************************************************
 192.168.1.44               : ok=14   changed=3    unreachable=0    failed=0   
 
 Congrats! All goes well. :-)
-执行rolling-update.yml滚动更新
+```
+
+### 执行rolling-update滚动更新
+
+```
 [tidb@tidb01-41 tidb-ansible]$ ansible-playbook rolling_update_monitor.yml --tags=prometheus
 
 PLAY [check config locally] **********************************************************************************************
@@ -168,10 +208,16 @@ PLAY RECAP *********************************************************************
 localhost                  : ok=7    changed=4    unreachable=0    failed=0   
 
 Congrats! All goes well. :-)
-pd-ctl命令行验证是否成功
+
+```
+
+
+### pd-ctl命令行验证是否成功
+
 可以使用stores show命令可以在pd-ctl交互式命令行中看到；
 "count"：4 表示当前tikv有四个节点，说明tikv节点已经添加成功了。
 
+```
 [tidb@tidb01-41 tidb-ansible]$ resources/bin/pd-ctl -u http://192.168.1.41:2379 -i
 » stores show
 {
@@ -268,10 +314,18 @@ pd-ctl命令行验证是否成功
 }
 
 » exit
-[tidb@tidb01-41 tidb-ansible]$
+[tidb@tidb01-41 tidb-ansible]$ 
+
+```
+
+
 更新普罗米修斯后：
 
+
 使用普罗米修斯的Grafana图形化监控界面也可以看到当前的tikv集群也已经加入新节点成功了。
+
+![ea85764f4fe314d64f8295232245eeb.png](http://cdn.lifemini.cn/dbblog/20201227/2b15553374e54489b3b3f12707d5d264.png)
+
 
 
 
