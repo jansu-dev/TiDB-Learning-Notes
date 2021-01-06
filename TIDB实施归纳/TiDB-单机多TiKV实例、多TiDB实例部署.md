@@ -68,6 +68,7 @@ TiKV3-32 ansible_host=192.168.1.43 deploy_dir=/data2/deploy tikv_port=20172 tikv
 location_labels = ["host"]
 ```
 
+labels参数作用：
  - labels 是 Region 调度的最小单元，每一个 raft group 中不同的 replica 不会在扩展过程中被迁移到同一个lable单元，避免这种情况下 server 宕机导致的单点问题（3副本，2副本落在同一个server）。  
  - raft group 的 multi-replica 主要解决的是数据的容灾问题，labels 参数可以有效防止随数据扩展，在Region 迁移过程中因散列计算 Region 迁移位置时，由于冲撞导致的同一个 server 存储同一个 Region group 的多个 replica 的情况。
 - 可以给一个服务器打一个 labels、可以给一个服务器机柜打一个 labels，也可以是一个 IDC 打一个 labels。
@@ -330,6 +331,22 @@ PLAY [check config locally] ****************************************************
 ......
 ......
 
+PLAY RECAP ********************************************************************************************
+192.168.1.41               : ok=53   changed=4    unreachable=0    failed=0   
+192.168.1.42               : ok=121  changed=16   unreachable=0    failed=0   
+192.168.1.43               : ok=52   changed=4    unreachable=0    failed=0   
+TiDB1-11                   : ok=26   changed=1    unreachable=0    failed=0   
+TiDB1-12                   : ok=26   changed=2    unreachable=0    failed=0   
+TiDB1-21                   : ok=26   changed=2    unreachable=0    failed=0   
+TiDB1-22                   : ok=26   changed=1    unreachable=0    failed=0   
+TiKV1-11                   : ok=28   changed=5    unreachable=0    failed=0   
+TiKV1-12                   : ok=28   changed=4    unreachable=0    failed=0   
+TiKV2-21                   : ok=28   changed=3    unreachable=0    failed=0   
+TiKV2-22                   : ok=28   changed=3    unreachable=0    failed=0   
+TiKV3-31                   : ok=28   changed=3    unreachable=0    failed=0   
+TiKV3-32                   : ok=28   changed=3    unreachable=0    failed=0   
+localhost                  : ok=7    changed=4    unreachable=0    failed=0   
+
 Congrats! All goes well. :-)
 ```
 
@@ -348,24 +365,63 @@ PLAY [check config locally] ****************************************************
 ......
 ......
 
+PLAY RECAP *******************************************************************************************************************************************************************************************************
+192.168.1.41               : ok=9    changed=2    unreachable=0    failed=0   
+192.168.1.42               : ok=34   changed=10   unreachable=0    failed=0   
+192.168.1.43               : ok=12   changed=3    unreachable=0    failed=0   
+TiDB1-11                   : ok=6    changed=1    unreachable=0    failed=0   
+TiDB1-12                   : ok=6    changed=1    unreachable=0    failed=0   
+TiDB2-21                   : ok=6    changed=1    unreachable=0    failed=0   
+TiDB2-22                   : ok=6    changed=1    unreachable=0    failed=0   
+TiKV1-11                   : ok=8    changed=1    unreachable=0    failed=0   
+TiKV1-12                   : ok=8    changed=1    unreachable=0    failed=0   
+TiKV2-21                   : ok=8    changed=1    unreachable=0    failed=0   
+TiKV2-22                   : ok=8    changed=1    unreachable=0    failed=0   
+TiKV3-31                   : ok=8    changed=1    unreachable=0    failed=0   
+TiKV3-32                   : ok=8    changed=1    unreachable=0    failed=0   
+localhost                  : ok=7    changed=4    unreachable=0    failed=0   
+
 Congrats! All goes well. :-)
 ```
 
 
 
 
+## 验证是否安装成功
 
+ - MySQL客户端连接验证
 
-## pd-ctl命令行验证是否成功
-更新普罗米修斯后：
+  ```
+[tidb@tidb01-41 tidb-ansible]$ mysql -uroot -P4000 -h192.168.1.43
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MySQL connection id is 18
+Server version: 5.7.25-TiDB-v3.0.1 MySQL Community Server (Apache License 2.0)
+MySQL [(none)]> exit
+Bye
 
+[tidb@tidb01-41 tidb-ansible]$ mysql -uroot -P4000 -h192.168.1.42
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MySQL connection id is 17
+Server version: 5.7.25-TiDB-v3.0.1 MySQL Community Server (Apache License 2.0)
+MySQL [(none)]> exit
+Bye
 
-使用普罗米修斯的Grafana图形化监控界面也可以看到当前的tikv集群也已经加入新节点成功了。
+[tidb@tidb01-41 tidb-ansible]$ mysql -uroot -P4001 -h192.168.1.43
+ERROR 2003 (HY000): Can't connect to MySQL server on '192.168.1.43' (111)
 
-![ea85764f4fe314d64f8295232245eeb.png](http://cdn.lifemini.cn/dbblog/20201227/2b15553374e54489b3b3f12707d5d264.png)
+[tidb@tidb01-41 tidb-ansible]$ mysql -uroot -P4001 -h192.168.1.42
+ERROR 2003 (HY000): Can't connect to MySQL server on '192.168.1.42' (111)
+  ```
 
+ - grafana图形界面验证
+![grafana节点校验](http://cdn.lifemini.cn/dbblog/20210106/9e1e0fde9ec446c7ae32df0a6f1f5338.png)
 
 
 
 ## 参考文章
+
+[PingCAP官方文档-单机单 TiKV 实例集群拓扑](https://docs.pingcap.com/zh/tidb/stable/online-deployment-using-ansible#%E5%8D%95%E6%9C%BA%E5%A4%9A-tikv-%E5%AE%9E%E4%BE%8B%E9%9B%86%E7%BE%A4%E6%8B%93%E6%89%91)
+
+
+
 
