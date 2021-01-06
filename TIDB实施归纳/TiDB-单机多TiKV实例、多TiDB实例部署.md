@@ -417,6 +417,29 @@ ERROR 2003 (HY000): Can't connect to MySQL server on '192.168.1.42' (111)
 
 **出现了TiDB实例没有起来的状况，但是ansible没有报错！**
 
+  ```
+[tidb@tidb02-42 deploy]$ pwd
+/data1/deploy
+
+[tidb@tidb02-42 deploy]$ ./bin/tidb-server -P 4001 --status=10081 1-advertise-address=192.168.1.42 --path=192.168.1.42:2379,192.168.1.43:2379 --config=conf/tidb.toml --log-slow-query=/data1/deploy/log/tidb_slow_query.log --log-file=/data1/deploy/log/tidb.log
+
+......
+......
+
+[2021/01/06 10:08:41.846 -05:00] [INFO] [domain.go:554] ["domain closed"] ["take time"=82.116µs]
+sync log err: sync /dev/stdout: invalid argument
+
+[tidb@tidb01-41 tidb-ansible]$ mysql -uroot -P4001 -h192.168.1.42
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MySQL connection id is 1
+Server version: 5.7.25-TiDB-v3.0.1 MySQL Community Server (Apache License 2.0)
+
+
+MySQL [(none)]> exit
+Bye
+
+  ```
+
 
  - grafana图形界面验证
 ![grafana节点校验](http://cdn.lifemini.cn/dbblog/20210106/9e1e0fde9ec446c7ae32df0a6f1f5338.png)
