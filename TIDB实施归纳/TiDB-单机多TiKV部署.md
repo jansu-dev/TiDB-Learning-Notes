@@ -2,7 +2,13 @@
 
 ## summary
 > - [配置inventory的TiKV部分](#配置inventory的TiKV部分)  
->   - [TiKV分层架构](#TiKV分层架构)
+> - [中控机操作部署机建用户](#中控机操作部署机建用户)
+> - [中控机操作部署机配置ntp服务](#中控机操作部署机配置ntp服务)
+> - [中控及操作部署机设置CPU模式](#中控及操作部署机设置CPU模式)
+> - [执行bootstrap创建模板](#执行bootstrap创建模板)
+> - [执行start启动tikv服务](#执行start启动tikv服务)
+> - [执行rolling-update滚动更新](#执行rolling-update滚动更新)
+> - [pd-ctl命令行验证是否成功](#pd-ctl命令行验证是否成功)
 
 
 ```
@@ -27,7 +33,7 @@ TiKV3-2 ansible_host=172.16.10.6 deploy_dir=/data2/deploy tikv_port=20172 tikv_s
 
 
 
-### 配置inventory的TiKV部分
+## 配置inventory的TiKV部分
 
 ```
 [tidb@tidb01-41 tidb-ansible]$ vi inventory.ini
@@ -41,7 +47,7 @@ TiKV3-2 ansible_host=172.16.10.6 deploy_dir=/data2/deploy tikv_port=20172 tikv_s
 
 
 
-### 中控机操作部署机建用户
+## 中控机操作部署机建用户
 
 执行以下命令，依据输入***部署目标机器***的 root 用户密码；
 本例新增节点IP为192.168.1.44；
@@ -82,7 +88,7 @@ Congrats! All goes well. :-)
 
 ```
 
-### 中控机操作部署机配置ntp服务
+## 中控机操作部署机配置ntp服务
 
 ***注意：生产上应该指向自己的ntp服务器，本次测试采用了公网公用的ntp服务不稳定。***
 
@@ -127,7 +133,7 @@ Congrats! All goes well. :-)
 
 
 
-### 中控及操作部署机设置CPU模式
+## 中控及操作部署机设置CPU模式
 
 
 调整CPU模式，如果同本文出现一样的报错，说明此版本的操作系统不支持CPU模式修改，可直接跳过。
@@ -147,7 +153,7 @@ Error setting new values. Common errors:
 ```
 
 
-### 执行bootstrap创建模板
+## 执行bootstrap创建模板
 ```
 [tidb@tidb01-41 tidb-ansible]$ ansible-playbook bootstrap.yml -l 192.168.1.44
 
@@ -170,7 +176,7 @@ Congrats! All goes well. :-)
 
 
 
-### 执行start.yml启动tikv服务
+## 执行start启动tikv服务
 
 ```
 Congrats! All goes well. :-)
@@ -188,7 +194,7 @@ PLAY RECAP *********************************************************************
 Congrats! All goes well. :-)
 ```
 
-### 执行rolling-update滚动更新
+## 执行rolling-update滚动更新
 
 ```
 [tidb@tidb01-41 tidb-ansible]$ ansible-playbook rolling_update_monitor.yml --tags=prometheus
@@ -212,7 +218,7 @@ Congrats! All goes well. :-)
 ```
 
 
-### pd-ctl命令行验证是否成功
+## pd-ctl命令行验证是否成功
 
 可以使用stores show命令可以在pd-ctl交互式命令行中看到；
 "count"：4 表示当前tikv有四个节点，说明tikv节点已经添加成功了。
