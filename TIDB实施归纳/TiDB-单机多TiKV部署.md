@@ -12,14 +12,48 @@
 
 
 ```
+[tidb_servers]
+172.16.10.1
+172.16.10.2
+
+[pd_servers]
+172.16.10.1
+172.16.10.2
+172.16.10.3
+
+# 注意：要使用 TiKV 的 labels，必须同时配置 PD 的 location_labels 参数，否则 labels 设置不生效。
+
+# 多实例场景需要额外配置 status 端口，示例如下：
 [tikv_servers]
-TiKV1-1 ansible_host=172.16.10.4 deploy_dir=/data1/deploy tikv_port=20171 tikv_status_port=20181 labels="host=tikv1"
-TiKV1-2 ansible_host=172.16.10.4 deploy_dir=/data2/deploy tikv_port=20172 tikv_status_port=20182 labels="host=tikv1"
+TiKV1-1 ansible_host=192.168.1.80 deploy_dir=/data1/deploy tikv_port=20171 tikv_status_port=20181 labels="host=tikv1"
+TiKV1-2 ansible_host=192.168.1.80 deploy_dir=/data2/deploy tikv_port=20172 tikv_status_port=20182 labels="host=tikv1"
 TiKV2-1 ansible_host=172.16.10.5 deploy_dir=/data1/deploy tikv_port=20171 tikv_status_port=20181 labels="host=tikv2"
 TiKV2-2 ansible_host=172.16.10.5 deploy_dir=/data2/deploy tikv_port=20172 tikv_status_port=20182 labels="host=tikv2"
 TiKV3-1 ansible_host=172.16.10.6 deploy_dir=/data1/deploy tikv_port=20171 tikv_status_port=20181 labels="host=tikv3"
 TiKV3-2 ansible_host=172.16.10.6 deploy_dir=/data2/deploy tikv_port=20172 tikv_status_port=20182 labels="host=tikv3"
+
+[monitoring_servers]
+172.16.10.1
+
+[grafana_servers]
+172.16.10.1
+
+[monitored_servers]
+172.16.10.1
+172.16.10.2
+172.16.10.3
+192.168.1.80
+172.16.10.5
+172.16.10.6
+
+# 注意：为使 TiKV 的 labels 设置生效，部署集群时必须设置 PD 的 location_labels 参数。
+[pd_servers:vars]
+location_labels = ["host"]
 ```
+
+ - labels是Region调度的最小单元，每一个raft group中不同的replica不会在扩展过程中被迁移到同一个lable单元，避免这种情况下server宕机导致的单点问题（3副本，2副本落在同一个server）。  
+ - raft group的multi-replica主要解决的是数据的容灾问题，labels参数可以有效防止随数据扩展，在Region迁移过程中因散列计算Region迁移位置时，由于冲撞导致的同一个server存储同一个Region group的多个replica的情况。
+- 可以给一个服务器打一个labels、可以给一个服务器机柜打一个labels，也可以是一个IDC打一个labels。
 
 
 
@@ -334,4 +368,6 @@ Congrats! All goes well. :-)
 
 
 
+
+## 参考文章
 
