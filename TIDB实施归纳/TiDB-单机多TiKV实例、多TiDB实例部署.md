@@ -256,36 +256,8 @@ root
 ```
 [tidb@tidb01-41 tidb-ansible]$ ansible-playbook -i hosts.ini deploy_ntp.yml -u tidb -b
 
-PLAY [all] ***************************************************************************************************************
-
-TASK [get facts] *********************************************************************************************************
-ok: [192.168.1.44]
-
-TASK [RedHat family Linux distribution - make sure ntp, ntpstat have been installed] *************************************
-changed: [192.168.1.44] => (item=[u'ntp'])
-
-TASK [RedHat family Linux distribution - make sure ntpdate have been installed] ******************************************
-ok: [192.168.1.44] => (item=[u'ntpdate'])
-
-TASK [Debian family Linux distribution - make sure ntp, ntpstat have been installed] *************************************
-
-TASK [Debian family Linux distribution - make sure ntpdate have been installed] ******************************************
-
-TASK [RedHat family Linux distribution - make sure ntpd service has been stopped] ****************************************
-ok: [192.168.1.44]
-
-TASK [Debian family Linux distribution - make sure ntp service has been stopped] *****************************************
-
-TASK [Adjust Time | start to adjust time with cn.pool.ntp.org] ***********************************************************
-changed: [192.168.1.44]
-
-TASK [RedHat family Linux distribution - make sure ntpd service has been started] ****************************************
-changed: [192.168.1.44]
-
-TASK [Debian family Linux distribution - Make sure ntp service has been started] *****************************************
-
-PLAY RECAP ***************************************************************************************************************
-192.168.1.44               : ok=6    changed=3    unreachable=0    failed=0   
+......
+......
 
 Congrats! All goes well. :-)
 
@@ -299,8 +271,9 @@ Congrats! All goes well. :-)
 
 调整CPU模式，如果同本文出现一样的报错，说明此版本的操作系统不支持CPU模式修改，可直接跳过。
 
-```
+```shell
 [tidb@tidb01-41 tidb-ansible]$ ansible -i hosts.ini all -m shell -a "cpupower frequency-set --governor performance" -u tidb -b
+
 192.168.1.44 | FAILED | rc=237 >>
 Setting cpu: 0
 Error setting new values. Common errors:
@@ -321,7 +294,7 @@ Error setting new values. Common errors:
 
 执行 local_prepare.yml playbook，联网下载 TiDB binary 至中控机。
 
-```
+```shell
 [tidb@tidb01-41 tidb-ansible]$ ansible-playbook local_prepare.yml
 
 PLAY [do local preparation] ***************************************************************************
