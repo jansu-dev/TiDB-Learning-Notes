@@ -29,11 +29,11 @@ TiKV是一个分布式key-value存储引擎，内部采用嵌入式数据库rock
 rocksdb数据库是经由Facebook改良后的levelDB键值数据库，有良好的batch write、compation、多个memTab、LSM-Tree存储结构等特性。  
 
 TiKV设计的优点：
- - 高度分层优点：有利于单独对某层次进行组件优化、有利于在开发时及时替换某层组件（如：使用mock组件进行测试）
+ - 高度分层优点：有利于单独对某层次进行组件优化、有利于在开发时及时替换某层组件（如：使用mock假组件进行测试）
  - raft机制：TiKV内部通过实现raft协议保证多store下的数据一致性，raft协议有paxos改良而来。
     - 多数派写入特性，raft协议的acceptor仅接收最大proposal number特性及多数派写入成功才算整体写入成功的特性，在tikv引擎中**快速的**保证服务的**强一致性**。 
     - 强leader特性：通过节点选主后**仅在leader节点**上进行读写操作并记录**日志**，由follower节点来追赶主节点的日志实现**多store节点数据一致性**，数据的**容灾及高可用**。  
- - 不依赖分布式文件系统优点：有利于降低整个系统的延时。设想，如果tikv依赖分布式文件系统，那么数据在将要落盘时的操作将经历，向master节点请求storage node存储节点的位置信息，与storage node节点交互并将数据写入操作，而采用本地文件系统则可以避免分布式文件系统在I/O时的网络请求。加之TiKV配备**M.2 NVMe协议**的SSD固态硬盘，将极大提高本地文件系统I/O性能，减少时延。
+ - 不依赖分布式文件系统优点：有利于降低整个系统的延时。设想，如果tikv依赖分布式文件系统，那么数据在将要落盘时的操作将经历，向master节点请求storage node存储节点的位置信息，与storage node节点交互并将数据写入操作，而采用本地文件系统则可以避免分布式文件系统在I/O时的网络请求。加之TiKV配备**M.2 NVMe协议**的SSD固态硬盘，将极大提高本地文件系统I/O性能，减少文件系统层面的时延。
 
 
 #### TiKV逻辑视图策略
@@ -73,8 +73,6 @@ TiKV逻辑视图，在逻辑上如何管理、遍历数据实现真正的分布�
 两阶段提交中存在单点问题，TiDB会产生一个全局TSO（**类似于Oracle的scn**）,TSO 由PD Server master产生。
 
 事务的所得模型V3.0版本之前乐观锁模型，V3.0开始支持悲观锁模型
-
-
 事务的隔离级别，目前仅支持snapshot isolation的隔离级别
 
 ## SQL引擎
@@ -93,12 +91,6 @@ SQL的执行过程：
 
 
 
-
-
-
-
-
-
-
-
 ## 参考文章
+
+[PingCAP University - TiDB 架构原理 https://university.pingcap.com/courses/PCTA/chapter/%E6%A6%82%E8%BF%B0/lesson/TiDB-%E6%9E%B6%E6%9E%84%E5%8E%9F%E7%90%86](https://university.pingcap.com/courses/PCTA/chapter/%E6%A6%82%E8%BF%B0/lesson/TiDB-%E6%9E%B6%E6%9E%84%E5%8E%9F%E7%90%86)
