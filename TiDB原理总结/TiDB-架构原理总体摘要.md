@@ -10,7 +10,7 @@
 >   - [regin分裂过程](#regin分裂过程)  
 >   - [水平扩展实现过程](#水平扩展实现过程)  
 > - [事务模型](#事务模型)  
->   - [Percolators](#Percolators)  
+>   - [Percolator](#Percolator)  
 >   - [去中心化的2PC实现](#去中心化的2PC实现)  
 > - [SQL引擎](#SQL引擎)  
 
