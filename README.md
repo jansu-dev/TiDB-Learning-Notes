@@ -29,7 +29,7 @@ That the repository was build is aim to log process of mysql TiDB Learning.
 
 [sysbench基准测试简介与操作流程](https://github.com/jansu-dev/TiDB-Learning-Notes/blob/master/TIDB%E5%AE%9E%E6%96%BD%E5%BD%92%E7%BA%B3/sysbench%E5%9F%BA%E5%87%86%E6%B5%8B%E8%AF%95.md)
 
-[TiDB-修改集群配置滚动升级](https://github.com/jansu-dev/TiDB-Learning-Notes/blob/master/TIDB%E5%AE%9E%E6%96%BD%E5%BD%92%E7%BA%B3/TiDB-%E4%BF%AE%E6%94%B9%E9%9B%86%E7%BE%A4%E9%85%8D%E7%BD%AE%E6%BB%9A%E5%8A%A8%E5%8D%87%E7%BA%A7.md)
+[TiDB-中控机Ansible部署修改集群配置滚动升级](https://github.com/jansu-dev/TiDB-Learning-Notes/blob/master/TIDB%E5%AE%9E%E6%96%BD%E5%BD%92%E7%BA%B3/TiDB-%E4%B8%AD%E6%8E%A7%E6%9C%BAAnsible%E9%83%A8%E7%BD%B2%E4%BF%AE%E6%94%B9%E9%9B%86%E7%BE%A4%E9%85%8D%E7%BD%AE%E6%BB%9A%E5%8A%A8%E5%8D%87%E7%BA%A7.md)
 
 ## TiDB周边生态
 
