@@ -113,10 +113,10 @@ Index 数据还需要考虑 Unique Index 和非 Unique Index 两种情况
        2,           "TiKV", "KV Engine", 20
        3,           "PD",   "Manager",   30
    
-              | 映 |  
-   		        | 射 |
-   		        | 编 |
-   						| 码 |
+              | 映 |
+		    | 射 |
+              | 编 |
+              | 码 |
    
         key            value
       t10_r1 --> ["TiDB", "SQL Layer", 10]
@@ -128,9 +128,9 @@ Index 数据还需要考虑 Unique Index 和非 Unique Index 两种情况
   除了 Primary Key 外，为 MEMBER 列加非唯一 Index，且假设这个 Index 的 ID 为 1
 
   ```
-   t10_i1_10_1 --> null
-   t10_i1_20_2 --> null
-   t10_i1_30_3 --> null
+      t10_i1_10_1 --> null
+      t10_i1_20_2 --> null
+      t10_i1_30_3 --> null
   ```
 
 
