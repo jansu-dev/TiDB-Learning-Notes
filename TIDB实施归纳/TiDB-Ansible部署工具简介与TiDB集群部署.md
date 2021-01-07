@@ -45,9 +45,9 @@ TiDB-Ansible的操作时幂等的，在操作过程中遇到报错，修复后�
 
 > **环境说明**
 
-服务器环境	CentOS Linux release 7.9.2009 (Core)
-数据库版本	5.7.25-TiDB-v3.0.0
-文档参考地址     [**TiDB官网：https://docs.pingcap.com/zh/tidb/stable/production-deployment-using-tiup**](https://docs.pingcap.com/zh/tidb/stable/production-deployment-using-tiup)
+服务器环境	CentOS Linux release 7.9.2009 (Core)  
+数据库版本	5.7.25-TiDB-v3.0.0  
+文档参考地址     [**TiDB官网：https://docs.pingcap.com/zh/tidb/stable/production-deployment-using-tiup**](https://docs.pingcap.com/zh/tidb/stable/production-deployment-using-tiup)  
 
 > **IP规划**
 
