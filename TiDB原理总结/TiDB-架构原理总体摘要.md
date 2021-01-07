@@ -83,17 +83,17 @@ Percolator 模型由 Google 研发并实现，是构建于 Bigtable 分布式存
     - commit阶段由于coordinator接收到了所有participant的RPC消息回传，验证了当前数据已被所有participant写入本地，此时coordinator向所有participant广播commit操作的RPC消息
 
    - 注意(zab协议)
-    - zab协议的prepare阶段的participants消息回传确认仅是整明已经接受数据写入，但是并没有提交此时数据仍可以rollback，这样才能实现分布式系统中任何节点故障所有节点也进行回滚，保证分布式事务一致
-    - zab协议如果在一轮2PC事务操作发起后出现节点崩溃故障，其他节点将长时间被阻塞导致冲突，相应的产生了3PC实现，但是3PC的超时机制并没有根本性解决分布式事务问题
-    - zab协议实现的2PC存在性能问题，如果存在n个节点，那么将发起3n次RPC消息，可能导致性能问题且难以改善
+      - zab协议的prepare阶段的participants消息回传确认仅是整明已经接受数据写入，但是并没有提交此时数据仍可以rollback，这样才能实现分布式系统中任何节点故障所有节点也进行回滚，保证分布式事务一致
+      - zab协议如果在一轮2PC事务操作发起后出现节点崩溃故障，其他节点将长时间被阻塞导致冲突，相应的产生了3PC实现，但是3PC的超时机制并没有根本性解决分布式事务问题
+      - zab协议实现的2PC存在性能问题，如果存在n个节点，那么将发起3n次RPC消息，可能导致性能问题且难以改善
 
  - Raft协议实现
-    - TiDB实现raft协议解决，同一个raft group中的多数派写入保证了分布式事务问题
-    - raft协议由multi-Paxos协议演变而来，通过选主lader解决的RPC消息时的效率问题
-    - raft协议包含proposer、acceptor、linear三个角色，详细可以查看官方Raft Paper
+   - TiDB实现raft协议解决，同一个raft group中的多数派写入保证了分布式事务问题
+   - raft协议由multi-Paxos协议演变而来，通过选主lader解决的RPC消息时的效率问题
+   - raft协议包含proposer、acceptor、linear三个角色，详细可以查看官方Raft Paper
 
    - 注意(raft协议)
-    - 两阶段提交中存在单点问题，TiDB会产生一个全局TSO（**类似于Oracle的scn**）,TSO 由PD Server master产生。
+        - 两阶段提交中存在单点问题，TiDB会产生一个全局TSO（**类似于Oracle的scn**）,TSO 由PD Server master产生。
 
 
 
