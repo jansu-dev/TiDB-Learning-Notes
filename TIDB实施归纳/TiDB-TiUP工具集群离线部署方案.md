@@ -637,22 +637,3 @@ Error: run `/home/tidb/.tiup/components/cluster/v1.3.1/tiup-cluster` (wd:/home/t
 
 [tidb@tiup-tidb41 clusters]$ rm -rf tidb-test/
 ```
-
-
-```
-[tidb@tiup-tidb41 ~]$ tiup cluster deploy tidb-test v4.0.2 topology.yaml --user root -p 
-Starting component `cluster`: /home/tidb/.tiup/components/cluster/v1.3.1/tiup-cluster deploy tidb-test v4.0.2 topology.yaml --user root -p
-
-Error: Failed to read topology file topology.yaml (topology.read_failed)
-  caused by: open topology.yaml: no such file or directory
-
-Please check whether your topology file topology.yaml exists and try again.
-
-To generate a sample topology file:
-  tiup cluster template topology > topo.yaml
-Error: run `/home/tidb/.tiup/components/cluster/v1.3.1/tiup-cluster` (wd:/home/tidb/.tiup/data/SLZk26m) failed: exit status 1
-
-
-
-
-```

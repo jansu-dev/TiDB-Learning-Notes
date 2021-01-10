@@ -14,10 +14,9 @@ That the repository was build is aim to log process of mysql TiDB Learning.
 
 ## TiDB实施部署
 
+[TiDB-集群部署前环境检测(未整理完)](https://github.com/jansu-dev/TiDB-Learning-Notes/blob/master/TIDB%E5%AE%9E%E6%96%BD%E5%BD%92%E7%BA%B3/TiDB-%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2%E5%89%8D%E7%8E%AF%E5%A2%83%E6%A3%80%E6%B5%8B.md)
+
  - Ansible工具
-    - [TiDB-集群部署前环境检测(未整理完)](https://github.com/jansu-dev/TiDB-Learning-Notes/blob/master/TIDB%E5%AE%9E%E6%96%BD%E5%BD%92%E7%BA%B3/TiDB-%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2%E5%89%8D%E7%8E%AF%E5%A2%83%E6%A3%80%E6%B5%8B.md)
-
-
     - [TiDB-Ansible部署工具简介与TiDB集群部署](https://github.com/jansu-dev/TiDB-Learning-Notes/blob/master/TIDB%E5%AE%9E%E6%96%BD%E5%BD%92%E7%BA%B3/TiDB-Ansible%E9%83%A8%E7%BD%B2%E5%B7%A5%E5%85%B7%E7%AE%80%E4%BB%8B%E4%B8%8ETiDB%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2.md)
 
 
@@ -47,6 +46,8 @@ That the repository was build is aim to log process of mysql TiDB Learning.
     - [TiDB-TiUP工具集群离线部署方案](https://github.com/jansu-dev/TiDB-Learning-Notes/blob/master/TIDB%E5%AE%9E%E6%96%BD%E5%BD%92%E7%BA%B3/TiDB-TiUP%E5%B7%A5%E5%85%B7%E9%9B%86%E7%BE%A4%E7%A6%BB%E7%BA%BF%E9%83%A8%E7%BD%B2%E6%96%B9%E6%A1%88.md)
 
     - [TiDB-TiUP工具集群滚动升级](https://github.com/jansu-dev/TiDB-Learning-Notes/blob/master/TIDB%E5%AE%9E%E6%96%BD%E5%BD%92%E7%BA%B3/TiDB-TiUP%E5%B7%A5%E5%85%B7%E9%9B%86%E7%BE%A4%E6%BB%9A%E5%8A%A8%E5%8D%87%E7%BA%A7.md)
+
+    - [TiDB-TiUP工具集群扩缩容TiDB、TiKV、PD](https://github.com/jansu-dev/TiDB-Learning-Notes/blob/master/TIDB%E5%AE%9E%E6%96%BD%E5%BD%92%E7%BA%B3/TiDB-TiUP%E5%B7%A5%E5%85%B7%E9%9B%86%E7%BE%A4%E6%89%A9%E7%BC%A9%E5%AE%B9TiDB%E3%80%81TiKV%E3%80%81PD.md)
 
 ## TiDB周边生态
 
