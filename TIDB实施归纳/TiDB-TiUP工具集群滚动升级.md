@@ -147,7 +147,7 @@ Total nodes: 16
 
 ## 常见问题解决方案
 
- - Run Command Timeout错误解决
+ - v4.0.9版本升级时出现Run Command Timeout错误解决
 ```
 [tidb@tiup-tidb41 tidb-community-server-v4.0.9-linux-amd64]$ tiup cluster upgrade tidb-test v4.0.9
 Starting component `cluster`: /home/tidb/.tiup/components/cluster/v1.3.1/tiup-cluster upgrade tidb-test v4.0.9

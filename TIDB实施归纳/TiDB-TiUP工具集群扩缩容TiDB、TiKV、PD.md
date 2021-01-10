@@ -85,7 +85,9 @@ Total nodes: 19
 
 ## 缩容TiDB、TiKV、PD节点
 
-#### 缩容TiDB节点
+#### 缩容TiKV节点
+
+ - 通过node参数指定要缩容的TiKV节点
 ```
 [tidb@tiup-tidb41 tidb-community-server-v4.0.2-linux-amd64]$ tiup cluster scale-in tidb-test --node 192.168.169.44:20160
 
@@ -100,7 +102,7 @@ Scale-in nodes...
 
 Scaled cluster `tidb-test` in successfully
 ```
-
+ - 通过display参数验证缩容的TiKV节点
 ```
 [tidb@tiup-tidb41 tidb-community-server-v4.0.2-linux-amd64]$ tiup cluster display tidb-test
 ......
@@ -109,7 +111,7 @@ There are some nodes can be pruned:
 	Nodes: [192.168.169.44:20160]
 	You can destroy them with the command: `tiup cluster prune tidb-test`
 ```
-
+ - 通过prune将offline的TiKV节点prune至Tombstone状态
 ```
 [tidb@tiup-tidb41 tidb-community-server-v4.0.2-linux-amd64]$ tiup cluster prune tidb-test
 Starting component `cluster`: /home/tidb/.tiup/components/cluster/v1.3.1/tiup-cluster prune tidb-test
