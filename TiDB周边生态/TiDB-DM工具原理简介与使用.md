@@ -180,13 +180,13 @@ create database log;
 
 use user;
 
-create table information (id int,name varchar(20));
+create table information (id int primary key,name varchar(20));
 
-create table log (id int,name varchar(20));
+create table log (id int primary key,name varchar(20));
 
 use log;
 
-create table messages(id int,name varchar(20));
+create table messages(id int primary key,name varchar(20));
 
 
 
