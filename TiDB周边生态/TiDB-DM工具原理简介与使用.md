@@ -194,9 +194,9 @@ create table messages(id int,name varchar(20));
 
 use store;
 
-create table store_bj (id int,name varchar(20));
+create table store_bj (id int primary key,name varchar(20));
 
-create table store_tj (id int,name varchar(20));
+create table store_tj (id int primary key,name varchar(20));
 
 insert into store.store_bj values (1,'store_bj_01'),(2,'store_bj_02');
 
@@ -206,25 +206,25 @@ insert into store.store_tj values (1,'store_tj_01'),(2,'store_tj_02');
 
 use store;
 
-create table store_sh (id int,name varchar(20));
+create table store_sh (id int primary key,name varchar(20));
 
-create table store_sz (id int,name varchar(20));
+create table store_sz (id int primary key,name varchar(20));
 
 insert into store.store_sh values (1,'store_sh_01'),(2,'store_sh_02');
 
-insert into store.store_sz values (1,'store_sz_01'),(2,'store_sz_02');
+insert into store.store_sz values (1,'store_suzhou_01'),(2,'store_suzhou_02');
 
 # 192.168.169.46
 
 use store;
 
-create table store_gz (id int,name varchar(20));
+create table store_gz (id int primary key,name varchar(20));
 
-create table store_sz (id int,name varchar(20));
+create table store_sz (id int primary key,name varchar(20));
 
 insert into store.store_gz values (1,'store_gz_01'),(2,'store_gz_02');
 
-insert into store.store_sz values (1,'store_sz_01'),(2,'store_sz_02');
+insert into store.store_sz values (1,'store_shenzhen_01'),(2,'store_shenzhen_02');
 
 
 ```
@@ -240,21 +240,21 @@ create database user_south;
 
 use user_north;
 
-create table information (id int,name varchar(20));
+create table information (id int primary key,name varchar(20));
 
-create table log (id int,name varchar(20));
+create table log (id int primary key,name varchar(20));
 
 use user_east;
 
-create table information (id int,name varchar(20));
+create table information (id int primary key,name varchar(20));
 
-create table log (id int,name varchar(20));
+create table log (id int primary key,name varchar(20));
 
 use user_south;
 
-create table information (id int,name varchar(20));
+create table information (id int primary key,name varchar(20));
 
-create table log (id int,name varchar(20));
+create table log (id int primary key,name varchar(20));
 
 
 create database store;
@@ -262,11 +262,169 @@ create database store;
 use store;
 
 
-create table store_bj (id int,name varchar(20));
-create table store_tj (id int,name varchar(20));
-create table store_sh (id int,name varchar(20));
-create table store_gz (id int,name varchar(20));
-create table store_suzhou   (id int,name varchar(20));
-create table store_shenzhen (id int,name varchar(20));
+create table store_bj (id int primary key,name varchar(20));
+create table store_tj (id int primary key,name varchar(20));
+create table store_sh (id int primary key,name varchar(20));
+create table store_gz (id int primary key,name varchar(20));
+create table store_suzhou   (id int primary key,name varchar(20));
+create table store_shenzhen (id int primary key,name varchar(20));
 
 ```
+
+
+创建source对应的worker
+```
+[tidb@tiup-tidb41 conf]$ tiup dmctl --master-addr=192.168.169.41:8261 operate-source create source1.yaml 
+Starting component `dmctl`: /home/tidb/.tiup/components/dmctl/v2.0.1/dmctl/dmctl --master-addr=192.168.169.41:8261 operate-source create source1.yaml
+{
+    "result": true,
+    "msg": "",
+    "sources": [
+        {
+            "result": true,
+            "msg": "",
+            "source": "mysql-replica-01",
+            "worker": "dm-192.168.169.41-8262"
+        }
+    ]
+}
+
+
+[tidb@tiup-tidb41 conf]$ tiup dmctl --master-addr=192.168.169.41:8261 operate-source create source2.yaml 
+Starting component `dmctl`: /home/tidb/.tiup/components/dmctl/v2.0.1/dmctl/dmctl --master-addr=192.168.169.41:8261 operate-source create source2.yaml
+{
+    "result": true,
+    "msg": "",
+    "sources": [
+        {
+            "result": true,
+            "msg": "",
+            "source": "mysql-replica-02",
+            "worker": "dm-192.168.169.42-8262"
+        }
+    ]
+}
+
+
+[tidb@tiup-tidb41 conf]$ tiup dmctl --master-addr=192.168.169.41:8261 operate-source create source3.yaml 
+Starting component `dmctl`: /home/tidb/.tiup/components/dmctl/v2.0.1/dmctl/dmctl --master-addr=192.168.169.41:8261 operate-source create source3.yaml
+{
+    "result": true,
+    "msg": "",
+    "sources": [
+        {
+            "result": true,
+            "msg": "",
+            "source": "mysql-replica-03",
+            "worker": "dm-192.168.169.43-8262"
+        }
+    ]
+}
+
+
+
+
+
+
+
+
+
+
+
+[tidb@tiup-tidb41 conf]$ tiup dmctl --master-addr=192.168.169.41:8261 list-member
+Starting component `dmctl`: /home/tidb/.tiup/components/dmctl/v2.0.1/dmctl/dmctl --master-addr=192.168.169.41:8261 list-member
+{
+    "result": true,
+    "msg": "",
+    "members": [
+        {
+            "leader": {
+                "msg": "",
+                "name": "dm-192.168.169.41-8261",
+                "addr": "192.168.169.41:8261"
+            }
+        },
+        {
+            "master": {
+                "msg": "",
+                "masters": [
+                    {
+                        "name": "dm-192.168.169.41-8261",
+                        "memberID": "11955134185808625835",
+                        "alive": true,
+                        "peerURLs": [
+                            "http://192.168.169.41:8291"
+                        ],
+                        "clientURLs": [
+                            "http://192.168.169.41:8261"
+                        ]
+                    },
+                    {
+                        "name": "dm-192.168.169.42-8261",
+                        "memberID": "16647128463965627029",
+                        "alive": true,
+                        "peerURLs": [
+                            "http://192.168.169.42:8291"
+                        ],
+                        "clientURLs": [
+                            "http://192.168.169.42:8261"
+                        ]
+                    },
+                    {
+                        "name": "dm-192.168.169.43-8261",
+                        "memberID": "7578209210746128387",
+                        "alive": true,
+                        "peerURLs": [
+                            "http://192.168.169.43:8291"
+                        ],
+                        "clientURLs": [
+                            "http://192.168.169.43:8261"
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            "worker": {
+                "msg": "",
+                "workers": [
+                    {
+                        "name": "dm-192.168.169.41-8262",
+                        "addr": "192.168.169.41:8262",
+                        "stage": "bound",
+                        "source": "mysql-replica-01"
+                    },
+                    {
+                        "name": "dm-192.168.169.42-8262",
+                        "addr": "192.168.169.42:8262",
+                        "stage": "bound",
+                        "source": "mysql-replica-02"
+                    },
+                    {
+                        "name": "dm-192.168.169.43-8262",
+                        "addr": "192.168.169.43:8262",
+                        "stage": "bound",
+                        "source": "mysql-replica-03"
+                    }
+                ]
+            }
+        }
+    ]
+}
+
+```
+
+
+开始任务
+```
+[tidb@tiup-tidb41 dm]$ tiup dmctl -master-addr 192.168.169.42:8261 start-task task.yml
+
+
+```
+
+
+## 参考文章
+
+[https://www.bookstack.cn/read/tidb-data-migration-1.0-zh/zh-get-started.md](https://www.bookstack.cn/read/tidb-data-migration-1.0-zh/zh-get-started.md)
+
+[]
