@@ -768,6 +768,38 @@ MySQL [store]> select * from store_suzhou;
 
 ```
 
+增量验证
+```shell
+
+# MySQL上游泳增量插入
+mysql> insert into store_bj values (3,'incremental_bj_03');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from store_bj;
++----+-------------------+
+| id | name              |
++----+-------------------+
+|  1 | store_bj_01       |
+|  2 | store_bj_02       |
+|  3 | incremental_bj_03 |
++----+-------------------+
+3 rows in set (0.00 sec)
+
+
+# 下游验证
+
+MySQL [store]> select * from store_bj;
++------+-------------------+
+| id   | name              |
++------+-------------------+
+|    1 | store_bj_01       |
+|    2 | store_bj_02       |
+|    3 | incremental_bj_03 |
++------+-------------------+
+3 rows in set (0.01 sec)
+
+```
+
 ## 参考文章
 
 [TiDB Data Migration (DM) 用户文档 v1.0://www.bookstack.cn/read/tidb-data-migration-1.0-zh/zh-get-started.md](https://www.bookstack.cn/read/tidb-data-migration-1.0-zh/zh-get-started.md)
