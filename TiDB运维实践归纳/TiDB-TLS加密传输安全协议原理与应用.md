@@ -79,6 +79,10 @@ TLS协议使用对称加密和非对称加密
 证书：用户身份证
 CA：颁发证书的机构
 
+
+![SSLTLS 传输协议原理.png](http://cdn.lifemini.cn/dbblog/20210115/fdf2c3ef163940d6a3b4d9103ca0575b.png)
+
+
 ## TiDB使用
 
 #### 制作CA密钥和CA证书
