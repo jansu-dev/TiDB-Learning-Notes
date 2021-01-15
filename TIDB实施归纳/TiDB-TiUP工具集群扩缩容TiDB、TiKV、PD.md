@@ -1,4 +1,5 @@
 # TiDB-TiUP工具集群扩缩容TiDB、TiKV、PD
+时间：2020-12-25
 
 > - [扩容TiDB、TiKV、PD节点](#扩容TiDB、TiKV、PD节点)  
 >     - [编写scale-out文件](#编写scale-out文件)  

@@ -1,4 +1,5 @@
 # TiDB-TiKV集群Ansible方式节点缩容
+时间：2020-12-22
 
 ### pd提出TiKV节点
 

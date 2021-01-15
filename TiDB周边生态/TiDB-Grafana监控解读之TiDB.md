@@ -1,4 +1,5 @@
 # TiDB-Grafana监控解读之TiDB
+时间：2020-01-16
 
 > - [Query-Summary](#Query-Summary)
 > - [Query-Detail](#Query-Detail)

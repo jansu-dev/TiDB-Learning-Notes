@@ -1,4 +1,6 @@
 # TiDB-PD集群Ansible方式节点扩容
+时间：2020-12-21
+
 
 ### 配置inventory.ini新节点IP信息
 ```

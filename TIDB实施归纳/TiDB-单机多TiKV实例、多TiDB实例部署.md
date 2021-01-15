@@ -1,5 +1,5 @@
 # TiDB-单机多TiKV实例、多TiDB实例部署
-时间：2021/01/06
+时间：2021-01-06
 
 ## summary
 > - [配置inventory的TiKV部分](#配置inventory的TiKV部分)  

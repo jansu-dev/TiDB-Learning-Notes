@@ -1,4 +1,6 @@
 # TiDB-lightning工具原理简介与使用
+时间：2021-01-11
+
 > - [lighting简介](lighting简介)
 > - [下载部署](下载部署)
 > - [TiDB-backend-CASE实验](#TiDB-backend-CASE实验)
