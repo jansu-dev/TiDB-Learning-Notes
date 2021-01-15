@@ -63,6 +63,8 @@ That the repository was build is aim to log process of mysql TiDB Learning.
  - TiDB安全
     - [TiDB-TLS加密传输安全协议原理与应用](https://github.com/jansu-dev/TiDB-Learning-Notes/blob/master/TiDB%E8%BF%90%E7%BB%B4%E5%AE%9E%E8%B7%B5%E5%BD%92%E7%BA%B3/TiDB-TLS%E5%8A%A0%E5%AF%86%E4%BC%A0%E8%BE%93%E5%AE%89%E5%85%A8%E5%8D%8F%E8%AE%AE%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8.md)
 
+ - Prometheus监控与Grafana可视化
+    - [TiDB-Grafana监控解读之TiDB](https://github.com/jansu-dev/TiDB-Learning-Notes/blob/master/TiDB%E5%91%A8%E8%BE%B9%E7%94%9F%E6%80%81/TiDB-Grafana%E7%9B%91%E6%8E%A7%E8%A7%A3%E8%AF%BB%E4%B9%8BTiDB.md)  
 
 ## TiDB实践问题归纳
 [TiDB-4.0.9版本开始tiflash组件弃用path警告问题](https://github.com/jansu-dev/TiDB-Learning-Notes/blob/master/TiDB%E5%AE%9E%E8%B7%B5%E9%94%99%E8%AF%AF%E5%BD%92%E7%BA%B3/TiDB-4.0.9%E7%89%88%E6%9C%AC%E5%BC%80%E5%A7%8Btiflash%E7%BB%84%E4%BB%B6%E5%BC%83%E7%94%A8path%E8%AD%A6%E5%91%8A%E9%97%AE%E9%A2%98.md)
