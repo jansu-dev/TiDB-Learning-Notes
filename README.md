@@ -65,6 +65,7 @@ That the repository was build is aim to log process of mysql TiDB Learning.
 
  - Prometheus监控与Grafana可视化
     - [TiDB-Grafana监控解读之TiDB](https://github.com/jansu-dev/TiDB-Learning-Notes/blob/master/TiDB%E5%91%A8%E8%BE%B9%E7%94%9F%E6%80%81/TiDB-Grafana%E7%9B%91%E6%8E%A7%E8%A7%A3%E8%AF%BB%E4%B9%8BTiDB.md)  
+    - [TiDB-Grafana监控解读之TiKV](https://github.com/jansu-dev/TiDB-Learning-Notes/blob/master/TiDB%E5%91%A8%E8%BE%B9%E7%94%9F%E6%80%81/TiDB-Grafana%E7%9B%91%E6%8E%A7%E8%A7%A3%E8%AF%BB%E4%B9%8BTiKV.md)  
 
 ## TiDB实践问题归纳
 [TiDB-4.0.9版本开始tiflash组件弃用path警告问题](https://github.com/jansu-dev/TiDB-Learning-Notes/blob/master/TiDB%E5%AE%9E%E8%B7%B5%E9%94%99%E8%AF%AF%E5%BD%92%E7%BA%B3/TiDB-4.0.9%E7%89%88%E6%9C%AC%E5%BC%80%E5%A7%8Btiflash%E7%BB%84%E4%BB%B6%E5%BC%83%E7%94%A8path%E8%AD%A6%E5%91%8A%E9%97%AE%E9%A2%98.md)
