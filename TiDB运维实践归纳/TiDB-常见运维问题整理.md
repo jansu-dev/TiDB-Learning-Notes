@@ -131,7 +131,8 @@ MySQL [(none)]> set @@global.tidb_retry_limit = 10;
 
 
 ## TiKV垃圾回收GC时间
-因为 TiKV 使用 MVCC 实现并发控制
+因为 TiKV 使用 MVCC 实现在并发条件下的事务控制,就一定需要 GC 历史数据空间回收机制，否则历史数据会无限占用硬盘空间。  
+同样使用 MVCC 机制实现事务的两个数据库都有不同实现，Oracle 使用 undo 表空间来实现、PostgreSQL 使用 vacuum 机制实现。
 
  - GC Leader
  一个 TiDB 集群中会有一个 TiDB 实例被选举为 GC leader，GC 的运行由 GC leader 来控制，只有 GC Leader 会处理 GC 的工作，其他 TiDB Server 上的 GC Worker 处于限制状态。  
