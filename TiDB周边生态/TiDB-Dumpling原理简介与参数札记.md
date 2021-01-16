@@ -444,7 +444,7 @@ Starting component `dumpling`: /home/tidb/.tiup/components/dumpling/v4.0.9/dumpl
 
 #### filiter参数case精讲  
 
-```
+```shell
 MySQL [jan]> create database dumptest1;
 MySQL [jan]> create database dumptest2;
 MySQL [jan]> create database dump_test;
@@ -481,7 +481,7 @@ Go version:      go version go1.13 linux/amd64
 [2021/01/13 09:25:34.265 -05:00] [INFO] [main.go:78] ["dump data successfully, dumpling will exit now"]
 
 
-
+# 只有与 a 相关的表被导出，dump_test.b5 表在到处时因为没有满足过滤条件没有被导出
 [tidb@tiup-tidb41 dumpling_dir]$ ll
 total 52
 -rw-r--r-- 1 tidb tidb  87 Jan 13 09:25 dumptest1.a1.000000000.sql
