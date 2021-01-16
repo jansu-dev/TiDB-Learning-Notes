@@ -142,7 +142,9 @@ MySQL [(none)]> set @@global.tidb_retry_limit = 10;
  - GC 三阶段
  Resolve Locks 清理历史锁：对所有 Region 扫描 Safepoint 之前的锁并清理；  
  Delete Ranges 回收废空间：快速地删除由于 DROP TABLE/DROP INDEX 等操作产生的整 Region 的废弃数据；  
- Do GC 历史数据回收：每个 TiKV 节点各自扫描该节点上的数据，并对每一个 key 删除其不再需要的旧版本（tableID_versionID_rowID）；    
+ Do GC 历史数据回收：每个 TiKV 节点各自扫描该节点上的数据，并对每一个 key 删除其不再需要的旧版本(tableID_versionID_rowID);  
+   - distributed 模式（默认），Do GC 阶段由 TiDB 上的 GC leader 向 PD 发送 Safepoint，每个 TiKV 节点各自获取该 Safepoint 并对所有当前节点上作为 leader 的 Region 进行 GC;
+   - central 模式: Do GC 阶段由 GC leader 向所有的 Region 发送 GC 请求;   
 
 ```shell
 MySQL [(none)]> select VARIABLE_NAME, VARIABLE_VALUE from mysql.tidb where variable_name like '%gc%'\G
@@ -165,18 +167,17 @@ VARIABLE_VALUE: 10m0s
  VARIABLE_NAME: tikv_gc_life_time                                # 每次 GC 时，保留数据的时限；每次 GC 时，将以当前时间减去该配置的值作为 Safepoint
 VARIABLE_VALUE: 10m
 *************************** 7. row ***************************
- VARIABLE_NAME: tikv_gc_last_run_time                             # 最近一次 GC 运行的时间（每轮 GC 开始时更新）
+ VARIABLE_NAME: tikv_gc_last_run_time                            # 最近一次 GC 运行的时间（每轮 GC 开始时更新）
 VARIABLE_VALUE: 20210116-12:34:52 -0500
 *************************** 8. row ***************************
- VARIABLE_NAME: tikv_gc_safe_point                                # 当前的 Safepoint 
+ VARIABLE_NAME: tikv_gc_safe_point                               # 当前的 Safepoint 
 VARIABLE_VALUE: 20210116-12:24:52 -0500
 *************************** 9. row ***************************
- VARIABLE_NAME: tikv_gc_auto_concurrency                          # 控制是否由 TiDB 自动决定同时进行 GC 的线程数
+ VARIABLE_NAME: tikv_gc_auto_concurrency                         # 控制是否由 TiDB 自动决定同时进行 GC 的线程数
 VARIABLE_VALUE: true
 *************************** 10. row ***************************
- VARIABLE_NAME: tikv_gc_mode                                      # GC 模式：
-VARIABLE_VALUE: distributed                                       # distributed（默认），Do GC 阶段由 TiDB 上的 GC leader 向 PD 发送 Safepoint，每个 TiKV 节点各自获取该 Safepoint 并对所有当前节点上作为 leader 的 Region 进行 GC。此模式于 TiDB 3.0 引入。
-                                                                   # central集中 GC 模式。在此模式下，Do GC 阶段由 GC leader 向所有的 Region 发送 GC 请求。TiDB 2.1 及更早版本采用此 GC 模式。
+ VARIABLE_NAME: tikv_gc_mode                                     # GC 模式：distributed（TiDB 3.0引入,默认）、central(TiDB 2.1 及更早版本采用此 GC 模式)
+VARIABLE_VALUE: distributed                                      
 10 rows in set (0.00 sec)
 ```
 
