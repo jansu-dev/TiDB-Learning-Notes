@@ -1,6 +1,6 @@
 # SQL Hint与TiFlash的使用
 
-
+> - [TiFlash的使用](#TiFlash的使用)
 
 
 
@@ -42,5 +42,4 @@ MySQL [jan]> explain select count(*) from jan.jan_test where name='jan_test1';
 |       └─TableFullScan_30     | 5120.00 | cop[tiflash] | table:jan_test | keep order:false                   |
 +------------------------------+---------+--------------+----------------+------------------------------------+
 5 rows in set (0.03 sec)
-
 ```

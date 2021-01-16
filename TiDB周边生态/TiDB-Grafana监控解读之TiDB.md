@@ -4,19 +4,7 @@
 > - [Query-Summary](#Query-Summary)
 > - [Query-Detail](#Query-Detail)
 > - [Server](#Server)
-> - [Transaction](#Transaction)
-> - [Executer](#Executer)
-> - [DistSQL](#DistSQL)
-> - [KV-Errors](#KV-Errors)
-> - [KV-request](#KV-request)
-> - [PC-Client](#PC-Client)
-> - [Schema-Load](#Schema-Load)
-> - [DDL](#DDL)
-> - [Statics](#Statics)
-> - [Owner](#Owner)
-> - [Meta](#Meta)
-> - [GC](#GC)
-> - [Batch-Client](#Batch-Client)
+
 
 ## Query-Summary
 
@@ -45,36 +33,3 @@ Connection Count
 作用：TiDB没有连接数限制，但是会出现排队现象，有利于再次相互排查   
 
 ![image.png](http://cdn.lifemini.cn/dbblog/20210115/ad385004e7cd41f78ef3af6d462054c5.png)
-
-## Transaction
-
-## Executer
-
-## DistSQL
-
-## KV-Errors
-
-## KV-request
-
-## PC-Client
-
-## Schema-Load
-
-## DDL
-
-## Statics
-
-## Owner
-
-## Meta
-
-## GC
-
-## Batch-Client
-
-
-
-
-
-
-
