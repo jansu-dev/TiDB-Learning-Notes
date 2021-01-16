@@ -10,8 +10,8 @@
 ## TiSpark原理讲解
  - TiSpark是构建在 Spark Catalyst 引擎之上的，使用 TiSpark 之前需要安装并运行 Spark 集群；   
  - TiSpark 实现了如 TiDB 一样的多种计算下推到 TiKV 层面计算，减少 Spark 需要处理数据加速查询；  
- - TiSpark 可以利用 TiDB 的内建的统计信息选择更优的查询计划。  
- - TiSpark 直接操作 TiKV，相比使用 Spark 结合 JDBC 的方式写入，不仅可以实现事务而且写入速度会更快
+ - TiSpark 可以利用 TiDB 的内建的统计信息选择更优的查询计划;  
+ - TiSpark 直接操作 TiKV，相比使用 Spark 结合 JDBC 的方式写入，不仅可以实现事务而且写入速度会更快;
 ![TiSpark](https://download.pingcap.com/images/docs-cn/tispark-architecture.png)
 
 ## TiSpark与Spark下载
