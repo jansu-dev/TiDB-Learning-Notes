@@ -185,7 +185,7 @@ ID                   Role       Host            Ports      OS/Arch       Status 
 ```
 
 
-上游数据准备
+#### 上游数据准备
 
 ```
 create database user;
@@ -245,7 +245,7 @@ insert into store.store_sz values (1,'store_shenzhen_01'),(2,'store_shenzhen_02'
 
 ```
 
-下游schema准备
+#### 下游schema准备
 
 ```
 create database user_north;
@@ -288,7 +288,7 @@ create table store_shenzhen (id int primary key,name varchar(20));
 ```
 
 
-创建source对应的worker
+#### 创建source对应的worker
 ```
 [tidb@tiup-tidb41 conf]$ tiup dmctl --master-addr=192.168.169.41:8261 operate-source create source1.yaml 
 Starting component `dmctl`: /home/tidb/.tiup/components/dmctl/v2.0.1/dmctl/dmctl --master-addr=192.168.169.41:8261 operate-source create source1.yaml
