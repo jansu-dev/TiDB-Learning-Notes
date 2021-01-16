@@ -1,4 +1,4 @@
-# TiUP集成套件工具原理与使用笔记
+# TiDB-TiUP集成套件工具原理与使用笔记
 
 > - [bin](#bin目录)
 > - [components](#components目录)
@@ -73,11 +73,11 @@ total 24952
                         },
                         "scheme":"rsassa-pss-sha256"
                     },
-                    "34c12305009799580e8a9ef681561858dabadce758644e07303bbe5000e36398":{
+                    "34c12305009799580e8a9ef68156......":{
                         "keytype":"rsa",
                         "keyval":{
                             "public":"-----BEGIN PUBLIC KEY-----
-MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAsayz7nyKYFMYMvvnJxl/
+                                      MIIBIjANBgkqhkiG9w0BAQEFAA
                                       ......
                                       -----END PUBLIC KEY-----
 "
@@ -88,10 +88,9 @@ MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAsayz7nyKYFMYMvvnJxl/
                         "keytype":"rsa",
                         "keyval":{
                             "public":"-----BEGIN PUBLIC KEY-----
-MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAzmNXFbwAC2HsdBlx+uPg
+                                      MIIBIjANBgkqhkiG9w0BAQEFAAO
                                       ......
-                                      -----END PUBLIC KEY-----
-"
+                                      -----END PUBLIC KEY-----"
                         },
                         "scheme":"rsassa-pss-sha256"
                     }
@@ -105,10 +104,9 @@ MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAzmNXFbwAC2HsdBlx+uPg
                         "keytype":"rsa",
                         "keyval":{
                             "public":"-----BEGIN PUBLIC KEY-----
-MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAn+qTp8L2YeipQIJk2XAT
+                                      MIIBIjANBgkqhkiG9w0BAQEFAAO
                                       ......
-                                      -----END PUBLIC KEY-----
-"
+                                      -----END PUBLIC KEY-----"
                         },
                         "scheme":"rsassa-pss-sha256"
                     }
@@ -124,8 +122,7 @@ MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAn+qTp8L2YeipQIJk2XAT
                             "public":"-----BEGIN PUBLIC KEY-----
                                       MIIBIjANBg......
                                       ......
-                                      -----END PUBLIC KEY-----
-"
+                                      -----END PUBLIC KEY-----"
                         },
                         "scheme":"rsassa-pss-sha256"
                     }
