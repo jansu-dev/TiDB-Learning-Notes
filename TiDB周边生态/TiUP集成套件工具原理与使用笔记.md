@@ -66,14 +66,9 @@ total 24952
                         "keytype":"rsa",
                         "keyval":{
                             "public":"-----BEGIN PUBLIC KEY-----
-MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAwbKgSL9L/20F76C2Ep3g
-M5FY83yXwvpngisbpXRvXH2whrTUb3+sOr2G0DUFcupNOiC5hqk6RrAgYFhXWRYh
-uu7629hXufuOqj7LPEv85cGBZiNP7f11RGrln+l5QahLSEUcLne+QVGCqpAtjCX1
-j72+d9+kKX74e24dzDH4gc/4jl2HCzgQ9UcLo9g1Q3rRikoj57zlt10F7sYp/zS8
-+qPychDCE0Xm0KQBVtg32TU4Ozrc8Zx9e6v+GymwYUM5iPp23lSJogD9NpfUCMOm
-8R+1oUn30LmhZTc9V9lH+uNQahxUh0GFl6S9ZfYiyZZya37iVygD3gDIi7sEAV+I
-nQIDAQAB
------END PUBLIC KEY-----
+                                      MIIBIjANBgkqhkiG9w0BAQEFAA
+                                      ......
+                                      -----END PUBLIC KEY-----
 "
                         },
                         "scheme":"rsassa-pss-sha256"
@@ -83,13 +78,8 @@ nQIDAQAB
                         "keyval":{
                             "public":"-----BEGIN PUBLIC KEY-----
 MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAsayz7nyKYFMYMvvnJxl/
-jSlQPjhmBVArOGcunStNwufYdTkYnnzUMTCoOgvqBz96SDv0xriYL3WrRAsPvchb
-7e3K4OIGeh9uTWy1FhaVo5PsSPdD9ytD9YKgb5FSLQbAE5R0B6aUgDhIyfC+OaM8
-tmBWCMuOqacONBCvuLV0hWig3j31+ctUZNIlAdaBK7rukUyAzpo/XSvERhvDG/Wb
-3O58NGzKGKy0j2r4dOp3OE4zDQ0UUulw072FaHBQOj+YlPkvXnl46ZQial8f//E2
-Ni9JKVSk7vikba7YRZbRe4dg4yVzFLyIqFJ59RshE5isqSPL0VjTz7UdCwIpZJxd
-8wIDAQAB
------END PUBLIC KEY-----
+                                      ......
+                                      -----END PUBLIC KEY-----
 "
                         },
                         "scheme":"rsassa-pss-sha256"
@@ -99,13 +89,8 @@ Ni9JKVSk7vikba7YRZbRe4dg4yVzFLyIqFJ59RshE5isqSPL0VjTz7UdCwIpZJxd
                         "keyval":{
                             "public":"-----BEGIN PUBLIC KEY-----
 MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAzmNXFbwAC2HsdBlx+uPg
-ixqokwbnqTb/XYWFcsJKiLNAzv0iJ02UrXU6hX6SykjhDnnTujPCf6y/58/WdH8j
-LOoKHN437azn39BgP0vI4q0fG9bvxJbzQYD6SAMJPqDFkituIHXqH7yy4UQcvdW3
-wPiA6IRWvTl6boBliT5wwJDH39y8VARmKqryl8tA+JXJelLPd7t6fCQMVcphfKg3
-sHRzORaHlAI/ot4/DXcr/ctlXhHG8dQ7kcdPpj8oErzkqww123jXH6Dsbl7zqwgA
-wNrxHgVl0lCshliCxIE/lOmCQkC92NC06plnjIsmgjXVEKoq/FE/7u2G+JcJ36Mn
-3wIDAQAB
------END PUBLIC KEY-----
+                                      ......
+                                      -----END PUBLIC KEY-----
 "
                         },
                         "scheme":"rsassa-pss-sha256"
@@ -121,13 +106,8 @@ wNrxHgVl0lCshliCxIE/lOmCQkC92NC06plnjIsmgjXVEKoq/FE/7u2G+JcJ36Mn
                         "keyval":{
                             "public":"-----BEGIN PUBLIC KEY-----
 MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAn+qTp8L2YeipQIJk2XAT
-+rmX7fZ8sIphTSBPJDs0VzP2vMopzWJcd4Xto4SkiYBYjCKB0wV1XSqGaiuhK3LP
-hyIxLC5RIx7lSmad6JfgGkJne5bt9G3p4FnsBFnbH5cdfHMUTyxKepUylK5Flprz
-dX1X/7ntYUOFc6Di2EWJinYin2Jhg15yJRSvJVYxcPTKVIHPmXrNV+FtNcy8pcN/
-PJhZCI8YE52vFTR6nf9l2H6lnA6sJloLGpUNJaKALNqLnOSuwVcJGYv3gcEQcSEy
-0jJsO2qh+p2KIUX+7gZxvt6pWlXtIcYQVf1PEJhOd3NaeCw7dvd7PK5d1Z9gImQh
-3wIDAQAB
------END PUBLIC KEY-----
+                                      ......
+                                      -----END PUBLIC KEY-----
 "
                         },
                         "scheme":"rsassa-pss-sha256"
@@ -142,8 +122,9 @@ PJhZCI8YE52vFTR6nf9l2H6lnA6sJloLGpUNJaKALNqLnOSuwVcJGYv3gcEQcSEy
                         "keytype":"rsa",
                         "keyval":{
                             "public":"-----BEGIN PUBLIC KEY-----
-MIIBIjANBg......
------END PUBLIC KEY-----
+                                      MIIBIjANBg......
+                                      ......
+                                      -----END PUBLIC KEY-----
 "
                         },
                         "scheme":"rsassa-pss-sha256"
