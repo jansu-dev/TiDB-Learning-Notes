@@ -263,4 +263,6 @@ uuid: 4eae5f76-ed60-4fb2-b651-5a3f53309859
 status: enable
 ```
 
+## 参考文件
 
+[TiDB - TiUP 官方开源文档](https://gitee.com/mirrors/TiUP/tree/master/doc/design)
