@@ -22,6 +22,25 @@ mirror = "/home/tidb/tidb-community-server-v4.0.9-linux-amd64"
 ```
 
 ## TiUP目录结构
+```shell
+# tiup 目录位置
+[tidb@tiup-tidb41 .tiup]$ pwd
+/home/tidb/.tiup
+
+# tiup 目录结构
+[tidb@tiup-tidb41 .tiup]$ tree -L 1
+.
+├── bin
+├── components
+├── data
+├── logs
+├── manifests
+├── storage
+├── telemetry
+└── tiup.toml
+
+7 directories, 1 file
+```
 
 #### bin目录
 在 bin 目录下，
