@@ -265,4 +265,4 @@ status: enable
 
 ## 参考文件
 
-[TiDB - TiUP 官方开源文档](https://gitee.com/mirrors/TiUP/tree/master/doc/design)
+[TiDB - TiUP 官方开源文档:https://gitee.com/mirrors/TiUP/tree/master/doc/design](https://gitee.com/mirrors/TiUP/tree/master/doc/design)
