@@ -51,6 +51,8 @@ That the repository was build is aim to log process of mysql TiDB Learning.
 
     - [TiDB-TiUP工具集群扩缩容TiDB、TiKV、PD](https://github.com/jansu-dev/TiDB-Learning-Notes/blob/master/TIDB%E5%AE%9E%E6%96%BD%E5%BD%92%E7%BA%B3/TiDB-TiUP%E5%B7%A5%E5%85%B7%E9%9B%86%E7%BE%A4%E6%89%A9%E7%BC%A9%E5%AE%B9TiDB%E3%80%81TiKV%E3%80%81PD.md)
 
+    - [TiDB-TiSpark依靠TiUP工具协助部署集群]()
+
 ## TiDB周边生态
 
  - 备份恢复与数据迁移  
