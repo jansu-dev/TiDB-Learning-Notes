@@ -5,6 +5,15 @@
 
 
 
+
+热点可能原因
+
+ - 读热点
+ - 写热点
+   - 自增ID
+   - 自增索引
+
+
 ## 定位大表并发写入瓶颈
 ```
 [tidb@tiup-tidb41 conf]$ tiup ctl pd region topwrite
