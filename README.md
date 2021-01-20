@@ -90,4 +90,4 @@ That the repository was build is aim to log process of mysql TiDB Learning.
 
 ## DEBUG-TiDB
 
- - []()
+ - [TiDB-Centos构建Debug环境](https://github.com/jansu-dev/TiDB-Learning-Notes/blob/master/TiDB-DEBUG/TiDB-Centos%E6%9E%84%E5%BB%BADebug%E7%8E%AF%E5%A2%83.md)
