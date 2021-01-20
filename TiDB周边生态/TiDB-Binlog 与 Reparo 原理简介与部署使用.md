@@ -38,6 +38,7 @@
  - Drainer: 从各个 Pump 中收集 Binlog 进行归并，再将 Binlog 转化成 SQL 或者指定格式的数据，最终同步到下游   
 
 ## 下载部署
+ - pump与drainer
 ```
 [tidb@tiup-tidb41 binlogctl]$ tiup install 组件名称
 
@@ -52,6 +53,12 @@ pump            pingcap  The pump componet of TiDB binlog service
 ......
 ......
 ```
+
+ - reparo
+ [**下载链接**](https://download.pingcap.org/tidb-binlog-cluster-latest-linux-amd64.tar.gz)
+ ```
+  wget https://download.pingcap.org/tidb-binlog-cluster-latest-linux-amd64.tar.gz
+ ```
 
 ## 配置pump与drainer
 ```shell

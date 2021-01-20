@@ -86,3 +86,8 @@ That the repository was build is aim to log process of mysql TiDB Learning.
  - [TiDB-4.0.9版本开始tiflash组件弃用path警告问题](https://github.com/jansu-dev/TiDB-Learning-Notes/blob/master/TiDB%E5%AE%9E%E8%B7%B5%E9%94%99%E8%AF%AF%E5%BD%92%E7%BA%B3/TiDB-4.0.9%E7%89%88%E6%9C%AC%E5%BC%80%E5%A7%8Btiflash%E7%BB%84%E4%BB%B6%E5%BC%83%E7%94%A8path%E8%AD%A6%E5%91%8A%E9%97%AE%E9%A2%98.md)
 
  - [TiDB-常见运维问题整理](https://github.com/jansu-dev/TiDB-Learning-Notes/blob/master/TiDB%E8%BF%90%E7%BB%B4%E5%AE%9E%E8%B7%B5%E5%BD%92%E7%BA%B3/TiDB-%E5%B8%B8%E8%A7%81%E8%BF%90%E7%BB%B4%E9%97%AE%E9%A2%98%E6%95%B4%E7%90%86.md)
+
+
+## DEBUG-TiDB
+
+ - []()
