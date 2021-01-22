@@ -86,9 +86,9 @@ TiDB-Ansible的操作时幂等的，在操作过程中遇到报错，修复后�
 > **中控机安装系统依赖包**
 
 注意事项：
-1.在可联网的下载机上下载系统依赖离线安装包，然后上传至中控机。
-2.该离线包仅支持 CentOS 7 系统，包含安装git pip curl sshpass。
-3.pip请确认版本 >= 8.1.2，否则会有兼容问题。
+1. 在可联网的下载机上下载系统依赖离线安装包，然后上传至中控机。
+2. 该离线包仅支持 CentOS 7 系统，包含安装git pip curl sshpass。
+3. pip请确认版本 >= 8.1.2，否则会有兼容问题。
 
 ```
 tar -xzvf ansible-system-rpms.el7.tar.gz &&
@@ -174,11 +174,11 @@ The key's randomart image is:
 
 
 注意事项：
-1.在TiDB用户下操作；
-2.使用以下命令从 TiDB Ansible 项目上下载相应 TAG 版本的tidb-ansible，$tag 替换为选定的 TAG 版本的值，例如 v3.0.0；
-3.使用外部下载机下载相应版本TiDB Ansible后，用sftp等软件将安装包上传；
-4.将tidb-ansible上传到/home/tidb 目录下，权限为 tidb 用户，否则可能会遇到权限问题；
-5.目前，TiDB Ansible release-4.0 版本兼容 Ansible 2.5 ~ 2.7.11 
+1. 在TiDB用户下操作；
+2. 使用以下命令从 TiDB Ansible 项目上下载相应 TAG 版本的tidb-ansible，$tag 替换为选定的 TAG 版本的值，例如 v3.0.0；
+3. 使用外部下载机下载相应版本TiDB Ansible后，用sftp等软件将安装包上传；
+4. 将tidb-ansible上传到/home/tidb 目录下，权限为 tidb 用户，否则可能会遇到权限问题；
+5. 目前，TiDB Ansible release-4.0 版本兼容 Ansible 2.5 ~ 2.7.11 
 
 
 ```
@@ -249,8 +249,8 @@ ansible-playbook -i hosts.ini deploy_ntp.yml -u tidb -b
 > **在部署目标机器上配置 CPUfreq 调节器模式**
 
 注意事项：
-1.如果支持设置 performance 和 powersave 模式，为发挥CPU最大性能，推荐设置CPUfreq调节器模式置为 performance 模式；
-2.本例中系统返回 Not Available，表示当前系统不支持配置 CPUfreq，跳过该步骤即可；
+1. 如果支持设置 performance 和 powersave 模式，为发挥CPU最大性能，推荐设置CPUfreq调节器模式置为 performance 模式；
+2. 本例中系统返回 Not Available，表示当前系统不支持配置 CPUfreq，跳过该步骤即可；
 
 
 查看系统支持的调节器模式
@@ -303,12 +303,12 @@ ansible -i hosts.ini all -m shell -a "cpupower frequency-set --governor performa
 > **在部署目标机器上添加数据盘 ext4 文件系统挂载参数**
 
 
-1.使用 root 用户登录目标机器;
-2.将部署目标机器数据盘格式化成 ext4 文件系统;
-3.挂载时添加 nodelalloc 和 noatime 挂载参数;
-4.nodelalloc 是必选参数，否则 Ansible 安装时检测无法通过,noatime 是可选建议参数;
-5.如果数据盘已经格式化成ext4并挂载，可先执行 umount,编辑 /etc/fstab 文件，添加挂载参数后重新挂载。
-6.使用 lsblk 命令查看分区的设备号：对于 nvme 磁盘（固态硬盘），生成的分区设备号一般为 nvme0n1p1；对于普通磁盘（例如 /dev/sdb），生成的的分区设备号一般为 sdb1。
+1. 使用 root 用户登录目标机器;
+2. 将部署目标机器数据盘格式化成 ext4 文件系统;
+3. 挂载时添加 nodelalloc 和 noatime 挂载参数;
+4. nodelalloc 是必选参数，否则 Ansible 安装时检测无法通过,noatime 是可选建议参数;
+5. 如果数据盘已经格式化成ext4并挂载，可先执行 umount,编辑 /etc/fstab 文件，添加挂载参数后重新挂载。
+6. 使用 lsblk 命令查看分区的设备号：对于 nvme 磁盘（固态硬盘），生成的分区设备号一般为 nvme0n1p1；对于普通磁盘（例如 /dev/sdb），生成的的分区设备号一般为 sdb1。
 
 
 <span style='color:red'>
@@ -372,13 +372,13 @@ mount -t ext4
 
 注意事项：
 
-1.以 tidb 用户登录中控机，编辑 /home/tidb/tidb-ansible/inventory.ini 文件为 TiDB 集群分配机器资源。
-2.一个标准的 TiDB 集群需要 6 台机器：2 个 TiDB 实例，3 个 PD 实例，3 个 TiKV 实例,至少需部署 3 个 TiKV 实例。
-3.不推荐将 TiKV 实例与 TiDB 或 PD 实例混合部署在同一台机器上<span style="color:red">----本例测试机采用这种部署方案！！！</span>
-4.将第一台 TiDB 机器同时用作监控机。
-5.请使用内网 IP 来部署集群，如果部署目标机器 SSH 端口非默认的 22 端口，需添加 ansible_port 变量，如 TiDB1 ansible_host=172.16.10.1 ansible_port=5555。
-6.如果是 ARM 架构的机器，需要将 cpu_architecture 改为 arm64。
-7.默认情况下，建议在每个 TiKV 节点上仅部署一个 TiKV 实例，以提高性能。但是，如果你的 TiKV 部署机器的 CPU 和内存配置是部署建议的两倍或以上，并且一个节点拥有两块 SSD 硬盘或者单块 SSD 硬盘的容量大于 2 TB，则可以考虑部署两实例，但不建议部署两个以上实例。
+1. 以 tidb 用户登录中控机，编辑 /home/tidb/tidb-ansible/inventory.ini 文件为 TiDB 集群分配机器资源。   
+2. 一个标准的 TiDB 集群需要 6 台机器：2 个 TiDB 实例，3 个 PD 实例，3 个 TiKV 实例,至少需部署 3 个 TiKV 实例。    
+3. 不推荐将 TiKV 实例与 TiDB 或 PD 实例混合部署在同一台机器上<span style="color:red">----本例测试机采用这种部署方案！！！</span>   
+4. 将第一台 TiDB 机器同时用作监控机。    
+5. 请使用内网 IP 来部署集群，如果部署目标机器 SSH 端口非默认的 22 端口，需添加 ansible_port 变量，如 TiDB1 ansible_host=172.16.10.1 ansible_port=5555。
+6. 如果是 ARM 架构的机器，需要将 cpu_architecture 改为 arm64。   
+7. 默认情况下，建议在每个 TiKV 节点上仅部署一个 TiKV 实例，以提高性能。但是，如果你的 TiKV 部署机器的 CPU 和内存配置是部署建议的两倍或以上，并且一个节点拥有两块 SSD 硬盘或者单块 SSD 硬盘的容量大于 2 TB，则可以考虑部署两实例，但不建议部署两个以上实例。   
 
 执行以下命令，如果所有 server 均返回 tidb，表示 SSH 互信配置成功：
 ```
@@ -393,10 +393,10 @@ ansible -i inventory.ini all -m shell -a 'whoami' -b
 
 > **部署 TiDB 集群**
 
-1.ansible-playbook 执行 Playbook 时，默认并发为 5;  
-2.部署目标机器较多时，可添加 -f 参数指定并发数，例如 ansible-playbook deploy.yml -f 10。  
-3.默认使用tidb 用户作为服务运行用户,需在tidb-ansible/inventory.ini 文件中，确认 ansible_user = tidb。  
-4.不要将 ansible_user 设置为 root 用户，因为 tidb-ansible 限制了服务以普通用户运行。  
+1. ansible-playbook 执行 Playbook 时，默认并发为 5;  
+2. 部署目标机器较多时，可添加 -f 参数指定并发数，例如 ansible-playbook deploy.yml -f 10。  
+3. 默认使用tidb 用户作为服务运行用户,需在tidb-ansible/inventory.ini 文件中，确认 ansible_user = tidb。  
+4. 不要将 ansible_user 设置为 root 用户，因为 tidb-ansible 限制了服务以普通用户运行。  
   
 ```
 Connection
