@@ -1,23 +1,23 @@
 # TiDB-Centos构建Debug环境
 
-
+ - **注意**: 本文某些情况下，使用科学上网的方式访问外网;
 
 ## 安装必要依赖
 
 #### 安装golang环境
 ```
-sudo yum install -y epel-release
+[jan@jan ~]$ sudo yum install -y epel-release
  
-sudo yum install -y golang
+[jan@jan ~]$ sudo yum install -y golang
 ```
 
 
 #### 安装Rust
 ```
-sudo yum install -y gcc
+[jan@jan ~]$ sudo yum install -y gcc
 
 
-curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+[jan@jan ~]$ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 
 ```
 
@@ -31,7 +31,26 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 
 ## 安装VScode并配置Debug
 
+ - 开启断点功能   
+  1. 文件 -> 首选项 -> 设置  
+  2. 搜索 Allow setting breakpoints in any file，并勾选  
+
+
+
 ## 编译PD
+
+
+```
+git clone https://github.com/pingcap/pd
+cd pd
+make build
+
+cd bin
+nohup ./pd-server --data-dir=pd --log-file=pd.log &
+
+telnet 127.0.0.1 2379
+```
+
  - 修改hosts文件
    ```
     [jan@jan pd]$ sudo echo "199.232.28.133 raw.githubusercontent.com" > /etc/hosts
@@ -51,12 +70,55 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
       Running `target/debug/hello-rust`
       Hello, world!
    ```
-
-```
-
-```
+- 编辑launch文件
+   ```json
+   {
+   	"version": "0.2.0",
+   	"configurations": [{
+   			"name": "(Windows) Launch",
+   			"type": "cppvsdbg",
+   			"request": "launch",
+   			"program": "${workspaceRoot}/target/debug/foo.exe",
+   			"args": [],
+   			"stopAtEntry": false,
+   			"cwd": "${workspaceRoot}",
+   			"environment": [],
+   			"externalConsole": true
+   		},
+   		{
+   			"name": "(OSX) Launch",
+   			"type": "lldb",
+   			"request": "launch",
+   			"program": "${workspaceRoot}/target/debug/foo",
+   			"args": [],
+   			"cwd": "${workspaceRoot}",
+   		}
+   	]
+   }
+   ```
 
 ## 编译TiDB
 
 ## 编译TiKV
+
+ - 
+ ```
+[jan@jan tikv]$ git clone https://github.com/tikv/tikv.git
+[jan@jan tikv]$ pwd
+/home/jan/Desktop/tikv/tikv
+
+ ```
+
+
+
+
+
+
+
+
+
+## 参考文章
+ - [TiKV 源码解析 —— 调试环境搭建:http://www.iocoder.cn/TiKV/build-debugging-environment-second/](http://www.iocoder.cn/TiKV/build-debugging-environment-second/)  
+
+
 
