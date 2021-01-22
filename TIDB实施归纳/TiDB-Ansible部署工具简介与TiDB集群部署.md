@@ -393,11 +393,11 @@ ansible -i inventory.ini all -m shell -a 'whoami' -b
 
 > **部署 TiDB 集群**
 
-1.ansible-playbook 执行 Playbook 时，默认并发为 5;
-2.部署目标机器较多时，可添加 -f 参数指定并发数，例如 ansible-playbook deploy.yml -f 10。
-3.默认使用tidb 用户作为服务运行用户,需在tidb-ansible/inventory.ini 文件中，确认 ansible_user = tidb。
-4.不要将 ansible_user 设置为 root 用户，因为 tidb-ansible 限制了服务以普通用户运行。
-
+1.ansible-playbook 执行 Playbook 时，默认并发为 5;  
+2.部署目标机器较多时，可添加 -f 参数指定并发数，例如 ansible-playbook deploy.yml -f 10。  
+3.默认使用tidb 用户作为服务运行用户,需在tidb-ansible/inventory.ini 文件中，确认 ansible_user = tidb。  
+4.不要将 ansible_user 设置为 root 用户，因为 tidb-ansible 限制了服务以普通用户运行。  
+  
 ```
 Connection
 ssh via normal user
