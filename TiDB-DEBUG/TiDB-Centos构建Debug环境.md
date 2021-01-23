@@ -11,6 +11,27 @@
 [jan@jan ~]$ sudo yum install -y golang
 ```
 
+#### 安装 glibc-2.18 
+
+报错: /lib64/libc.so.6: version `GLIBC_2.18' not found 
+
+```
+curl -O http://ftp.gnu.org/gnu/glibc/glibc-2.18.tar.gz
+
+tar zxf glibc-2.18.tar.gz 
+
+cd glibc-2.18/
+
+mkdir build
+
+cd build/
+
+../configure --prefix=/usr
+
+sudo make -j2
+
+sudo make install
+```
 
 #### 安装Rust
 ```
