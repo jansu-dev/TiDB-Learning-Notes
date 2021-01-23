@@ -20,7 +20,7 @@
 > - [max-index-length参数](#max-index-length参数)  
 > - [log相关配置项](#log相关配置项)   
 > - [log.file日志文件相关配置项 ](#log.file日志文件相关配置项 )  
-
+> - [prepared-plan-cache实验参数配置](#prepared-plan-cache实验参数配置)
 
 
 ## split-table参数   
@@ -397,6 +397,17 @@
 
 ## security安全相关配置项 
 
+> - [level参数](#level参数)  
+> - [format参数](#format参数)  
+> - [enable-timestamp参数](#enable-timestamp参数)  
+> - [enable-slow-log参数](#enable-slow-log参数)  
+> - [slow-query-file参数](#slow-query-file参数)  
+> - [slow-threshold参数](#slow-threshold参数)  
+> - [record-plan-in-slow-log参数](#record-plan-in-slow-log参数)  
+> - [expensive-threshold参数](#expensive-threshold参数)  
+> - [query-log-max-len参数](#query-log-max-len参数) 
+> - [log相关配置项使用](#log相关配置项使用) 
+
 #### ssl-ca参数  
 
  - 涵义：是否开启遥测功能;   
@@ -464,44 +475,65 @@
 
 ## performance性能相关配置 
 
+> - [max-procs参数](#max-procs参数)  
+> - [max-memory参数](#max-memory参数)  
+> - [memory-usage-alarm-ratio参数](#memory-usage-alarm-ratio参数)  
+> - [enable-slow-log参数](#enable-slow-log参数)  
+> - [slow-query-file参数](#slow-query-file参数)  
+> - [slow-threshold参数](#slow-threshold参数)  
+> - [record-plan-in-slow-log参数](#record-plan-in-slow-log参数)  
+> - [expensive-threshold参数](#expensive-threshold参数)  
+> - [query-log-max-len参数](#query-log-max-len参数) 
+> - [log相关配置项使用](#log相关配置项使用) 
+
+
 #### max-procs参数  
 
- - 涵义：是否开启遥测功能;   
- - 默认值: true
- - 作用：遥测用户在 TiDB 使用过程中，PingCap 公司搜集用户使用情况，以便于 TiDB 改进； 
- - 建议：不做修改  
- - 使用：
-   ```
+ - 涵义：TiDB 使用 CPU 的数量限制;   
+ - 默认值: 0
+ - 作用：TiDB 所能使用 CPU 的vCore数量越大，意味着所能使用的线程的并发能力越高     
+   - 0 --> 使用机器上所有的 CPU，也是默认值 
+   - n --> 限制 TiDB 所使用 CPU 的 vCore 个数
+ - 建议：如果是单独部署建议不做修改，如果存在混合部署，酌情限制每个 TiDB 使用  
 
-   ```
 
 #### max-memory参数  
 
- - 涵义：是否开启遥测功能;   
- - 默认值: true
- - 作用：遥测用户在 TiDB 使用过程中，PingCap 公司搜集用户使用情况，以便于 TiDB 改进； 
- - 建议：不做修改  
- - 使用：
-   ```
+ - 涵义：限制 TIDB 的 Prepare-cache 所能使用的最大内存容量   
+ - 默认值: 0  
+ - 作用：Prepare cache LRU 内存使用量限制，TiDB 中prepare阶段会缓存执行计划，但内存资源有限， Prepare cache 使用内存超过 performance.max-memory * (1 - prepare-plan-cache.memory-guard-ratio)时，会使用 LRU 算法剔除 cache 中的元素   
+   - 该值仅在 prepare-plan-cache.enabled 为 true 时，才生效    
+ - 建议：不做修改，当出现性能问题时可具体问题具体分析，当出现大量 SQL 重复解析且非阔不可时再做更改    
 
-   ```
+
+#### max-memory-quota参数  
+
+ - 涵义：限制 TIDB 实例总的内存使用量,单位字节(Bytes)     
+ - 默认值: 0   
+ - 作用：同涵义，类似于 Oracle 的 memory_target  
+   - 0 --> 不对实例的内存限制,默认值    
+ - 建议：不存在混合部署情况下，除系统内存足够系统使用运行之外全部留给 TiDB 使用；混合部署和酌情限制      
+
 
 #### memory-usage-alarm-ratio参数  
 
- - 涵义：是否开启遥测功能;   
- - 默认值: true
- - 作用：遥测用户在 TiDB 使用过程中，PingCap 公司搜集用户使用情况，以便于 TiDB 改进； 
- - 建议：不做修改  
- - 使用：
-   ```
+ - 涵义：当 TiDB 实例占用内存使用量占总内存比例达到阈值便会报警   
+ - 默认值: 0.8  
+ - 作用：同涵义，当 TiDB 实例内存占用达到告警阈值时，会认为存在内存溢出风险，将正在执行的 SQL 语句前 10 和、运行时间最长的 10 条 SQL 语句、和相关的 heap profile 记录在 tmp-storage-path/record 中，并在日志中输出一条记录 "tidb-server has the risk of OOM"； 
+   - 0 --> 关闭内存阈值报警功能  
+   - 1 --> 关闭内存阈值报警功能
+   - server-memory-quota 未设置 --> 报警阈值 = memory-usage-alarm-ratio * 系统内存大小  
+   - server-memory-quota 设置大于 0  --> 报警阈值 = memory-usage-alarm-ratio * server-memory-quota
+ - 建议：不做更改  
 
-   ```
 
 #### txn-entry-size-limit参数  
 
- - 涵义：是否开启遥测功能;   
- - 默认值: true
- - 作用：遥测用户在 TiDB 使用过程中，PingCap 公司搜集用户使用情况，以便于 TiDB 改进； 
+ - 涵义：TiDB 限制每个事务中，单行数据的大小限制，单位字节(Bytes);   
+ - 默认值：6291456(6MB)   
+ - 作用：同涵义，限制事务中key-value记录大小限制。若超出该限制返回 entry too large 错误  
+   - 最大不超过125829120(120MB)  
+   - TiKV 中类似限制为 raft-entry-max-size，默认也为 8MB ，在调整设置时要将两个参数一起调整   
  - 建议：不做修改  
  - 使用：
    ```
@@ -510,41 +542,35 @@
 
 #### txn-total-size-limit参数  
 
- - 涵义：是否开启遥测功能;   
- - 默认值: true
- - 作用：遥测用户在 TiDB 使用过程中，PingCap 公司搜集用户使用情况，以便于 TiDB 改进； 
- - 建议：不做修改  
- - 使用：
-   ```
+ - 涵义：TiDB 单个事务大小限制(一个事务可以可以由多条语句构成)，单位字节Bytes   
+ - 默认值: 104857600(100GB)
+ - 作用： 同涵义
+ - 建议：一般不做修改，当时当下游为 Kafka 时，该参数值不要超过 1GB，否则会报错  
 
-   ```
 
 #### stmt-count-limit参数  
 
- - 涵义：是否开启遥测功能;   
- - 默认值: true
- - 作用：遥测用户在 TiDB 使用过程中，PingCap 公司搜集用户使用情况，以便于 TiDB 改进； 
+ - 涵义：TiDB 单个事务允许的最大语句条数限制   
+ - 默认值: 5000  
+ - 作用：当单个事务语句条数超过阈值时，客户端会得到错误 count 5001 exceeds the transaction limitation, autocommit = false 
+   - 乐观事务中，乐观事务会重试该事务，可选择调大该限制  
+   - 悲观事务中，不受此参数限制
  - 建议：不做修改  
- - 使用：
-   ```
 
-   ```
 
 #### tcp-keep-alive参数  
 
- - 涵义：是否开启遥测功能;   
+ - 涵义：iDB 在 TCP 层开启 keepalive;   
  - 默认值: true
- - 作用：遥测用户在 TiDB 使用过程中，PingCap 公司搜集用户使用情况，以便于 TiDB 改进； 
+ - 作用：保持 TCP 层的握手； 
  - 建议：不做修改  
- - 使用：
-   ```
 
-   ```
+
 #### cross-join参数  
 
- - 涵义：是否开启遥测功能;   
+ - 涵义：判定 SQL 语句在做 cross join 时，两边表是否可以没有 where 语句;   
  - 默认值: true
- - 作用：遥测用户在 TiDB 使用过程中，PingCap 公司搜集用户使用情况，以便于 TiDB 改进； 
+ - 作用：控制资源使用 
  - 建议：不做修改  
  - 使用：
    ```
@@ -552,9 +578,19 @@
    ```
 #### stats-lease参数  
 
- - 涵义：是否开启遥测功能;   
- - 默认值: true
- - 作用：遥测用户在 TiDB 使用过程中，PingCap 公司搜集用户使用情况，以便于 TiDB 改进； 
+ - 涵义：重载统计信息，更新表行数，检查是否自动 analyze ，利用 feedback 更新统计信息以及加载列统计信息的时间间隔;   
+ - 默认值: 3s  
+ - 作用：
+   - 每隔 stats-lease 时间，TiDB 会检查统计信息是否有更新，如果有会将其更新到内存中  
+   - 每隔 20 * stats-lease 时间，TiDB 会将 DML 产生的总行数以及修改行数变化更新到系统表中  
+   - 每隔 stats-lease 时间，TiDB 会检查是否有表或者索引需要自动 analyze  
+   - 每隔 stats-lease 时间，TiDB 会检查是否有列的统计信息需要被加载到内存中
+   - 每隔 200 * stats-lease 时间，TiDB 会将内存中缓存的 feedback 写入系统表中  
+   - 每隔 5 * stats-lease 时间，TiDB会读取系统表中的 feedback，更新内存中缓存的统计信息   
+   - 如果 stats-lease 值设置为 0 时，TiDB 会以默认 3s 的时间间隔周期读取系统表中的统计信息并更新到中，到那时不会自动更改系统统计信息系统表  
+     - 包含 mysql.stats_meta,不再自动记录事务中对某张表的修改行数，也不会更新到这个系统表中  
+     - 包含 mysql.stats_histograms/mysql.stats_buckets/mysql.stats_top_n,不再主动更新统计信息，不再自动 analyze 
+     - 包括 mysql.stats_feedback,不再根据查询的数据反馈的部分统计信息更新表和索引的统计信息
  - 建议：不做修改  
  - 使用：
    ```
@@ -562,9 +598,9 @@
    ```
 #### run-auto-analyze参数  
 
- - 涵义：是否开启遥测功能;   
+ - 涵义：是否自动 analyze  
  - 默认值: true
- - 作用：遥测用户在 TiDB 使用过程中，PingCap 公司搜集用户使用情况，以便于 TiDB 改进； 
+ - 作用：即使更新统计信息，确保基于 CBO 的 TiDB 优化器产生正确的执行计划
  - 建议：不做修改  
  - 使用：
    ```
@@ -572,9 +608,9 @@
    ```
 #### feedback-probability参数  
 
- - 涵义：是否开启遥测功能;   
- - 默认值: true
- - 作用：遥测用户在 TiDB 使用过程中，PingCap 公司搜集用户使用情况，以便于 TiDB 改进； 
+ - 涵义：对查询收集统计信息反馈的概率;   
+ - 默认值: 0.05
+ - 作用：TiDB 使用动态采样的方法从所有 SQL 操作中，以 feedback-probability 参数值的概率抽取作为反馈，用于更新统计信息
  - 建议：不做修改  
  - 使用：
    ```
@@ -582,19 +618,22 @@
    ```
 #### query-feedback-limit参数  
 
- - 涵义：是否开启遥测功能;   
- - 默认值: true
- - 作用：遥测用户在 TiDB 使用过程中，PingCap 公司搜集用户使用情况，以便于 TiDB 改进； 
- - 建议：不做修改  
+ - 涵义：限制内存中缓存的最大 query feedback 数量，超过这个值数量的 feedback 就会被丢弃     
+ - 默认值: 1024 
+ - 作用：同涵义   
+ - 建议：不做修改，如果出现统计信息不准的情况，再定位确实是这个原因时可酌情更改     
  - 使用：
    ```
 
    ```
 #### pseudo-estimate-ratio参数  
 
- - 涵义：是否开启遥测功能;   
- - 默认值: true
- - 作用：遥测用户在 TiDB 使用过程中，PingCap 公司搜集用户使用情况，以便于 TiDB 改进； 
+ - 涵义：修改过的行数/表的总行数的比值，超过该值时系统会认为统计信息已经过期，采用 pseudo 假设的方式作为统计信息参考值生成执行计划  
+ - 默认值: 0.8
+ - 作用：使用评估阈值判断在统计信息不准确的时候，提供另一种方式保证优化器准确性   
+   - 0.8 --> 默认值  
+   - 0   --> 最小值  
+   - 1   --> 最大值   
  - 建议：不做修改  
  - 使用：
    ```
@@ -602,9 +641,10 @@
    ```
 #### force-priority参数  
 
- - 涵义：是否开启遥测功能;   
- - 默认值: true
- - 作用：遥测用户在 TiDB 使用过程中，PingCap 公司搜集用户使用情况，以便于 TiDB 改进； 
+ - 涵义：把所有语句优先级设置为 force-priority    
+ - 默认值: NO_PRIORITY  
+   - 可选值 NO_PRIORITY, LOW_PRIORITY, HIGH_PRIORITY, DELAYED
+ - 作用：  
  - 建议：不做修改  
  - 使用：
    ```
@@ -613,10 +653,12 @@
 
 #### distinct-agg-push-down参数  
 
- - 涵义：是否开启遥测功能;   
- - 默认值: true
- - 作用：遥测用户在 TiDB 使用过程中，PingCap 公司搜集用户使用情况，以便于 TiDB 改进； 
- - 建议：不做修改  
+ - 涵义：控制带有 distinct 关键字的 SQL 操作是否将计算下推到 TiKV 上的 Coprocessor 上执行     
+ - 默认值: false
+ - 作用：同涵义  
+   - false --> 默认值，作为系统变量 tidb_opt_distinct_agg_push_down 的初始化值  
+   - true  --> 优化操作
+ - 建议：修改为 true    
  - 使用：
    ```
 
@@ -624,32 +666,179 @@
 
 ## prepared-plan-cache实验参数配置 
 
- - 涵义：是否开启遥测功能;   
- - 默认值: true
- - 作用：遥测用户在 TiDB 使用过程中，PingCap 公司搜集用户使用情况，以便于 TiDB 改进； 
- - 建议：不做修改  
- - 使用：
-   ```
+#### enabled参数
 
-   ```
+ - 涵义：开启 prepare 语句的 plan cache 功能    
+ - 默认值: false
+ - 作用：缓存已经解析过的执行计划   
+ - 建议：不做修改，在v4.0.9中该参数为实验参数，如有需求谨慎修改  
+
+#### capacity参数
+
+ - 涵义：缓存语句的数量    
+ - 默认值: 100
+ - 作用：同涵义   
+ - 建议：不做修改  
+
+#### memory-guard-ratio参数
+
+ - 涵义：防止超过 performance.max-memory 内存使用限制，当超过 max-memory * (1 - prepared-plan-cache.memory-guard-ratio) 会被 LRU 算法剔除 Cache    
+ - 默认值: 0.1 
+ - 作用：同涵义  
+   - 0 --> 最小值  
+   - 1 --> 最大值  
+   - n --> n 介于 [1~0] 之间  
+ - 建议：不做修改  
+
+
 
 ## tikv-client相关参数配置  
 
 #### grpc-connection-count参数
 
+ - 涵义：缓存语句的数量    
+ - 默认值: 100
+ - 作用：同涵义   
+ - 建议：不做修改  
 
 #### grpc-keepalive-time参数
 
-
-
+ - 涵义：缓存语句的数量    
+ - 默认值: 100
+ - 作用：同涵义   
+ - 建议：不做修改  
 
 #### grpc-keepalive-timeout参数
+
+ - 涵义：缓存语句的数量    
+ - 默认值: 100
+ - 作用：同涵义   
+ - 建议：不做修改  
 
 
 #### commit-timeout参数
 
+ - 涵义：缓存语句的数量    
+ - 默认值: 100
+ - 作用：同涵义   
+ - 建议：不做修改  
 
 
-#### 
+#### max-txn-ttl参数 
+
+max-txn-ttl
+
+#### max-batch-size参数
+
+#### max-batch-wait-time参数
+
+
+
+#### batch-wait-size参数
+
+
+## tikv-client.copr-cache相关参数配置
+
+#### enable参数
+
+
+#### capacity-mb参数
+
+
+#### admission-max-result-mb参数
+
+
+#### admission-min-process-ms参数
+
+
+
+
+
+## txn-local-latches相关参数配置
+
+#### enable参数
+
+ - 涵义：缓存语句的数量    
+ - 默认值: 100
+ - 作用：同涵义   
+ - 建议：不做修改  
+
+#### memory-guard-ratio参数
+
+ - 涵义：防止超过 performance.max-memory 内存使用限制，当超过 max-memory * (1 - prepared-plan-cache.memory-guard-ratio) 会被 LRU 算法剔除 Cache    
+ - 默认值: 0.1 
+ - 作用：同涵义  
+   - 0 --> 最小值  
+   - 1 --> 最大值  
+   - n --> n 介于 [1~0] 之间  
+ - 建议：不做修改  
+
+
+
+## binlog相关参数配置 
+
+
+#### enable参数
+
+
+#### wirite-timeout参数
+
+
+
+#### ignore-error参数
+
+
+
+#### binlog-socket参数
+
+
+
+#### strategy参数
+
+
+
+
+
+## status相关参数配置
+
+
+#### report-status参数
+
+
+
+#### record-db-qps参数
+
+
+
+## stmt-summary参数相关配置
+
+
+
+#### max-stmt-count参数 
+
+
+#### max-sql-length参数
+
+
+## pessimistic-txn相关参数配置
+
+#### enable参数
+
+
+
+## max-retry-count参数
+
+
+## experimental相关参数配置
+
+
+## allow-expression-index参数
+
+
+
+
+
+
+
 
 
