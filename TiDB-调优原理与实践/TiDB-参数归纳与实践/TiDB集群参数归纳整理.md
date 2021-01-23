@@ -462,4 +462,194 @@
 
 
 
-#### performance性能相关配置 
+## performance性能相关配置 
+
+#### max-procs参数  
+
+ - 涵义：是否开启遥测功能;   
+ - 默认值: true
+ - 作用：遥测用户在 TiDB 使用过程中，PingCap 公司搜集用户使用情况，以便于 TiDB 改进； 
+ - 建议：不做修改  
+ - 使用：
+   ```
+
+   ```
+
+#### max-memory参数  
+
+ - 涵义：是否开启遥测功能;   
+ - 默认值: true
+ - 作用：遥测用户在 TiDB 使用过程中，PingCap 公司搜集用户使用情况，以便于 TiDB 改进； 
+ - 建议：不做修改  
+ - 使用：
+   ```
+
+   ```
+
+#### memory-usage-alarm-ratio参数  
+
+ - 涵义：是否开启遥测功能;   
+ - 默认值: true
+ - 作用：遥测用户在 TiDB 使用过程中，PingCap 公司搜集用户使用情况，以便于 TiDB 改进； 
+ - 建议：不做修改  
+ - 使用：
+   ```
+
+   ```
+
+#### txn-entry-size-limit参数  
+
+ - 涵义：是否开启遥测功能;   
+ - 默认值: true
+ - 作用：遥测用户在 TiDB 使用过程中，PingCap 公司搜集用户使用情况，以便于 TiDB 改进； 
+ - 建议：不做修改  
+ - 使用：
+   ```
+
+   ```
+
+#### txn-total-size-limit参数  
+
+ - 涵义：是否开启遥测功能;   
+ - 默认值: true
+ - 作用：遥测用户在 TiDB 使用过程中，PingCap 公司搜集用户使用情况，以便于 TiDB 改进； 
+ - 建议：不做修改  
+ - 使用：
+   ```
+
+   ```
+
+#### stmt-count-limit参数  
+
+ - 涵义：是否开启遥测功能;   
+ - 默认值: true
+ - 作用：遥测用户在 TiDB 使用过程中，PingCap 公司搜集用户使用情况，以便于 TiDB 改进； 
+ - 建议：不做修改  
+ - 使用：
+   ```
+
+   ```
+
+#### tcp-keep-alive参数  
+
+ - 涵义：是否开启遥测功能;   
+ - 默认值: true
+ - 作用：遥测用户在 TiDB 使用过程中，PingCap 公司搜集用户使用情况，以便于 TiDB 改进； 
+ - 建议：不做修改  
+ - 使用：
+   ```
+
+   ```
+#### cross-join参数  
+
+ - 涵义：是否开启遥测功能;   
+ - 默认值: true
+ - 作用：遥测用户在 TiDB 使用过程中，PingCap 公司搜集用户使用情况，以便于 TiDB 改进； 
+ - 建议：不做修改  
+ - 使用：
+   ```
+
+   ```
+#### stats-lease参数  
+
+ - 涵义：是否开启遥测功能;   
+ - 默认值: true
+ - 作用：遥测用户在 TiDB 使用过程中，PingCap 公司搜集用户使用情况，以便于 TiDB 改进； 
+ - 建议：不做修改  
+ - 使用：
+   ```
+
+   ```
+#### run-auto-analyze参数  
+
+ - 涵义：是否开启遥测功能;   
+ - 默认值: true
+ - 作用：遥测用户在 TiDB 使用过程中，PingCap 公司搜集用户使用情况，以便于 TiDB 改进； 
+ - 建议：不做修改  
+ - 使用：
+   ```
+
+   ```
+#### feedback-probability参数  
+
+ - 涵义：是否开启遥测功能;   
+ - 默认值: true
+ - 作用：遥测用户在 TiDB 使用过程中，PingCap 公司搜集用户使用情况，以便于 TiDB 改进； 
+ - 建议：不做修改  
+ - 使用：
+   ```
+
+   ```
+#### query-feedback-limit参数  
+
+ - 涵义：是否开启遥测功能;   
+ - 默认值: true
+ - 作用：遥测用户在 TiDB 使用过程中，PingCap 公司搜集用户使用情况，以便于 TiDB 改进； 
+ - 建议：不做修改  
+ - 使用：
+   ```
+
+   ```
+#### pseudo-estimate-ratio参数  
+
+ - 涵义：是否开启遥测功能;   
+ - 默认值: true
+ - 作用：遥测用户在 TiDB 使用过程中，PingCap 公司搜集用户使用情况，以便于 TiDB 改进； 
+ - 建议：不做修改  
+ - 使用：
+   ```
+
+   ```
+#### force-priority参数  
+
+ - 涵义：是否开启遥测功能;   
+ - 默认值: true
+ - 作用：遥测用户在 TiDB 使用过程中，PingCap 公司搜集用户使用情况，以便于 TiDB 改进； 
+ - 建议：不做修改  
+ - 使用：
+   ```
+
+   ```
+
+#### distinct-agg-push-down参数  
+
+ - 涵义：是否开启遥测功能;   
+ - 默认值: true
+ - 作用：遥测用户在 TiDB 使用过程中，PingCap 公司搜集用户使用情况，以便于 TiDB 改进； 
+ - 建议：不做修改  
+ - 使用：
+   ```
+
+   ```
+
+## prepared-plan-cache实验参数配置 
+
+ - 涵义：是否开启遥测功能;   
+ - 默认值: true
+ - 作用：遥测用户在 TiDB 使用过程中，PingCap 公司搜集用户使用情况，以便于 TiDB 改进； 
+ - 建议：不做修改  
+ - 使用：
+   ```
+
+   ```
+
+## tikv-client相关参数配置  
+
+#### grpc-connection-count参数
+
+
+#### grpc-keepalive-time参数
+
+
+
+
+#### grpc-keepalive-timeout参数
+
+
+#### commit-timeout参数
+
+
+
+#### 
+
+
