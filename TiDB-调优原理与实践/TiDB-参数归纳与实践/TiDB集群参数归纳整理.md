@@ -1,24 +1,24 @@
 # TiDB-TiDB集群参数归纳整理  
 
-> - [TiDB普通参数限制](#split-table参数)  
+> - [TiDB普通参数限制](#TiDB普通参数限制)  
 >   - [split-table参数](#split-table参数)    
 >   - [token-limit参数](#token-limit参数)  
-> - [mem-quota-query参数](#mem-quota-query参数)  
-> - [oom-use-tmp-storage参数](#oom-use-tmp-storage参数)  
-> - [tmp-storage-path参数](#tmp-storage-path参数)  
-> - [tmp-storage-quota参数](#tmp-storage-quota参数)  
-> - [lower-case-table-names参数](#lower-case-table-names参数)  
-> - [lease参数](#lease参数)  
-> - [compatible-kill-query参数](#compatible-kill-query参数)  
-> - [check-mb4-value-in-utf8参数](#check-mb4-value-in-utf8参数)    
-> - [treat-old-version-utf8-as-utf8mb4参数](#treat-old-version-utf8-as-utf8mb4参数)  
-> - [alter-primary-key参数](#alter-primary-key参数)  
-> - [server-version参数](#server-version参数)  
-> - [repair-mode参数](#repair-mode参数)  
-> - [repair-table-list参数](#repair-table-list参数)  
-> - [new_collations_enabled_on_first_bootstrap参数](#new_collations_enabled_on_first_bootstrap参数)  
-> - [max-server-connections参数](#max-server-connections参数)  
-> - [max-index-length参数](#max-index-length参数)  
+>   - [mem-quota-query参数](#mem-quota-query参数)  
+>   - [oom-use-tmp-storage参数](#oom-use-tmp-storage参数)  
+>   - [tmp-storage-path参数](#tmp-storage-path参数)  
+>   - [tmp-storage-quota参数](#tmp-storage-quota参数)  
+>   - [lower-case-table-names参数](#lower-case-table-names参数)  
+>   - [lease参数](#lease参数)  
+>   - [compatible-kill-query参数](#compatible-kill-query参数)  
+>   - [check-mb4-value-in-utf8参数](#check-mb4-value-in-utf8参数)    
+>   - [treat-old-version-utf8-as-utf8mb4参数](#treat-old-version-utf8-as-utf8mb4参数)  
+>   - [alter-primary-key参数](#alter-primary-key参数)  
+>   - [server-version参数](#server-version参数)  
+>   - [repair-mode参数](#repair-mode参数)  
+>   - [repair-table-list参数](#repair-table-list参数)  
+>   - [new_collations_enabled_on_first_bootstrap参数](#new_collations_enabled_on_first_bootstrap参数)  
+>   - [max-server-connections参数](#max-server-connections参数)  
+>   - [max-index-length参数](#max-index-length参数)  
 > - [log相关配置项](#log相关配置项)   
 > - [log.file日志文件相关配置项 ](#log.file日志文件相关配置项 )  
 > - [prepared-plan-cache实验参数配置](#prepared-plan-cache实验参数配置)  
@@ -51,7 +51,7 @@
 
 
 
-## mem-quato-query参数 
+### mem-quato-query参数 
 
  - 涵义：控制单挑 SQL 语句占用内存的最大使用量，以字节(Bytes)为单位  
  - 默认值:   
@@ -66,7 +66,7 @@
    ```
 
 
-## oom-use-tmp-storage参数
+### oom-use-tmp-storage参数
 
  - 涵义：设置单挑 SQL 占用内存使用超过 mem-quato-query 时，为某些算子启用临时磁盘   
  - 默认值: true
@@ -77,7 +77,7 @@
 
    ```
 
-## tmp-storage-path参数  
+### tmp-storage-path参数  
 
  - 涵义：oom-use-tmp-storage 参数对应的临时文件存储路径  
  - 默认值: <操作系统临时文件夹>/<操作系统用户ID>_tidb/hash(<host>:<port>/<statusHost>:<statusPort>)/tmp-storage  
@@ -89,7 +89,7 @@
    ```
 
 
-## tmp-storage-quota参数
+### tmp-storage-quota参数
 
  - 涵义：tmp-storage-path 存储使用的限额，单位字节(Bytes)   
  - 默认值: -1    
@@ -99,7 +99,7 @@
  ```
 
  ```
-## oom-action
+### oom-action
 
  - 涵义：设定 SQL 操作内存占用超过 mem-quota-query 限制时，是仅输出日志，还是既取消当前操作并输出日志  
  - 默认值: "log"   
@@ -111,7 +111,7 @@
  ```
 
 
-## lower-case-table-names参数
+### lower-case-table-names参数
 
  - 涵义：设定 TiDB 对于表名大小写是否敏感，TiDB 当前仅支持该参数设置为 2    
  - 默认值: 2   
@@ -122,7 +122,7 @@
 
  ```
 
-## lease参数
+### lease参数
 
  - 涵义：DDL 租约超时时间，单位秒(s);    
  - 默认值： 45s  
@@ -133,7 +133,7 @@
 
   ```
 
-## compatible-kill-query参数
+### compatible-kill-query参数
 
  - 涵义：设置 kill 操作的兼容性 
  - 默认值: false  
@@ -143,7 +143,7 @@
  ```
 
  ```
-## check-mb4-value-in-utf8参数 
+### check-mb4-value-in-utf8参数 
 
  - 涵义：检验插入字符是否为 utf8 字符;  
  - 默认值: true
@@ -156,7 +156,7 @@
 
 
 
-## treat-olf-version-utf8-as-utf8mb4参数
+### treat-olf-version-utf8-as-utf8mb4参数
 
  - 涵义：设置是否将原来 TiDB 中 utf8 字符集的数据当作 utf8mb4 字符集来对待   
  - 默认值: true
@@ -168,7 +168,7 @@
    ```
 
 
-## alter-primary-key参数
+### alter-primary-key参数
 
  - 涵义：在集群初始化后，是否可以动态添加、删除主键;   
  - 默认值: false
@@ -180,7 +180,7 @@
    ```
 
 
-## server-version参数
+### server-version参数
 
  - 涵义：设置内置函数 version() 的返回结果;   
  - 默认值: "",默认情况下，TiDB 版本号返回格式为: 5.7.${mysql-lastest-minor-version}-TiDB-${TiDB-version}
@@ -192,7 +192,7 @@
    ```
 
 
-## repair-mode参数
+### repair-mode参数
 
  - 涵义：是否开启非可信修复模式;   
  - 默认值: false
@@ -204,7 +204,7 @@
    ```
 
 
-## repair-table-list参数
+### repair-table-list参数
 
  - 涵义：对应 repair-mode 参数为 true 时，用于在配置文件中列出怀表配置项;   
  - 默认值: []
@@ -216,7 +216,7 @@
    ```
 
 
-## new_collations_enabled_on_first_bootstrap参数
+### new_collations_enabled_on_first_bootstrap参数
 
  - 涵义：用于开启是否启用新版本的字符集框架;   
  - 默认值:  
@@ -226,12 +226,12 @@
  - 建议：将该参数开启  
  - 使用：
    ```
-
+    试一下4.0.x是否可以动态修改
    ```
 
-# 测试一下4.0.x是否可以动态修改
 
-## max-server-connections参数
+
+### max-server-connections参数
 
  - 涵义：限制 TiDb 同时允许最大客户端连接数;   
  - 默认值: 0
@@ -243,7 +243,7 @@
    ```
 
 
-## max-index-length参数
+### max-index-length参数
 
  - 涵义：设置新建索引的长度限制，单位字节Bytes;   
  - 默认值: 3072
@@ -255,7 +255,7 @@
    ```
 
 
-## enable-telemetry参数
+### enable-telemetry参数
 
  - 涵义：是否开启遥测功能;   
  - 默认值: true
