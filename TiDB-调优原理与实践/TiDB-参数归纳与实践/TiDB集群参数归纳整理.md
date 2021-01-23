@@ -1,7 +1,8 @@
 # TiDB-TiDB集群参数归纳整理  
 
-> - [split-table参数](#split-table参数)  
-> - [token-limit参数](#token-limit参数)  
+> - [TiDB普通参数限制](#split-table参数)  
+>   - [split-table参数](#split-table参数)    
+>   - [token-limit参数](#token-limit参数)  
 > - [mem-quota-query参数](#mem-quota-query参数)  
 > - [oom-use-tmp-storage参数](#oom-use-tmp-storage参数)  
 > - [tmp-storage-path参数](#tmp-storage-path参数)  
@@ -20,10 +21,12 @@
 > - [max-index-length参数](#max-index-length参数)  
 > - [log相关配置项](#log相关配置项)   
 > - [log.file日志文件相关配置项 ](#log.file日志文件相关配置项 )  
-> - [prepared-plan-cache实验参数配置](#prepared-plan-cache实验参数配置)
+> - [prepared-plan-cache实验参数配置](#prepared-plan-cache实验参数配置)  
+> - [参考文章](#参考文章)
 
+## TiDB普通参数限制
 
-## split-table参数   
+### split-table参数   
 
  - 涵义：为每个 table 对象创建单独的 region    
  - 默认值: true
@@ -35,7 +38,7 @@
    ```  
 
 
-## token-limit参数
+### token-limit参数
 
  - 涵义：可以同时执行请求的 session 个数    
  - 默认值: 1000   
@@ -947,7 +950,9 @@ TiDB 服务状态相关配置
 
 
 
+## 参考文章  
 
+ - [PingCap 官方文档-TiDB 配置文件描述](https://docs.pingcap.com/zh/tidb/stable/tidb-configuration-file)
 
 
 
