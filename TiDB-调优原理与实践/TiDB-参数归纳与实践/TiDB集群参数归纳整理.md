@@ -546,9 +546,8 @@
 
 #### security安全相关配置使用
 
-```
+[security安全相关配置使用请参考此篇文章](https://github.com/jansu-dev/TiDB-Learning-Notes/blob/master/TiDB%E8%BF%90%E7%BB%B4%E5%AE%9E%E8%B7%B5%E5%BD%92%E7%BA%B3/TiDB-TLS%E5%8A%A0%E5%AF%86%E4%BC%A0%E8%BE%93%E5%AE%89%E5%85%A8%E5%8D%8F%E8%AE%AE%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8.md)
 
-```
 
 ## performance性能相关配置 
 
