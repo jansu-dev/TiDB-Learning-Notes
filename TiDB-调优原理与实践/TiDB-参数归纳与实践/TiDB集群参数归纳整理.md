@@ -105,8 +105,93 @@
  - 作用：参数开启有利于 PD 对热点表的控制，如果创建的表特别多会出现空 region 特别多的现象，反而不利于调度     
  - 建议：如果创建表的数量特别多，建议将该值设为 false 
  - 验证： 
-   ```
+   ```shell
+    # 开启 split-table 后，构造测试数据表
+    sysbench /usr/share/sysbench/oltp_read_write.lua --mysql-user=root --mysql-port=4000 --mysql-host=192.168.169.41 --mysql-db=jan --tables=1 --table-size=100000 --threads=32 --events=100000 --report-interval=5 prepare
 
+    # 验证一个表的 region 情况,可见为该表单独建立了一个 Region_ID : 2
+    MySQL [jan]> show table sbtest1 regions\G
+    *************************** 1. row ***************************
+               REGION_ID: 2
+               START_KEY: t_47_
+                 END_KEY: 
+               LEADER_ID: 7
+         LEADER_STORE_ID: 6
+                   PEERS: 3, 5, 7
+              SCATTERING: 0
+           WRITTEN_BYTES: 0
+              READ_BYTES: 6400000
+    APPROXIMATE_SIZE(MB): 56
+        APPROXIMATE_KEYS: 400532 
+
+    # 更改 split-region = false 后，构造数据表 sbtest2 
+    sysbench /usr/share/sysbench/oltp_read_write.lua --mysql-user=root --mysql-port=4000 --mysql-host=192.168.169.41 --mysql-db=jan --tables=2 --table-size=100000 --threads=32 --events=100000 --report-interval=5 prepare
+
+    # 可以看到 Region ID 都为 2，可见没有为单独的表建立 Region 
+    MySQL [jan]> show table sbtest2 regions\G
+    *************************** 1. row ***************************
+               REGION_ID: 2
+               START_KEY: t_47_
+                 END_KEY: 
+               LEADER_ID: 7
+         LEADER_STORE_ID: 6
+                   PEERS: 3, 5, 7
+              SCATTERING: 0
+           WRITTEN_BYTES: 124230359
+              READ_BYTES: 58695687
+    APPROXIMATE_SIZE(MB): 93
+        APPROXIMATE_KEYS: 800628
+    1 row in set (0.01 sec)
+
+   # 再更改回 split-region = true 的状态，再次构造数据表 sbtest3
+   [tidb@tidb01 ~]$ sysbench /usr/share/sysbench/oltp_read_write.lua --mysql-user=root --mysql-port=4000 --mysql-host=192.168.169.41 --mysql-db=jan --tables=3 --table-size=100000 --threads=32 --events=100000 --report-interval=5 prepare
+
+   # 验证新表 region_ID,已经为 sbtest3 表建立了新的 region_ID 
+   # 可以看到之前的两个表的 region_ID 已经在上一个阶段被 merge 到了一起
+   MySQL [jan]> show table sbtest3 regions\G
+   *************************** 1. row ***************************
+              REGION_ID: 2
+              START_KEY: t_53_
+                END_KEY: 
+              LEADER_ID: 7
+        LEADER_STORE_ID: 6
+                  PEERS: 3, 5, 7
+             SCATTERING: 0
+          WRITTEN_BYTES: 124239556
+             READ_BYTES: 55931242
+   APPROXIMATE_SIZE(MB): 53
+       APPROXIMATE_KEYS: 394710
+   1 row in set (0.01 sec)
+   
+   MySQL [jan]> show table sbtest2 regions\G
+   *************************** 1. row ***************************
+              REGION_ID: 4005
+              START_KEY: t_47_
+                END_KEY: t_53_
+              LEADER_ID: 4008
+        LEADER_STORE_ID: 6
+                  PEERS: 4006, 4007, 4008
+             SCATTERING: 0
+          WRITTEN_BYTES: 1325
+             READ_BYTES: 0
+   APPROXIMATE_SIZE(MB): 93
+       APPROXIMATE_KEYS: 800980
+   1 row in set (0.01 sec)
+   
+   MySQL [jan]> show table sbtest1 regions\G
+   *************************** 1. row ***************************
+              REGION_ID: 4005
+              START_KEY: t_47_
+                END_KEY: t_53_
+              LEADER_ID: 4008
+        LEADER_STORE_ID: 6
+                  PEERS: 4006, 4007, 4008
+             SCATTERING: 0
+          WRITTEN_BYTES: 1325
+             READ_BYTES: 0
+   APPROXIMATE_SIZE(MB): 93
+       APPROXIMATE_KEYS: 800980
+   1 row in set (0.01 sec)
    ```
 
 
