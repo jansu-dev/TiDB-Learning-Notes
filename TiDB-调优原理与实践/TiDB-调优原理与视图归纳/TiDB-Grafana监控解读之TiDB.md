@@ -37,13 +37,13 @@
 作用:   
   - 对于 OLTP 业务而言，99 latency 应该小于 100ms     
 
-![image.png](http://cdn.lifemini.cn/dbblog/20210115/fa2ebda3f2c44f83a03b8a2e4ec786bb.png)
+![image.png](./tidb-overview-pic/duration.png)
 
 #### StatementsOPS 
 涵义: SQL 每秒的select、update、insert、show等不同类型SQL语句的执行数量；    
 作用: 判断当前业务是写多，还是读多，便于处理性能问题  
 
-![image.png](http://cdn.lifemini.cn/dbblog/20210115/16975bf0779742b899a90ef9127208f5.png)
+![image.png](./tidb-overview-pic/duration.png)
 
 #### CPS 
 涵义: 判断 SQL 命令每秒的执行情况  
