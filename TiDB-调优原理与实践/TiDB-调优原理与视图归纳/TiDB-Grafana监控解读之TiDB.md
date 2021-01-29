@@ -120,6 +120,7 @@
 涵义：不同 TiDB 节点的失败 SQL 的统计，例如语法错误、主键冲突等     
 作用：如果出现每秒成败上前的失败 SQL 情况，就有必要追寻一下原因了，看看是否十是预期之内的失败 SQL，以免影响业务      
 
+![FaildQueryOPM](./tidb-overview-pic/FailedQueryOPM.png)
 
 ### KVErrors
 
