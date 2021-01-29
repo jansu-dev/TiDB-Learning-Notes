@@ -23,7 +23,7 @@
 
 #### Regin
 涵义: 反映 TiKV Region 的数量      
-作用: 
+作用:   
 标准: 单个 TiKV 的 Region 数量最好在 5 万个以下，否则推荐使用 region merge 功能，合并不必要的心跳开销、Raft 状态机开销         
 
 ![image.png](./tidb-overview-pic/regions.png)
@@ -47,64 +47,64 @@
 
 #### Raft_store_CPU  
 
-涵义：
-作用：
-标准:  Raft store CPU 的使用率 < 75% * `raftstore.store-pool-size`   
+涵义：  
+作用：  
+标准:  Raft store CPU 的使用率 < 75% * `raftstore.store-pool-size`     
 
 ![image.png](./tidb-overview-pic/Raft_store_CPU.png)
 
 
 #### Async_apply_CPU  
 
-涵义：
-作用：
-标准: Async apply CPU 的使用率 < 75% * `raftstore.apply-pool-size`   
+涵义：  
+作用：  
+标准: Async apply CPU 的使用率 < 75% * `raftstore.apply-pool-size`     
 
 ![image.png](./tidb-overview-pic/async_apply_CPU.png)
 
 
 #### Scheduler_wroker_CPU  
  
-涵义：大部分是计算相关的
-作用：
-标准:  Scheduler wroker CPU 的使用率 < 80% * `storage.scheduler-wroker-pool-size`   
+涵义：大部分是计算相关的  
+作用：  
+标准:  Scheduler wroker CPU 的使用率 < 80% * `storage.scheduler-wroker-pool-size`     
 
 ![image.png](./tidb-overview-pic/Scheduler_wroker_CPU.png)
 
 
 #### gRPC_poll_CPU  
  
-涵义：
-作用：
-标准:  gRPCpoll CPU 的使用率 < 80% * `server.grpc-concurrency`   
+涵义：  
+作用：  
+标准:  gRPCpoll CPU 的使用率 < 80% * `server.grpc-concurrency`     
 
 ![image.png](./tidb-overview-pic/grpc_poll_CPU.png)
 
 
 #### Unified_read_pool_CPU  
 
-涵义：
-作用：
-标准:  Unified read pool CPU 的使用率 < 80% * `readpool.unified.max-thread-count`   
+涵义：  
+作用：  
+标准:  Unified read pool CPU 的使用率 < 80% * `readpool.unified.max-thread-count`     
 
 ![image.png](./tidb-overview-pic/Raft_store_CPU.png)
 
 
 #### Storage_read_pool_CPU  
 
-涵义：
-作用：
-标准:  Storage ReadPool CPU 的使用率 < 80% * `readpool.storage.normal-concurrency`   
-
+涵义：  
+作用：  
+标准:  Storage ReadPool CPU 的使用率 < 80% * `readpool.storage.normal-concurrency`      
+ 
 ![image.png](./tidb-overview-pic/storage_readpool_CPU.png)
 
 ### Raft_IO
 
 #### Append_log_duration  
 
-涵义：
-作用：
-标准:  Unified read pool CPU 的使用率 < 80% * `readpool.unified.max-thread-count`   
+涵义：  
+作用：   
+标准:  Unified read pool CPU 的使用率 < 80% * `readpool.unified.max-thread-count`      
 
 ![image.png](./tidb-overview-pic/Raft_store_CPU.png)
 
@@ -114,9 +114,9 @@
 
 #### Applay_log_duration  
 
-涵义：
-作用：
-标准:  Unified read pool CPU 的使用率 < 80% * `readpool.unified.max-thread-count`   
+涵义：    
+作用：    
+标准:  Unified read pool CPU 的使用率 < 80% * `readpool.unified.max-thread-count`      
 
 ![image.png](./tidb-overview-pic/Raft_store_CPU.png)
 
@@ -124,9 +124,9 @@
 
 #### Commit_log_duration  
 
-涵义：
-作用：
-标准:  Unified read pool CPU 的使用率 < 80% * `readpool.unified.max-thread-count`   
+涵义：   
+作用：   
+标准:  Unified read pool CPU 的使用率 < 80% * `readpool.unified.max-thread-count`      
 
 ![image.png](./tidb-overview-pic/Raft_store_CPU.png)
 
@@ -138,18 +138,18 @@
 
 #### Propose_wait_duration  
 
-涵义：
-作用：
-标准:  Unified read pool CPU 的使用率 < 80% * `readpool.unified.max-thread-count`   
+涵义：    
+作用：   
+标准:  Unified read pool CPU 的使用率 < 80% * `readpool.unified.max-thread-count`      
 
 ![image.png](./tidb-overview-pic/Raft_store_CPU.png)
 
 
 #### Apply_wait_duration  
 
-涵义：
-作用：
-标准:  Unified read pool CPU 的使用率 < 80% * `readpool.unified.max-thread-count`   
+涵义：   
+作用：   
+标准:  Unified read pool CPU 的使用率 < 80% * `readpool.unified.max-thread-count`      
 
 ![image.png](./tidb-overview-pic/Raft_store_CPU.png)
 
