@@ -59,7 +59,7 @@
 #### ConnectionCount  
 涵义：不同的 TiDB 节点当前连接数是多少   
 作用：TiDB没有连接数限制，但是会出现排队现象，有利于再次相互排查   
-标准: 
+标准: 每个 TiKV 的最大限制是 1000，一般推荐单个 TiKV 的连接数设置为 500
 
 ![image.png](http://cdn.lifemini.cn/dbblog/20210115/ad385004e7cd41f78ef3af6d462054c5.png)
 
@@ -68,7 +68,7 @@
 
 涵义: 反映客户端请求，在获取 Token 时的时间耗费情况  
 作用: 评估当前网络延迟来自于客户端，还是来自于服务端  
-标准: 获取 Token 的时间最好小于 1ms ，否则最好检查配置文件中的 token-limit 配置，如：配置 500 并发，但是这是打过来 1000 的并发 token 请求    
+标准: 获取 Token 的时间最好小于 1ms ，否则最好检查配置文件中的 token-limit 配置，如：配置 500 并发，但这时打过来 1000 的并发 token 请求    
 
 ![image.png](./tidb-overview-pic/get_token_duration.png)
 
@@ -140,3 +140,8 @@
 
 ![image.png](./tidb-overview-pic/kv_backoff_ops.png)
 
+
+
+## 参考文章
+
+ - [TiDB 重要监控指标详解：TiDB](https://docs.pingcap.com/zh/tidb/stable/grafana-tidb-dashboard)
