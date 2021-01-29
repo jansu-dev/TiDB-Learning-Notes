@@ -22,7 +22,7 @@
 >     - [FaildQueryOPM](#FaildQueryOPM)  
 > - [KVErrors](#KVErrors)
 >   - [LockResolveOPS](#LockResolveOPS)  
->   - [KVResolveOPS](#KVResolveOPS)  
+>   - [KVBackoffOPS](#KVBackoffOPS)  
 
 
 
@@ -133,7 +133,7 @@
 
 ![image.png](./tidb-overview-pic/lock_reslove_ops.png)
 
-#### KVResolveOPS
+#### KVBackoffOPS
 涵义: 但应在 TiDB 内部，将 AST 经过逻辑改写及物理执行计划优化过程所用的时间    
 作用: 判断当前性能瓶颈是否与 TIDB 内部 compile 阶段执行缓慢有关  
 标准: txnLockFast、txnLock 选项最好小于 500 次       
