@@ -125,7 +125,7 @@
 ### KVErrors
 
 #### LockResolveOPS
-涵义: 当出现锁冲突每秒的解锁操作次数    
+涵义: TiDB 清理锁操作的数量，当出现锁冲突尝试进行锁冲突解决，每秒的解锁操作次数统计情况    
 作用: 判断当前事务模式是否是符合当前业务的事务模式  
 标准: 
   - 解决过期锁(expired、not experied、other confilcts)最好小于 500  
@@ -134,8 +134,8 @@
 ![image.png](./tidb-overview-pic/lock_reslove_ops.png)
 
 #### KVBackoffOPS
-涵义: 但应在 TiDB 内部，将 AST 经过逻辑改写及物理执行计划优化过程所用的时间    
-作用: 判断当前性能瓶颈是否与 TIDB 内部 compile 阶段执行缓慢有关  
+涵义: 反映 TiKV 返回错误信息的数量      
+作用:   
 标准: txnLockFast、txnLock 选项最好小于 500 次       
 
 ![image.png](./tidb-overview-pic/kv_backoff_ops.png)
