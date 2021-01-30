@@ -98,8 +98,10 @@ That the repository was build is aim to log process of mysql TiDB Learning.
 ## TiDB调优相关
 
  - Prometheus监控与Grafana可视化
-    - [TiDB-Grafana监控解读之TiDB](https://github.com/jansu-dev/TiDB-Learning-Notes/blob/master/TiDB%E5%91%A8%E8%BE%B9%E7%94%9F%E6%80%81/TiDB-Grafana%E7%9B%91%E6%8E%A7%E8%A7%A3%E8%AF%BB%E4%B9%8BTiDB.md)  
+    - [TiDB-Grafana监控解读之Overview](https://github.com/jansu-dev/TiDB-Learning-Notes/blob/master/TiDB%E5%91%A8%E8%BE%B9%E7%94%9F%E6%80%81/TiDB-Grafana%E7%9B%91%E6%8E%A7%E8%A7%A3%E8%AF%BB%E4%B9%8BTiDB.md)  
     - [TiDB-Grafana监控解读之TiKV](https://github.com/jansu-dev/TiDB-Learning-Notes/blob/master/TiDB%E5%91%A8%E8%BE%B9%E7%94%9F%E6%80%81/TiDB-Grafana%E7%9B%91%E6%8E%A7%E8%A7%A3%E8%AF%BB%E4%B9%8BTiKV.md)  
+    - [TiDB-Grafana监控解读之TiDB](https://github.com/jansu-dev/TiDB-Learning-Notes/blob/master/TiDB%E5%91%A8%E8%BE%B9%E7%94%9F%E6%80%81/TiDB-Grafana%E7%9B%91%E6%8E%A7%E8%A7%A3%E8%AF%BB%E4%B9%8BTiDB.md)  
+    - [TiDB-Grafana监控解读之PD](https://github.com/jansu-dev/TiDB-Learning-Notes/blob/master/TiDB%E5%91%A8%E8%BE%B9%E7%94%9F%E6%80%81/TiDB-Grafana%E7%9B%91%E6%8E%A7%E8%A7%A3%E8%AF%BB%E4%B9%8BTiKV.md)  
 
  - 调优参数归纳与实践
     - [TiDB-TiDB集群参数归纳整理](https://github.com/jansu-dev/TiDB-Learning-Notes/blob/master/TiDB-%E8%B0%83%E4%BC%98%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%9E%E8%B7%B5/TiDB-%E5%8F%82%E6%95%B0%E5%BD%92%E7%BA%B3%E4%B8%8E%E5%AE%9E%E8%B7%B5/TiDB%E9%9B%86%E7%BE%A4%E5%8F%82%E6%95%B0%E5%BD%92%E7%BA%B3%E6%95%B4%E7%90%86.md)
