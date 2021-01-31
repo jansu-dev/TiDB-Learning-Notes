@@ -48,7 +48,7 @@ explain select * from jan.multi_t use index(multi_key) where a = "str1" and b = 
 
 #### expersion_index
 Effect: That omit _row_id from Key_Value String in TiKV means omit one step to select real data by _row_id,accelerating select speed   
-Limit: 
+Limit:    
 Example:   
 ```sql
 tiup cluster edit-config tidb-test
@@ -82,10 +82,10 @@ explain select * from jan.expersion_t use index(expersion_key) where a like '%t%
 
 #### cluster_index
 Effect: That omit _row_id from Key_Value String in TiKV means omit one step to select real data by _row_id,accelerating select speed   
-Limit: 
+Limit:   
   1. alter-primary-key = false 
   2. primary key must be a single integer column (TiDB 4.0)
-  3. primary key maybe support char and decimal column (TiDB 5.0) 
+  3. primary key maybe support char and decimal column (TiDB 5.0)    
 Example:   
 ```sql
 create table cluster_t(a char(10) primary key,b int,c int);  
@@ -102,7 +102,8 @@ explain select * from jan.cluster_t where a = "str1";
 ### 索引相关系统表  
 
 #### tidb_indexes  
-Effect: show the information about index of all the database
+Effect: show the information about index of all the database    
+Limit:    
 Example:   
 ```sql
 select * from information_schema.tidb_indexes where table_schema
@@ -113,19 +114,22 @@ select * from information_schema.tidb_indexes where table_schema
 
 #### use_index   
 syntax: use index([index__name],[index_name])   
+Limit:   
 Example:    
   ```sql
    select * from t use index(t1);
   ```
 #### force_index    
 syntax: force index([index__name],[index_name])    
-Example:    
+Limit:   
+Example:      
   ```sql
    select * from t force index(t1);
   ```
 
 #### ignore_index    
 syntax: ignore index([index__name],[index_name])   
+Limit:   
 Example:    
   ```sql
    select * from t ignore index(t1);
