@@ -1168,7 +1168,7 @@ TiDB 服务状态相关配置
    - 作用：同涵义    
    - 建议：不做修改
 
-#### rexperimental参数
+#### experimental参数
 
  - allow-experssion-index参数
    - 涵义：用于控制是否能够创建表达式索引     
@@ -1176,6 +1176,18 @@ TiDB 服务状态相关配置
    - 作用：同涵义    
    - 建议：结合业务场景酌情修改
 
+#### 使用  
+```
+tiup cluster edit-config tidb-test
+
+......
+server_configs:
+  tidb:
+    allow-expression-index: true
+......
+
+tiup cluster reload tidb-test -R tidb
+```
 
 
 
