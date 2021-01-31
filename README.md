@@ -104,7 +104,8 @@ That the repository was build is aim to log process of mysql TiDB Learning.
     - [TiDB-Grafana监控解读之PD](https://github.com/jansu-dev/TiDB-Learning-Notes/blob/master/TiDB-%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/TiDB-%E8%B0%83%E4%BC%98%E8%A7%86%E5%9B%BE%E5%BD%92%E7%BA%B3/TiDB-Grafana%E7%9B%91%E6%8E%A7%E8%A7%A3%E8%AF%BB%E4%B9%8BPD.md)  
 
  - SQL 生命周期与关键指标     
-    - [SQL专项](https://github.com/jansu-dev/TiDB-Learning-Notes/blob/master/TiDB-%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/TiDB-SQL%E8%B0%83%E4%BC%98%E5%BD%92%E7%BA%B3/SQL%20%E8%AF%AD%E5%8F%A5%E4%B8%93%E9%A1%B9.md)  
+    - [SQL语句专项](https://github.com/jansu-dev/TiDB-Learning-Notes/blob/master/TiDB-%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/TiDB-SQL%E8%B0%83%E4%BC%98%E5%BD%92%E7%BA%B3/SQL%20%E8%AF%AD%E5%8F%A5%E4%B8%93%E9%A1%B9.md)  
+    - [索引管理专项](https://github.com/jansu-dev/TiDB-Learning-Notes/blob/master/TiDB-%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/TiDB-SQL%E8%B0%83%E4%BC%98%E5%BD%92%E7%BA%B3/INDEX%E7%AE%A1%E7%90%86%E4%B8%93%E9%A1%B9.md)  
 
  - 调优参数归纳与实践
     - [TiDB-TiDB集群参数归纳整理](https://github.com/jansu-dev/TiDB-Learning-Notes/blob/master/TiDB-%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/TiDB-%E9%85%8D%E7%BD%AE%E5%8F%82%E6%95%B0%E5%BD%92%E7%BA%B3/TiDB%E9%9B%86%E7%BE%A4%E5%8F%82%E6%95%B0%E5%BD%92%E7%BA%B3%E6%95%B4%E7%90%86.md)    
