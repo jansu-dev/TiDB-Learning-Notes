@@ -19,24 +19,36 @@
 
 
 #### statements_summary  
-作用：通过指纹信息汇总，用于保存历史执行 SQL 的汇总信息   
-保留时间：默认保持30min   
+作用：通过指纹信息汇总，用于保存历史执行 SQL 的汇总信息     
+保留时间：默认保持30min     
 
 
 #### cluster_statement_summary  
-作用：与 statement_summary 作用一致，但可查询整个 TiDB 集群的 statement_summary 信息
-保留时间：
+作用：与 statement_summary 作用一致，但可查询整个 TiDB 集群的 statement_summary 信息   
+保留时间：   
 
 #### cluster_slow_query  
-作用：与 slow_query 作用一致，但可查询整个 TiDB 集群的 slow_query 信息
-保留时间：
+作用：与 slow_query 作用一致，但可查询整个 TiDB 集群的 slow_query 信息   
+保留时间：   
 
 #### slow_query
-作用：是 TiDB 内部的系统表，内容源自于 sql-query-file 文件   
+作用：是 TiDB 内部的系统表，内容源自于 sql-query-file 文件      
+更改慢日志文件：
+```
+MySQL [(none)]> set tidb_slow_query_file = 'log/tidb_slow_query.log';
+Query OK, 0 rows affected (0.00 sec)
+MySQL [(none)]> show variables like '%tidb_slow_query_file%';
++----------------------+-------------------------+
+| Variable_name        | Value                   |
++----------------------+-------------------------+
+| tidb_slow_query_file | log/tidb_slow_query.log |
++----------------------+-------------------------+
+```
+
 
 #### statements_summary_history
-作用：与statements_history功能相同  
-保留时间：
+作用：与statements_history功能相同     
+保留时间：   
 
 
 ### 实用SQL传送门
