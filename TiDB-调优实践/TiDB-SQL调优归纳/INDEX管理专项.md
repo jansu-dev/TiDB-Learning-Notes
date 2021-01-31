@@ -5,6 +5,7 @@
  - 索引创建使用
 > - [multiColumn_index](#multiColumn_index)  
 > - [expersion_index](#cluster_index)  
+> - [prefix_index](#prefix_index)  
 > - [cluster_index](#cluster_index)  
  - 索引相关系统表  
 > - [tidb_indexes](#tidb_indexes)  
@@ -78,6 +79,56 @@ explain select * from jan.expersion_t use index(expersion_key) where a like '%t%
 +------------------------------+---------+-----------+-------------------------------------------------------------+------------------------------------+
 ```
 
+#### prefix_index 
+Effect: The prefix index feature has disadvantages,ORDER BY and GROUP BY could not be supported, but you can still get good selectivity in select on big table.  
+Limit:   
+  1. The feature can only use for column type of CHAR、VARCHAR、BINARY、VARBINARY  
+  2. Must be specified for BLOB and TEXT
+
+Example:   
+```sql  
+create table city_demo (city varchar(50) not null);
+
+update city_demo set city = ( select city from city order by rand() limit 1);
+
+select count(*) as cnt, city from city_demo group by city order by cnt desc limit 10;               
++-----+--------------+
+| cnt | city         |
++-----+--------------+
+|   8 | Garden Grove |
+|   7 | Escobar      |
+|   7 | Emeishan     |
+|   6 | Amroha       |
+|   6 | Tegal        |
+|   6 | Lancaster    |
+|   6 | Jelets       |
+|   6 | Ambattur     |
+|   6 | Yingkou      |
+|   6 | Monclova     |
++-----+--------------+
+
+select count(distinct city) / count(*) from city_demo;
+
+select count(distinct left(city,3))/count(*) as sel3,
+       count(distinct left(city,4))/count(*) as sel4,
+       count(distinct left(city,5))/count(*) as sel5, 
+       count(distinct left(city,6))/count(*) as sel6 
+       from city_demo;
++--------+--------+--------+--------+
+| sel3   | sel4   | sel5   | sel6   |
++--------+--------+--------+--------+
+| 0.3367 | 0.4075 | 0.4208 | 0.4267 |
++--------+--------+--------+--------+
+
+alter table city_demo add key (city(6));  
+
+ explain select * from city_demo where city like 'Jinch%';
++----+-------------+-----------+-------+---------------+------+---------+------+------+-------------+
+| id | select_type | table     | type  | possible_keys | key  | key_len | ref  | rows | Extra       |
++----+-------------+-----------+-------+---------------+------+---------+------+------+-------------+
+|  1 | SIMPLE      | city_demo | range | city          | city | 20      | NULL |    2 | Using where |
++----+-------------+-----------+-------+---------------+------+---------+------+------+-------------+
+```
 
 
 #### cluster_index
