@@ -1,4 +1,5 @@
 # SQL 语句专项  
+时间：2020-01-31
 
  - SQL相关系统表  
 > - [slow_query](#slow_query)  
@@ -16,7 +17,7 @@
 > - [查询执行计划变更导致的慢查询](#查询执行计划变更导致的慢查询)  
 > - [查询仅在特定时间段存在的慢查询](#查询仅在特定时间段存在的慢查询)  
 
-
+### SQL相关系统表
 
 #### statements_summary  
 作用：通过指纹信息汇总，用于保存历史执行 SQL 的汇总信息     
@@ -35,8 +36,8 @@
 作用：是 TiDB 内部的系统表，内容源自于 sql-query-file 文件      
 更改慢日志文件：
 ```
-MySQL [(none)]> set tidb_slow_query_file = 'log/tidb_slow_query.log';
-Query OK, 0 rows affected (0.00 sec)
+MySQL [(none)]> set tidb_slow_query_file = 'log/tidb_slow_query.log';  
+
 MySQL [(none)]> show variables like '%tidb_slow_query_file%';
 +----------------------+-------------------------+
 | Variable_name        | Value                   |
