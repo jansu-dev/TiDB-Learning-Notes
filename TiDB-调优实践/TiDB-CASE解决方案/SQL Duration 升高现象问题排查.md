@@ -120,7 +120,7 @@
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;通过在三个方向的探索发现，极有可能是因为集群组件性能问题导致的 Duration 上升；
 
-### TiDB 部分组件排查
+### TiDB部分组件排查
 
 #### TiDB-Executer  
 
@@ -134,7 +134,7 @@
  ![7](./check-report-pic/7.png)   
 
 
-### TiKV 部分组件排查
+### TiKV部分组件排查
 
 #### TiDB-KV  
 
