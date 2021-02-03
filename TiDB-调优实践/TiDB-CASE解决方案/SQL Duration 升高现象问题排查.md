@@ -10,7 +10,8 @@
 >   - [网络延迟抖动性方向排查](#网络延迟抖动性方向排查)   
 >   - [TOP_SQL方向排查](#TOP_SQL方向排查)   
 >   - [集群组件性能问题方向排查](#集群组件性能问题方向排查)   
-> - [排查细节](#排查细节)   
+> - [排查细节](#排查细节)    
+>   - [Query-Summary](#Query-Summary)   
 >   - [TiDB部分组件排查](#TiDB部分组件排查)   
 >     - [TiDB-DistSQL](#TiDB-DistSQL)   
 >     - [TiDB-Executer](#TiDB-Executer)   
@@ -116,17 +117,17 @@
 
 
 
- - 集群中某节点组件存在性能问题    
+### Query-Summary    
      
-   - 排查思路：   
-   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SELECT、INSERT、UPDATE、DELETE 中任何类型 SQL 的任何一种都有可能导致 Duration 升高，应该通过 Statement OPS 找出其中占比重比较大的 SQL 操作。因为 SQL 占比重较小的 SQL 即使很慢，也很小概率会出现在 99% 分位数的视图中，所以应先对 SQL 操作分类排查;
+ - 排查思路：   
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SELECT、INSERT、UPDATE、DELETE 中任何类型 SQL 的任何一种都有可能导致 Duration 升高，应该通过 Statement OPS 找出其中占比重比较大的 SQL 操作。因为 SQL 占比重较小的 SQL 即使很慢，也很小概率会出现在 99% 分位数的视图中，所以应先对 SQL 操作分类排查;
     
   
-   - 排查结果    
-   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SQL Duration 升高的原因，从 Metrics 中推断是 INSERT 或 SELECT 导致的; 
+ - 排查结果    
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SQL Duration 升高的原因，从 Metrics 中推断是 INSERT 或 SELECT 导致的; 
   
-   - 案例 Metrics  
-   ![6](./check-report-pic/6.png) 
+ - 案例 Metrics  
+ ![6](./check-report-pic/6.png) 
 
 
 
