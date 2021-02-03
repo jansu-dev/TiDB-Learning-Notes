@@ -63,9 +63,9 @@
    - 排查思路   
      1. 通过 slow_query 系统信息表相应字段分组排序，查出巡检时间内所需的 Top SQL 信息；   
      2. 如果断定 SQL 是引起 Duration 升高的主要原因，可通过 Slow Query File 进一步分析；  
-       - 查询 SQL 慢的阶段，如：Parse_time、Compile_time 等等，详细信息参考-[慢查询日志字段含义说明](https://docs.pingcap.com/zh/tidb/stable/identify-slow-queries#%E5%AD%97%E6%AE%B5%E5%90%AB%E4%B9%89%E8%AF%B4%E6%98%8E) 
-       - 查询 SQL 历史执行计划，如：select tidb_decode_plan(...)，优化对性能瓶颈起决定性作用的执行计划，详细信息参考-[查看 Plan](https://docs.pingcap.com/zh/tidb/stable/identify-slow-queries#%E7%9B%B8%E5%85%B3%E7%B3%BB%E7%BB%9F%E5%8F%98%E9%87%8F)
-       - 定位原因后通过 Hint 或 Index 优化慢 SQL
+         - 查询 SQL 慢的阶段，如：Parse_time、Compile_time 等等，详细信息参考-[慢查询日志字段含义说明](https://docs.pingcap.com/zh/tidb/stable/identify-slow-queries#%E5%AD%97%E6%AE%B5%E5%90%AB%E4%B9%89%E8%AF%B4%E6%98%8E) 
+         - 查询 SQL 历史执行计划，如：select tidb_decode_plan(...)，优化对性能瓶颈起决定性作用的执行计划，详细信息参考-[查看 Plan](https://docs.pingcap.com/zh/tidb/stable/identify-slow-queries#%E7%9B%B8%E5%85%B3%E7%B3%BB%E7%BB%9F%E5%8F%98%E9%87%8F)
+         - 定位原因后通过 Hint 或 Index 优化慢 SQL
 
    - 排查结果  
      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;案例中 TiDB 集群共有4台 TiDB 实例，分别是 IP88、IP89、IP91、IP93，在四个台 TiDB 实例上分别取问题时间段半小时的 Slow Query 情况，发现并没有慢 SQL 执行次数多到足够影响整个集群的 Duration 升高。
@@ -124,11 +124,12 @@
 
 #### TiDB-Executer  
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Distsql Duration 主要并行处理 SQL 命令，将 Coprocessor 方面的聚合需求交给 TiKV Client 去执行；  
- - **DistSQL Duration 有小幅度升高**，说明此时可能存在汇总查询类的慢 SQL，在 TOP SQL 方向排查过程中也可以看到 IP91 节点存在一条执行两次的平均执行时间 SQL 达 26s 的慢SQL；   
- - **Coprocessor Seconds 0.999 分位数**，四台 TiDB 实例均幅度不等升高；  
-
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;综上所述，基本排除 TiDB 层组件瓶颈问题导致的 SQL Duration 升高;
+ - 排查思路   
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Distsql Duration 主要并行处理 SQL 命令，将 Coprocessor 方面的聚合需求交给 TiKV Client 去执行；  
+   - **DistSQL Duration 有小幅度升高**，说明此时可能存在汇总查询类的慢 SQL，在 TOP SQL 方向排查过程中也可以看到 IP91 节点存在一条执行两次的平均执行时间 SQL 达 26s 的慢SQL；     
+   - **Coprocessor Seconds 0.999 分位数**，四台 TiDB 实例均幅度不等升高；  
+ - 排查结果
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;综上所述，基本排除 TiDB 层组件瓶颈问题导致的 SQL Duration 升高;
 
  - 案例 Metrics   
  ![7](./check-report-pic/7.png)   
@@ -138,14 +139,13 @@
 
 #### TiDB-KV  
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ - 排查思路：  
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+   - KV Request OPS，虽然 IP91 上 Cop 处理在问题时间有明显升高，但就慢查询结果来看，并无与 SELECT 有关慢查询；    
+   - KV Request Duration 99 by store：TiDB 中的 KV 阶段发向 store4 的请求存在执行缓慢现象；    
+   - KV Request Duration 99 by type：很有可能与写入有关，发生在Prewrite 阶段；    
 
- - KV Request OPS  
-
- - KV Request Duration 99 by store  
-
- - KV Request Duration 99 by type  
-
+ - 排查结果    
 
 
  - 案例 Metrics   
