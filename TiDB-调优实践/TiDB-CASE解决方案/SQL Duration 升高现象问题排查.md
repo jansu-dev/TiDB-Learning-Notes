@@ -209,7 +209,7 @@
 
  - 排查思路   
  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RaftIO 监控 RaftStore 阶段，RaftStore 用于存储实现 Raft 协议阶段所需要的数据。各指标发生阶段、参数理想值详细参操-[官方问文档 Performance-map](https://download.pingcap.com/images/docs-cn/performance-map.png)   
-   - Propose wait duration per server：指标显示  IP92:270172 峰值达到 3.936s，**说明在 raft Log 时比较慢**；   
+   - Propose wait duration per server：指标显示  IP92:270172 峰值达到 3.936s，**说明在处理 raft Log 时比较慢**；   
    - Apply wait duration per server：指标显示 IP92:270172 峰值达到 213ms，performance-map 推荐 99% 分位数值小于 50ms，**说明在 raft 数据落盘时比较慢**； 
 
  - 排查结果  
