@@ -18,7 +18,7 @@
 >     - [TiKV-gRPC](#TiKV-gRPC)   
 >     - [TiKV-Scheduler](#TiKV-Scheduler)   
 >     - [TiKV-RaftIO](#TiKV-RaftIO)  
->     - [Disk-Performance](#Disk-Performance)  TiKV-RaftIO
+>     - [Disk-Performance](#Disk-Performance)   
 > - [问题解决](#问题解决)  
 > - [归纳总结](#归纳总结)  
 > - [参考文章](#参考文章)  
@@ -167,15 +167,15 @@
  ![10](./check-report-pic/10.png)   
 
 
-#### TiKV-Secheduler  
+#### TiKV-Scheduler  
 
  - 排查思路   
  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Scheduler 阶段负责处理发往 TiKV 阶段的写请求，依据此阶段按进一步佐证在 gRPC 阶段得出的 kv_prewrite-IP92:270172 节点写请求出现性能问题的结论，并通过 IP:Port 所启动的进程查出具体的 Store；  
    - Scheduler writing bytes：指标显示 IP92、IP100 在问题时间等待写于的数据存在明显增长，极有可能存在数据积压，未能及时将数据写入到 RaftStore 中的情况；   
    - Scheduler pending commands：指标显示 IP92 在问题时间待处理的命令出现积压，**进一步佐证 IP92 写入出现问题**；  
  - 排查结果  
- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;基本确定 IP92:270172 对应的 Store 出现了性能问题，需查看问题时段 Disk-Performance 最终发掘问题根本；
-   - 通过第二张图片，锁定对应 Store 为 /dev/sdc 磁盘；  
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;基本确定 IP92:270172 对应的 Store 出现了性能问题，需查看问题时段 Disk-Performance 最终发掘问题根本；  
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;通过第二张图片，锁定对应 Store 为 /dev/sdc 磁盘；  
 
  - 案例 Metrics   
  ![12](./check-report-pic/12.png)   
@@ -184,15 +184,19 @@
 
 #### TiKV-RaftIO
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
  - 排查思路   
- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   
+   - Apply log per server    
+   - Append log duration per server    
+   - Commit log duration per server    
  - 排查结果  
  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
- - 案例 Metrics  
-![15](./check-report-pic/15.png)   
+ - 案例 Metrics    
+ ![19](./check-report-pic/19.png)   
+ ![16](./check-report-pic/16.png)   
+
+
 
 
 
@@ -203,19 +207,12 @@
  - 排查结果  
  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
- - 案例 Metrics  
-![14](./check-report-pic/14.png)   
+ - 案例 Metrics    
+ ![14](./check-report-pic/14.png)   
+ ![15](./check-report-pic/15.png)   
 
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
- - 排查思路   
- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
- - 排查结果  
- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
- - 案例 Metrics  
-![16](./check-report-pic/16.png)   
 
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -240,27 +237,11 @@
 ![18](./check-report-pic/18.png)   
 
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
- - 排查思路   
- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
- - 排查结果  
- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
- - 案例 Metrics  
-![19](./check-report-pic/19.png)   
-
-
 
 
 ## 问题解决
 
- - 排查思路   
- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
- - 排查结果  
- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
- - 案例 Metrics  
 
 ## 归纳总结
 
