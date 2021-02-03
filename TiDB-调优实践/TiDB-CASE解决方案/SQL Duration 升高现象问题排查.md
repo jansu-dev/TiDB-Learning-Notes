@@ -119,7 +119,6 @@
  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SQL Duration 抖动的原因，从 Metrics 中推断更可能是 INSERT 导致的且 Client 端请求没有增加，佐证了可能是集群中组件出现性能瓶颈导致 Duration 抖动；
   
  - 案例 Metrics  
- ![6](./check-report-pic/6.png) 
  ![1](./check-report-pic/1.png)
 
 
@@ -139,7 +138,8 @@
  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TiDB 在 DistSQL 处理阶段不存在性能问题；  
 
  - 案例 Metrics  
-![18](./check-report-pic/18.png)   
+ ![7](./check-report-pic/7.png)   
+ ![18](./check-report-pic/18.png)   
 
 
 #### TiDB-Executer  
@@ -152,7 +152,7 @@
  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;综上所述，基本排除 TiDB 层组件瓶颈问题导致的 SQL Duration 升高;
 
  - 案例 Metrics   
- ![7](./check-report-pic/7.png)   
+ ![6](./check-report-pic/6.png) 
 
 
 
