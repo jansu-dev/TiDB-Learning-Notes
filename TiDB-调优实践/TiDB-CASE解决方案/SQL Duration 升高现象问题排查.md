@@ -183,7 +183,7 @@
    - 99% 分位数显示 kv_prewrite-IP92:270172 在处理 kv-write Duration 峰值在 7s 左右，明显区别于其他节点**折线显示非常明显**；  
    - 图二所示，基本排除因为分配 CPU 核数不足导致的各阶段瓶颈问题，**gRPC poll CPU、Scheduler worker CPU、Raft store CPU、Async aapply CPU 均有很大可利用空间**；  
  - 排查结果  
- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;基本判断 IP92:270172 出现问题。接下来深挖问题原因，大概率与 I/O 问题有关。
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;基本判断 IP92:270172 出现问题。接下来深挖问题原因，大概率与 Prewrite 阶段 I/O 问题有关。
 
  - 案例 Metrics   
  ![10](./check-report-pic/10.png)   
