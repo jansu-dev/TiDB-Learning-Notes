@@ -213,7 +213,7 @@
    - Apply wait duration per server：指标显示 IP92:270172 峰值达到 213ms，performance-map 推荐 99% 分位数值小于 50ms，**说明在 raft 数据落盘时比较慢**； 
 
  - 排查结果  
- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IP92:270172 对应 Store 上进行的 Append、Apply、Commit 操作均出现延迟现象，推测可能大量 RaftStore 数据存在于 RaftStore 线程池的 channel 中，未能及时被相应处理线程消费写入 rocksDB raft 中，**此时因为 CPU 未被打满，所以怀疑磁盘性能出现问题**；   
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;推测可能大量 RaftStore 数据存在于 RaftStore 线程池的 channel 中，未能及时被相应处理线程消费写入 rocksDB raft 中，**此时因为 CPU 未被打满，所以更加怀疑磁盘性能问题**；   
 
  - 案例 Metrics    
  ![17](./check-report-pic/17.png)   
@@ -228,7 +228,7 @@
    - Commit log duration per server：指标显示 IP92:270172 峰值达到 1.95s，**说明记录 Commit Log 时出现问题**；    
 
  - 排查结果  
- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;查看 apply 阶段 IP92:270172 Store 磁盘的写入情况，进一步佐证了磁盘性能出现问题的猜想；    
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IP92:270172 对应 Store 上进行的 Append、Apply、Commit 操作均出现延迟现象，需要查看 apply 阶段 IP92:270172 Store 磁盘的写入情况，进一步佐证了磁盘性能出现问题的猜想；    
 
  - 案例 Metrics    
  ![16](./check-report-pic/16.png)   
