@@ -159,12 +159,14 @@
 
  - 排查思路   
  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gRPC 阶段属于 TiKV 端，用以接收来自 TiDB 端 TiKV Client 组件发送的请求。  
-   - 99% 分位数显示 kv_prewrite-IP92:270172 在处理 kv-write Duration 峰值在 7s 左右，明显区别于其他节点**折线显示非常明显**；
+   - 99% 分位数显示 kv_prewrite-IP92:270172 在处理 kv-write Duration 峰值在 7s 左右，明显区别于其他节点**折线显示非常明显**；  
+   - 图二所示，基本排除因为分配 CPU 核数不足导致的各阶段瓶颈问题，**gRPC poll CPU、Scheduler worker CPU、Raft store CPU、Async aapply CPU 均有很大可利用空间**；  
  - 排查结果  
- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;基本判断 IP92:270172 出现问题。接下来，继续深挖问题原因。
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;基本判断 IP92:270172 出现问题。接下来深挖问题原因，大概率与 I/O 问题有关。
 
  - 案例 Metrics   
  ![10](./check-report-pic/10.png)   
+ ![19](./check-report-pic/19.png)   
 
 
 #### TiKV-Scheduler  
@@ -185,15 +187,16 @@
 #### TiKV-RaftIO
 
  - 排查思路   
- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   
-   - Apply log per server    
-   - Append log duration per server    
-   - Commit log duration per server    
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RaftIO 监控 RaftStore 阶段，RaftStore 用于存储实现 Raft 协议阶段所需要的数据。   
+   - 
+   - Append log duration per server：IP92:270172 指标峰值达到 488ms，**说明在 raft Log 时出现问题**；  
+   - Apply log per server：IP92:270172 指标峰值达到 471ms，**说明在 raft 数据落盘时出现问题**；      
+   - Commit log duration per server：IP92:270172 指标峰值达到 1.95s，**说明记录 Commit Log 时出现问题**；    
  - 排查结果  
- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IP92:270172对应 Store 上进行的 Append、Apply、Commit 操作均出现延迟现象，推测可能大量 RaftStore 数据存在于 channel 中，未能及时被相应处理线程消费写入磁盘。接下来，分析该 Store 上操作延迟的原因；   
 
  - 案例 Metrics    
- ![19](./check-report-pic/19.png)   
+ ![17](./check-report-pic/17.png)   
  ![16](./check-report-pic/16.png)   
 
 
@@ -203,9 +206,13 @@
 #### Disk-Performance
 
  - 排查思路   
- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Disk-Performance Metrics 监控各 Store 的磁盘性能，
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Disk-Performance Metrics 监控各 Store 的磁盘性能，包含 Lantency、IOps、BandWidth、Load 等信息；  
+   - Disk Lantency：指标显示问题时段延迟高达 15ms，**与正常时段比较属于高延时**；   
+   - Disk Load：指标显示问题时段负载高达 8.77，**与正常时段比较属于高负载状态**；  
+   - Disk IOps：指标显示问题时段 IOps 在 107 左右，**在正常时段比较属于极低状态**；  
+
  - 排查结果  
- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;查看 Store 问题时段状态，发现磁盘延时、负载高出正常水平，但 IOps 却极低，说明问题时段出现了磁盘性能抖动。
 
  - 案例 Metrics    
  ![14](./check-report-pic/14.png)   
@@ -217,13 +224,6 @@
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
- - 排查思路   
- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
- - 排查结果  
- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
- - 案例 Metrics  
-![17](./check-report-pic/17.png)   
 
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
