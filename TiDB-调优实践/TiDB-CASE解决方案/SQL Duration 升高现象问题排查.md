@@ -8,12 +8,12 @@
 >   - [核心指标](#核心指标)   
 > - [排查思路](#排查思路)   
 >   - [网络延迟抖动性方向排查](#网络延迟抖动性方向排查)   
->   - [TOP SQL 方向排查](#TOP\ SQL\ 方向排查)   
+>   - [TOP_SQL方向排查](#TOP_SQL方向排查)   
 >   - [集群组件性能问题排查方向](#集群组件性能问题排查方向)   
 > - [排查细节](#排查细节)   
->   - [TiDB 部分组件排查](#TiDB\ 部分组件排查)   
+>   - [TiDB部分组件排查](#TiDB部分组件排查)   
 >     - [TiDB-Executer](#TiDB-Executer)   
->   - [TiDB 部分组件排查](#TiDB\ 部分组件排查)  
+>   - [TiDB部分组件排查](#TiDB部分组件排查)  
 >     - [TiDB-KV](#TiDB-KV)   
 >     - [TiDB-gRPC](#TiDB-gRPC)   
 >     - [TiDB-Scheduler](#TiDB-Scheduler)   
@@ -59,7 +59,7 @@
    - 案例 Top SQL 截图  
    ![11](./check-report-pic/11.png)   
 
-#### TOP SQL 方向排查
+#### TOP_SQL方向排查
    - 排查思路   
      1. 通过 slow_query 系统信息表相应字段分组排序，查出巡检时间内所需的 Top SQL 信息；   
      2. 如果断定 SQL 是引起 Duration 升高的主要原因，可通过 Slow Query File 进一步分析；  
