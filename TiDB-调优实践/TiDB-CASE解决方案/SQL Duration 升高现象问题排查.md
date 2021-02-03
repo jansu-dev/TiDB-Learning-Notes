@@ -39,8 +39,7 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;本次仅介绍在排查问题过程中涉及到的指标    
 
  - PingLatency  
- - Parse Duration、Compile Duration、Execution Duration、Distsql Duration  
- - Coprocessor Seconds  
+ - Parse Duration、Compile Duration、Execution Duration、Distsql Duration、Coprocessor Seconds  
  - KV Request OPS、KV Request Duration 99 by store、KV Request Duration 99 by type  
  - gRPC poll CPU、Scheduler worker CPU、Raft store CPUAsync aapply CPU  
  - Scheduler writing bytes、Scheduler pending commands  
