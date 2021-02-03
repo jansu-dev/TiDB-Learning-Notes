@@ -13,6 +13,7 @@
 > - [排查细节](#排查细节)   
 >   - [TiDB部分组件排查](#TiDB部分组件排查)   
 >     - [TiDB-Executer](#TiDB-Executer)   
+>     - [TiDB-DistSQL](#TiDB-DistSQL)   
 >     - [TiDB-KV](#TiDB-KV)   
 >   - [TiKV部分组件排查](#TiDB部分组件排查)   
 >     - [TiKV-gRPC](#TiKV-gRPC)   
@@ -48,15 +49,17 @@
 
  - 案例排查思路  
    1. 网络延迟抖动性升高，导致 Duration 上升；
-   2. 慢 SQL 导致的 Duration 上升   
-   3. 集群组件性能问题导致的 Duration 上升
+   2. 慢 SQL 导致的 Duration 上升；   
+   3. 集群组件性能问题导致的 Duration 上升；
 
 
 #### 网络延迟抖动性方向排查  
    - 排查思路  
+   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;网络延迟可能导致 RPC 消息传输慢，进而导致 SQL CMD 执行出现 Duration 的现象。  
+     - PingLatency：指标记录网络延迟情况，问题时段并未出现网络异常现象；  
 
-
-   - 排查结果  
+   - 排查结果    
+   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;排除网络原因导致的 SQL Duration 升高的原因；  
 
    - 案例 Top SQL 截图  
    ![11](./check-report-pic/11.png)   
@@ -119,11 +122,10 @@
 
 ## 排查细节
 
-
-
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;通过在三个方向的探索发现，基本锁定导致 Duration 抖动的原因极有可能是因为集群组件性能问题导致的 Duration 上升；下面，通过 Metrics 逐层排查原因。
 
 ### TiDB部分组件排查
+
 
 #### TiDB-Executer  
 
@@ -136,6 +138,18 @@
 
  - 案例 Metrics   
  ![7](./check-report-pic/7.png)   
+
+
+#### TiDB-DistSQL
+
+ - 排查思路   
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DistSQL 并行处理各 SQL 下推到各 TiKV 节点的 Coprocessor 处理操作，IP91 虽然较高，但峰值 23ms 的 Duration 并不能说明问题；    
+
+ - 排查结果  
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TiDB 在 DistSQL 处理阶段不存在性能问题；  
+
+ - 案例 Metrics  
+![18](./check-report-pic/18.png)   
 
 
 ### TiKV部分组件排查
@@ -187,20 +201,30 @@
 #### TiKV-RaftIO
 
  - 排查思路   
- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RaftIO 监控 RaftStore 阶段，RaftStore 用于存储实现 Raft 协议阶段所需要的数据。   
-   - 
-   - Append log duration per server：IP92:270172 指标峰值达到 488ms，**说明在 raft Log 时出现问题**；  
-   - Apply log per server：IP92:270172 指标峰值达到 471ms，**说明在 raft 数据落盘时出现问题**；      
-   - Commit log duration per server：IP92:270172 指标峰值达到 1.95s，**说明记录 Commit Log 时出现问题**；    
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RaftIO 监控 RaftStore 阶段，RaftStore 用于存储实现 Raft 协议阶段所需要的数据。各指标发生阶段、参数理想值详细参操-[官方问文档 Performance-map](https://download.pingcap.com/images/docs-cn/performance-map.png)   
+   - Propose wait duration per server：指标显示  IP92:270172 峰值达到 3.936s，**说明在 raft Log 时比较慢**；   
+   - Apply wait duration per server：指标显示 IP92:270172 峰值达到 213ms，performance-map 推荐 99% 分位数值小于 50ms，**说明在 raft 数据落盘时比较慢**； 
+
  - 排查结果  
- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IP92:270172对应 Store 上进行的 Append、Apply、Commit 操作均出现延迟现象，推测可能大量 RaftStore 数据存在于 channel 中，未能及时被相应处理线程消费写入磁盘。接下来，分析该 Store 上操作延迟的原因；   
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IP92:270172 对应 Store 上进行的 Append、Apply、Commit 操作均出现延迟现象，推测可能大量 RaftStore 数据存在于 RaftStore 线程池的 channel 中，未能及时被相应处理线程消费写入 rocksDB raft 中，**此时因为 CPU 未被打满，所以怀疑磁盘性能出现问题**；   
 
  - 案例 Metrics    
  ![17](./check-report-pic/17.png)   
+
+
+
+#### TiKV-Apply
+
+ - 排查思路   
+   - Append log duration per server：指标显示 IP92:270172 峰值达到 488ms，**说明在 raft Log 时出现问题**；  
+   - Apply log per server：指标显示 IP92:270172 峰值达到 471ms，performance-map 推荐 99% 分位数值小于 100ms，**说明在 raft 数据落盘时出现问题**；      
+   - Commit log duration per server：指标显示 IP92:270172 峰值达到 1.95s，**说明记录 Commit Log 时出现问题**；    
+
+ - 排查结果  
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;查看 apply 阶段 IP92:270172 Store 磁盘的写入情况，进一步佐证了磁盘性能出现问题的猜想；    
+
+ - 案例 Metrics    
  ![16](./check-report-pic/16.png)   
-
-
-
 
 
 #### Disk-Performance
@@ -219,37 +243,18 @@
  ![15](./check-report-pic/15.png)   
 
 
-
-
-
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
-
-
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
- - 排查思路   
- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
- - 排查结果  
- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
- - 案例 Metrics  
-![18](./check-report-pic/18.png)   
-
-
-
-
 ## 问题解决
 
-
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;因为此次 SQL Duration 升高是 IP92 节点 Store 对应磁盘出现性能抖动导致的，无法弥补且不存在实质性风险，所以不用解决。   
 
 ## 归纳总结
 
-
-
-
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;对于组件间的性能排查，熟知 [官方问文档 Performance-map](https://download.pingcap.com/images/docs-cn/performance-map.png) 各组件间关系，及对应 Metrics 的性能理想值非常关键。 
 
 ## 参考文章  
 
+[官方问文档 Performance-map](https://download.pingcap.com/images/docs-cn/performance-map.png)  
+
+[慢查询日志字段含义说明](https://docs.pingcap.com/zh/tidb/stable/identify-slow-queries#%E5%AD%97%E6%AE%B5%E5%90%AB%E4%B9%89%E8%AF%B4%E6%98%8E) 
 
 
