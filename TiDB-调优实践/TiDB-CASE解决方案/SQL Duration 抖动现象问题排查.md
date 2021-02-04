@@ -162,7 +162,7 @@
 
  - 排查思路：  
  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;KV 线程池处理阶段处于 Transaction 处理阶段和 TiKV Client 阶段处理之间，判断 TiDB 在开启事务后处理 KV 数据是否存在性能瓶颈。  
-   - KV Request OPS：指标折线显示其他节点 OPS 阶段曲线在问题时间不存在明显特别，仅有 IP91:10080-Cop 在问题阶段出现 OPS 升高的情况，但从慢查询结果来看，并无与 SELECT 有关慢查询，**可能单纯是发往 IP91:10080 的 Cop 操作过多**；    
+   - KV Request OPS：指标折线显示其他节点 OPS 阶段曲线在问题时间不存在明显特别，仅有 IP91:10080-Cop 在问题阶段出现 OPS 升高的情况，但从慢查询结果来看，并无与 SELECT 有关慢查询，**可能单纯是发往 IP91:10080 的 Cop 操作过多**，推测有可能是 IP91 上两条平均执行 26s 慢 SQL 导致的；    
    - KV Request Duration 99 by store：TiDB 中的 KV 阶段发向 store4 的请求存在执行缓慢现象，**折线反映飞非常明显**；    
    - KV Request Duration 99 by type：很有可能与写入有关，发生在 Prewrite 阶段，**折线反映飞非常明显**；    
 
