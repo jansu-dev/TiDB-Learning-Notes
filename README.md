@@ -125,10 +125,10 @@ That the repository was build is aim to log process of mysql TiDB Learning.
 
 ## DEBUG-TiDB
 
-> - [SourceCode_Blog_Recommand](#SourceCode_Blog_Recommand)   
+> - [TiDB_SourceCode_Blog_Recommand](#TiDB_SourceCode_Blog_Recommand)   
 > - [Jan-Debug实践](#Jan-Debug实践)   
 
-#### SourceCode_Blog_Recommand
+#### TiDB_SourceCode_Blog_Recommand
  - [TiDB源码阅读（二） 简单理解一下 Lex & Yacc](https://segmentfault.com/a/1190000023464340)   
 
  - [TIDB Salparse源码解析 -1](https://www.cnblogs.com/ivy-blogs/p/13032292.html)   
@@ -161,7 +161,7 @@ That the repository was build is aim to log process of mysql TiDB Learning.
 
 
 ## DEBUG-TiKV
-> - [SourceCode_Blog_Recommand](#SourceCode_Blog_Recommand) 
+> - [TiKV_SourceCode_Blog_Recommand](#TiKV_SourceCode_Blog_Recommand) 
 
-#### SourceCode_Blog_Recommand
+#### TiKV_SourceCode_Blog_Recommand
  - [TIDB存储——TIKV](https://qiankunli.github.io/2019/07/15/tidb_tikv.html)
