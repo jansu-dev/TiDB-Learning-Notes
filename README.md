@@ -160,7 +160,7 @@ That the repository was build is aim to log process of mysql TiDB Learning.
 
 
 
-## TiKV-DEBUG
+## DEBUG-TiKV
 > - [SourceCode_Blog_Recommand](#SourceCode_Blog_Recommand) 
 
 #### SourceCode_Blog_Recommand
