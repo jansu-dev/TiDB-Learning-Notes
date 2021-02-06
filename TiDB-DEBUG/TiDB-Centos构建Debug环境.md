@@ -139,7 +139,8 @@ telnet 127.0.0.1 2379
 
 
 ## 参考文章
- - [TiKV 源码解析 —— 调试环境搭建:http://www.iocoder.cn/TiKV/build-debugging-environment-second/](http://www.iocoder.cn/TiKV/build-debugging-environment-second/)  
+ - [TiKV 源码解析 —— 调试环境搭建:http://www.iocoder.cn/TiKV/build-debugging-environment-second/](http://www.iocoder.cn/TiKV/build-debugging-environment-second/)    
+ - [](https://blog.csdn.net/damanchen/article/details/108223095)
 
 
 

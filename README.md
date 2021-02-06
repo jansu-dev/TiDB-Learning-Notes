@@ -22,7 +22,7 @@ That the repository was build is aim to log process of mysql TiDB Learning.
  - [**三篇文章了解 TiDB 技术内幕 - 说存储**](https://pingcap.com/blog-cn/tidb-internal-1/)  
  - [**三篇文章了解 TiDB 技术内幕 - 说计算**](https://pingcap.com/blog-cn/tidb-internal-2/)  
  - [**三篇文章了解 TiDB 技术内幕 - 谈调度**](https://pingcap.com/blog-cn/tidb-internal-3/)  
-
+ - [**茶歇驿站-TiDB**](https://maiyang.me/categories/tidb/)
 
 ## TiDB原理探究
 
@@ -123,10 +123,44 @@ That the repository was build is aim to log process of mysql TiDB Learning.
 
 
 ## DEBUG-TiDB
+
+> - [SourceCode_Blog_Recommand](#SourceCode_Blog_Recommand)   
+> - [Jan-Debug实践](#Jan-Debug实践)   
+
+#### SourceCode_Blog_Recommand
+ - [TiDB源码阅读（二） 简单理解一下 Lex & Yacc](https://segmentfault.com/a/1190000023464340)   
+
+ - [TIDB Salparse源码解析 -1](https://www.cnblogs.com/ivy-blogs/p/13032292.html)   
+ - [tidb源码学习之auto_increment](https://mccxj.github.io/blog/20171030_tidb-auto-increment.html)    
+
+ - [tidb源码学习之ast包](https://mccxj.github.io/blog/20171004_tidb-ast-source.html)  
+
+ - [tidb源码学习之错误管理](https://mccxj.github.io/blog/20170927_tidb-errors.html)  
+
+  - [tidb源码学习之测试框架](https://mccxj.github.io/blog/20170921_tidb-testcase.html)  
+
+  - [TiDB的入口-Mysql协议](https://segmentfault.com/a/1190000023464293)      
+
+  - [TiDB show processlist命令源码分析](https://www.cnblogs.com/mantu/p/10721122.html)    
+
+  - [TiDB源码阅读笔记（三） TiDB 的在线 DDL](https://segmentfault.com/a/1190000023514267)   
+
+  - [TiDB 源码阅读（二.1）TiDB 中 的 Kill Query](https://segmentfault.com/a/1190000023464409)   
+ 
+
+#### Jan-Debug实践  
+
  - [GoLang-Learning-Notes](https://github.com/jansu-dev/Go-Learning-Notes)   
  TiDB 由 go 语言实现，在阅读 TiDB 源码之前需具备一定 go 语言编程基础；
-
 
  - [TiDB-Centos构建Debug环境](https://github.com/jansu-dev/TiDB-Learning-Notes/blob/master/TiDB-DEBUG/TiDB-Centos%E6%9E%84%E5%BB%BADebug%E7%8E%AF%E5%A2%83.md)  
 
  - [TiDB-TiDB源码executer部分理解](https://github.com/jansu-dev/TiDB-Learning-Notes/blob/master/TiDB-DEBUG/TiDB-TiDB%E6%BA%90%E7%A0%81executer%E9%83%A8%E5%88%86%E7%90%86%E8%A7%A3.md)
+
+
+
+## TiKV-DEBUG
+> - [SourceCode_Blog_Recommand](#SourceCode_Blog_Recommand) 
+
+#### SourceCode_Blog_Recommand
+ - [TIDB存储——TIKV](https://qiankunli.github.io/2019/07/15/tidb_tikv.html)
