@@ -16,7 +16,7 @@ show global binding;
 ## 生产案例  
 
  - 错误执行计划  
- ![1](./sql-binding-pic/01.png)
+ ![1](./sql-binding-pic/02.png)
 
 
  - binding_SQL
@@ -40,7 +40,7 @@ show global binding;
    ```
 
  - 修正执行计划  
- ![1](./sql-binding-pic/02.png)
+ ![1](./sql-binding-pic/01.png)
 
 
 
