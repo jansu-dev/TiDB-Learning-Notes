@@ -46,3 +46,10 @@ Usage of goyacc:
         create parsing tables (default "y.output")
 ```
    
+## Reference_Blog
+
+ - [TiDB源码阅读（二） 简单理解一下 Lex & Yacc](https://segmentfault.com/a/1190000023464340)   
+
+ - [Lex与YACC详解](https://zhuanlan.zhihu.com/p/143867739)   
+
+ - [Go实现自定义语言的基础 - goyacc简易入门](https://zhuanlan.zhihu.com/p/260180638)   
