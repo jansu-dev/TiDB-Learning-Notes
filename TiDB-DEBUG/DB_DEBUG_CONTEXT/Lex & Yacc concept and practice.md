@@ -19,7 +19,7 @@ time: 2020-02-09
    2. Process it from above to generate target programe as fragments;   
    3. The two step will individually working by Lex and Yacc;    
 
- - What is Lex most processing? 
+ - What is Lex most processing?     
    Split the source file into tokens by Lex;   
 
  - What is Yacc most processing?   
