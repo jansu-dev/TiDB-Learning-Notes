@@ -131,7 +131,7 @@ That the repository was build is aim to log process of mysql TiDB Learning.
  - [GoLang-Learning-Notes](https://github.com/jansu-dev/Go-Learning-Notes)   
  TiDB 由 go 语言实现，在阅读 TiDB 源码之前需具备一定 go 语言编程基础；
 
- - [goyacc词法解析与语法解析](https://github.com/jansu-dev/TiDB-Learning-Notes/blob/master/TiDB-DEBUG/DB_DEBUG_CONTEXT/Lex%20%26%20Yacc.md)   
+ - [词法、语法解析及goyacc实践](https://github.com/jansu-dev/TiDB-Learning-Notes/blob/master/TiDB-DEBUG/DB_DEBUG_CONTEXT/Lex%20%26%20Yacc.md)   
 
  - [TiDB-Centos构建Debug环境](https://github.com/jansu-dev/TiDB-Learning-Notes/blob/master/TiDB-DEBUG/TiDB-Centos%E6%9E%84%E5%BB%BADebug%E7%8E%AF%E5%A2%83.md)  
 
