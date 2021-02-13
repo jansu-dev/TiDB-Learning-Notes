@@ -136,7 +136,8 @@ That the repository was build is aim to log process of mysql TiDB Learning.
 
  - [TiDB-Centos构建Debug环境](https://github.com/jansu-dev/TiDB-Learning-Notes/blob/master/TiDB-DEBUG/TiDB-Centos%E6%9E%84%E5%BB%BADebug%E7%8E%AF%E5%A2%83.md)  
 
- - [TiDB-启动流程之注册 KV驱动 与 Store]()
+ - [TiDB-启动流程之注册KV驱动与Store](https://github.com/jansu-dev/TiDB-Learning-Notes/blob/master/TiDB-DEBUG/TiDB-%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B%E4%B9%8B%E6%B3%A8%E5%86%8C%20KV%20%E9%A9%B1%E5%8A%A8%E4%B8%8E%20Store.md)  
+
  - [TiDB-TiDB源码executer部分理解](https://github.com/jansu-dev/TiDB-Learning-Notes/blob/master/TiDB-DEBUG/TiDB-TiDB%E6%BA%90%E7%A0%81executer%E9%83%A8%E5%88%86%E7%90%86%E8%A7%A3.md)   
 
 
