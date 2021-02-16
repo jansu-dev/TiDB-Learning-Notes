@@ -154,7 +154,11 @@
       INDEX(b)
      );
     ```
-
+ - 聚簇索引的优点   
+    - 插入数据时会减少一次从网络写入索引数据，因为主键索引就是表结构，与普通索引不同，减少了主键索引的写次数；   
+    - 等值条件查询仅涉及主键时会减少一次从网络读取数据，因为主键代替了 _row_id 作为内部行指针，避免了二次回表的网络操作；      
+    - 范围条件查询仅涉及主键时会减少多次从网络读取数据，同等值条件查询原理相同，范围条件查询减少了多次回表；   
+    - 等值或范围条件查询涉及主键的前缀时会减少多次从网络读取数据，原理同范围条件查询；   
 
 
 ## 开启异步提交事务功能  
@@ -164,6 +168,60 @@
 
 
 ## 引入不可见索引功能  
+DBA 调试和选择相对最优的索引时，可以通过 SQL 语句将某个索引设置成 Visible 或者 Invisible，修改后优化器会根据索引的可见性决定是否将此索引加入到索引列表中。    
+ - 不可见索引注意事项   
+    - “不可见” 是仅仅对优化器而言的，不可见索引仍然可以被修改或删除，也就是当插入删除数据时改索引也为同时维护着；  
+    - 与 MySQL 类似，TiDB 不允许将主键索引设为不可见；   
+    - MySQL 中提供的优化器开关 use_invisible_indexes=on 可将所有的不可见索引重新设为可见。该功能在 TiDB 中不可用；   
+    ```sql
+     MySQL [jan]> show variables like 'use_invisible_indexes';
+     Empty set (0.00 sec)
+     
+     MySQL [jan]> set use_invisible_indexes=1;
+     ERROR 1193 (HY000): Unknown system variable 'use_invisible_indexes'
+    ``` 
+
+ - 操作可见索引不可见    
+ 查询只能先走全报表扫描；  
+ ```sql  
+  MySQL [jan]> ALTER TABLE t1 ALTER INDEX idx_b1 INVISIBLE;  
+
+  MySQL [jan]> SHOW CREATE TABLE t1\G
+  *************************** 1. row ***************************
+         Table: t1
+  Create Table: CREATE TABLE `t1` (
+    `id` bigint(20) NOT NULL AUTO_INCREMENT,
+    `b` char(100) DEFAULT NULL,
+    PRIMARY KEY (`id`),
+    KEY `b` (`b`) /*!80000 INVISIBLE */
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin AUTO_INCREMENT=30002   
+
+  MySQL [jan]> EXPLAIN SELECT id FROM t1 WHERE b = 'aaaa';
+  +---------------------------+---------+-----------+---------------+--------------------------------+
+  | id                        | estRows | task      | access object | operator info                  |
+  +---------------------------+---------+-----------+---------------+--------------------------------+
+  | Projection_4              | 0.00    | root      |               | jan.t1.id                      |
+  | └─TableReader_7           | 0.00    | root      |               | data:Selection_6               |
+  |   └─Selection_6           | 0.00    | cop[tikv] |               | eq(jan.t1.b, "aaaa")           |
+  |     └─TableFullScan_5     | 2.00    | cop[tikv] | table:t1      | keep order:false, stats:pseudo |
+  +---------------------------+---------+-----------+---------------+--------------------------------+
+ ```
+
+ - 操作不可见索引可见   
+ 查询可以先走索引扫描
+ ```sql   
+ MySQL [jan]> alter table t1 alter index b VISIBLE;
+
+ MySQL [jan]> EXPLAIN SELECT id FROM t1 WHERE b = 'aaaa';
+ +--------------------------+---------+-----------+----------------------+-------------------------------------------------------+
+ | id                       | estRows | task      | access object        | operator info                                         |
+ +--------------------------+---------+-----------+----------------------+-------------------------------------------------------+
+ | Projection_4             | 0.00    | root      |                      | jan.t1.id                                             |
+ | └─IndexReader_6          | 0.00    | root      |                      | index:IndexRangeScan_5                                |
+ |   └─IndexRangeScan_5     | 0.00    | cop[tikv] | table:t1, index:b(b) | range:["aaaa","aaaa"], keep order:false, stats:pseudo |
+ +--------------------------+---------+-----------+----------------------+-------------------------------------------------------+
+ ```
+
 
 
 ## 备份文件到S3与GCS并恢复
