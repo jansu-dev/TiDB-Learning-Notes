@@ -41,8 +41,9 @@
 
  - 关闭 clustered_index 特性（同 4.0.x 部分主键聚簇索引特性一样）：   
  仅支持主键为 INTEGER 或 BIGINT、主键只有一列的聚簇索引，当条件不满足时，便采用一个 64 位 handle 值代替主键组织数据，也就是 _row_id；  
- 下列 demo 中 t1 表的查询行为表现为从 TiKV 获取解压的 KV 数据在 TiDB 中直接筛选过滤便获得结果，而 t2 表的查询行为表现为 TiDB 先从 TiKV 中获得主键索引页子节点中 guid 列的 _row_id 值，再从 TiKV 中获取改行数据对应数据；    
-    - 主键列查询  
+ 下列 demo 中 t1 表的查询行为表现为从 TiKV 获取解压的 KV 数据在 TiDB 中直接筛选过滤便获得结果；    
+ 而 t2 表的查询行为表现为 TiDB 先从 TiKV 中获得主键索引页子节点中 guid 列的 _row_id 值，再从 TiKV 中获取改行数据对应数据；    
+    - 非主键列查询  
       ```sql
       -- 表 t1 为索引组织表、表 t2 为普通表   
       -- 聚簇索引组织表
@@ -80,7 +81,79 @@
       +-------------+---------+------+-------------------------------+---------------+
 
       ```  
-       - 开启 cluster-index 特性
+      - 主键列查询    
+      对于索引组织表 t1 中非主键列查询，执行计划为在 TiKV 中扫描索引获取结果，在 TiDB 中过滤直接获得数据；    
+      而在非索引组织表 t2 中，执行计划为在 TiKV 中全表扫描 t2 并过滤后符合条件的行，最后在 TiDB 中过滤索要查询的列数据返回给客户端；    
+      可见因为是 5.0.0-rc（或5.0.0-rc关闭该特性） 之前不支持不符合条件的聚簇索引，因此 t2 表在建表时语句 INDEX(b) 被忽略。     
+      ```sql
+      MySQL [jan]> EXPLAIN SELECT id FROM t1 WHERE b = 'aaaa';
+      +--------------------------+---------+-----------+----------------------+-------------------------------------------------------+
+      | id                       | estRows | task      | access object        | operator info                                         |
+      +--------------------------+---------+-----------+----------------------+-------------------------------------------------------+
+      | Projection_4             | 0.00    | root      |                      | jan.t1.id                                             |
+      | └─IndexReader_6          | 0.00    | root      |                      | index:IndexRangeScan_5                                |
+      |   └─IndexRangeScan_5     | 0.00    | cop[tikv] | table:t1, index:b(b) | range:["aaaa","aaaa"], keep order:false, stats:pseudo |
+      +--------------------------+---------+-----------+----------------------+-------------------------------------------------------+
+      
+      MySQL [jan]> EXPLAIN SELECT guid FROM t2  WHERE b = 'aaaa';
+      +---------------------------+---------+-----------+---------------+--------------------------------+
+      | id                        | estRows | task      | access object | operator info                  |
+      +---------------------------+---------+-----------+---------------+--------------------------------+
+      | Projection_4              | 0.00    | root      |               | jan.t2.guid                    |
+      | └─TableReader_7           | 0.00    | root      |               | data:Selection_6               |
+      |   └─Selection_6           | 0.00    | cop[tikv] |               | eq(jan.t2.b, "aaaa")           |
+      |     └─TableFullScan_5     | 2.00    | cop[tikv] | table:t2      | keep order:false, stats:pseudo |
+      +---------------------------+---------+-----------+---------------+--------------------------------+
+      ```
+
+ - 操作 clustered-index 特性
+  ```sql  
+   -- 查询表是否有聚簇索引，{tbl_name} 替换为所要查询的表名   
+   select tidb_pk_type from information_schema.tables where table_name = '{tbl_name}';   
+
+   -- 查看 clustered-index 特性是否开始   
+   show session variables like 'tidb_enable_clustered_index';
+
+   show global variables like 'tidb_enable_clustered_index';
+
+   -- 打开 clustered-index 特性   
+   set global tidb_enable_clustered_index = 1;
+
+   -- 关闭 clustered-index 特性   
+   set global tidb_enable_clustered_index = 0;
+  ```
+
+ - 开启 clustered-index 特性   
+    - 非主键列查询    
+    在开始 clustered-index 特性后的 5.0.0-rc TiDB 中，非主键列查询执行计划为一次从 TiKV 中查询符合主键索引组织表获取数据后，在 TiDB 端直接返回给客户端；   
+      ```sql
+       MySQL [jan]> CREATE TABLE t3 (
+        key_a INT NOT NULL,
+        key_b INT NOT NULL,
+        b CHAR(100),
+        PRIMARY KEY (key_a, key_b)
+       );
+       
+       MySQL [jan]> INSERT INTO t3 VALUES (1, 1, 'aaa'), (2, 2, 'bbb');
+       
+       MySQL [jan]> EXPLAIN SELECT * FROM t3 WHERE key_a = 1 AND key_b = 2;
+       +-------------+---------+------+---------------------------------------+---------------+
+       | id          | estRows | task | access object                         | operator info |
+       +-------------+---------+------+---------------------------------------+---------------+
+       | Point_Get_1 | 1.00    | root | table:t3, index:PRIMARY(key_a, key_b) |               |
+       +-------------+---------+------+---------------------------------------+---------------+
+      ```
+ - 聚簇索引的缺点   
+ 开启聚簇索引后，主键代替64 位的 handle 值 _row_id 代表每一行，可能会导致存储空间的上升，尤其是表中存在许多二级索引时；   
+ 如下表 demo 表 t1 主键的类型为 char(32)，那么索引大约需要 8+32 = 40 （b 列宽 + 主键列宽）个字节，如果是普通索引仅需 8 + 8 = 16 （b 列宽 + _row_id 列宽）个字节；   
+    - demo
+    ```sql
+     CREATE TABLE t1 (
+      guid CHAR(32) NOT NULL PRIMARY KEY,
+      b BIGINT,
+      INDEX(b)
+     );
+    ```
 
 
 
