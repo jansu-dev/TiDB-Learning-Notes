@@ -165,17 +165,17 @@
 ## 开启异步提交事务功能  
 
  - 使用  
- ```sql   
-  MySQL [(none)]> show variables like 'tidb_enable_async_commit';
-  +--------------------------+-------+
-  | Variable_name            | Value |
-  +--------------------------+-------+
-  | tidb_enable_async_commit | ON    |
-  +--------------------------+-------+
-  
-  MySQL [(none)]> set global tidb_enable_async_commit=1;
-  
- ```
+  ```sql   
+   MySQL [(none)]> show variables like 'tidb_enable_async_commit';
+   +--------------------------+-------+
+   | Variable_name            | Value |
+   +--------------------------+-------+
+   | tidb_enable_async_commit | ON    |
+   +--------------------------+-------+
+   
+   MySQL [(none)]> set global tidb_enable_async_commit=1;
+   
+  ```
 
 ## 优化EXPLAIN功能
 
