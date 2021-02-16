@@ -108,21 +108,21 @@
       ```
 
  - 操作 clustered-index 特性
-  ```sql  
-   -- 查询表是否有聚簇索引，{tbl_name} 替换为所要查询的表名   
-   select tidb_pk_type from information_schema.tables where table_name = '{tbl_name}';   
+    ```sql  
+     -- 查询表是否有聚簇索引，{tbl_name} 替换为所要查询的表名   
+     select tidb_pk_type from information_schema.tables where  table_name = '{tbl_name}';   
 
-   -- 查看 clustered-index 特性是否开始   
-   show session variables like 'tidb_enable_clustered_index';
+     -- 查看 clustered-index 特性是否开始   
+     show session variables like 'tidb_enable_clustered_index';
 
-   show global variables like 'tidb_enable_clustered_index';
+     show global variables like 'tidb_enable_clustered_index';
 
-   -- 打开 clustered-index 特性   
-   set global tidb_enable_clustered_index = 1;
+     -- 打开 clustered-index 特性   
+     set global tidb_enable_clustered_index = 1;
 
-   -- 关闭 clustered-index 特性   
-   set global tidb_enable_clustered_index = 0;
-  ```
+     -- 关闭 clustered-index 特性   
+     set global tidb_enable_clustered_index = 0;
+    ```
 
  - 开启 clustered-index 特性   
     - 非主键列查询    
