@@ -48,20 +48,20 @@
       -- 聚簇索引组织表
       MySQL [jan]> create database jan;
       
-      MySQL [jan]> CREATE TABLE t1(id       bigint not null primary key       auto_increment,
+      MySQL [jan]> CREATE TABLE t1(id bigint not null primary key       auto_increment,
         b char(100),
         index(b));
       
       
-      MySQL [jan]> INSERT INTO t1 VALUES       (1, 'aaa'), (2, 'bbb');
+      MySQL [jan]> INSERT INTO t1 VALUES (1, 'aaa'), (2, 'bbb');
       
-      MySQL [jan]> EXPLAIN SELECT * FROM t1       WHERE id = 1;
-      +-------------+---------+------      +---------------+---------------+
-      | id          | estRows | task |       access object | operator info |
-      +-------------+---------+------      +---------------+---------------+
-      | Point_Get_1 | 1.00    | root |       table:t1      | handle:1      |
-      +-------------+---------+------      +---------------+---------------+
-      1 row in set (0.00 sec)
+      MySQL [jan]> EXPLAIN SELECT * FROM t1 WHERE id = 1;
+      +-------------+---------+------+---------------+---------------+
+      | id          | estRows | task | access object | operator info |
+      +-------------+---------+------+---------------+---------------+
+      | Point_Get_1 | 1.00    | root | table:t1      | handle:1      |
+      +-------------+---------+------+---------------+---------------+
+
       
       -- 非聚簇索引组织表
       MySQL [jan]> CREATE TABLE t2 (
@@ -70,15 +70,15 @@
        INDEX(b)
       );
       
-      MySQL [jan]> INSERT INTO t2 VALUES       ('02dd050a978756da0aff6b1d1d7c8aef',       'aaa'),       ('35bfbc09cb3c93d8ef032642521ac042',       'bbb');
+      MySQL [jan]> INSERT INTO t2 VALUES       ('02dd050a978756da0aff6b1d1d7c8aef', 'aaa'),       ('35bfbc09cb3c93d8ef032642521ac042', 'bbb');
       
-      MySQL [jan]> EXPLAIN SELECT * FROM t2       WHERE guid =       '02dd050a978756da0aff6b1d1d7c8aef';
-      +-------------+---------+------      +-------------------------------      +---------------+
-      | id          | estRows | task |       access object                 |       operator info |
-      +-------------+---------+------      +-------------------------------      +---------------+
-      | Point_Get_1 | 1.00    | root |       table:t2, index:PRIMARY(guid)       |               |
-      +-------------+---------+------      +-------------------------------      +---------------+
-      
+      MySQL [jan]> EXPLAIN SELECT * FROM t2 WHERE guid = '02dd050a978756da0aff6b1d1d7c8aef';
+      +-------------+---------+------+-------------------------------+---------------+
+      | id          | estRows | task | access object                 | operator info |
+      +-------------+---------+------+-------------------------------+---------------+
+      | Point_Get_1 | 1.00    | root | table:t2, index:PRIMARY(guid) |               |
+      +-------------+---------+------+-------------------------------+---------------+
+
       ```  
        - 开启 cluster-index 特性
 
