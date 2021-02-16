@@ -39,12 +39,16 @@
 | 主键类型为 INTEGER 或 BIGINT | 无 |
 | 主键只有一列 | 无 |
 
+ - 关闭 clustered_index 特性（同 4.0.x 部分主键聚簇索引特性一样）：   
+ 仅支持主键为 INTEGER 或 BIGINT、主键只有一列的聚簇索引，当条件不满足时，便采用一个 64 位 handle 值代替主键组织数据；
 ```sql
+-- 表 t1 为索引组织表、表 t2 为   
+-- 聚簇索引组织表
 MySQL [jan]> create database jan;
 
 MySQL [jan]> CREATE TABLE t1(id bigint not null primary key auto_increment,
-    b char(100),
-    index(b));
+  b char(100),
+  index(b));
 
 
 MySQL [jan]> INSERT INTO t1 VALUES (1, 'aaa'), (2, 'bbb');
@@ -57,9 +61,24 @@ MySQL [jan]> EXPLAIN SELECT * FROM t1 WHERE id = 1;
 +-------------+---------+------+---------------+---------------+
 1 row in set (0.00 sec)
 
+-- 非聚簇索引组织表
+MySQL [jan]> CREATE TABLE t2 (
+ guid CHAR(32) NOT NULL PRIMARY KEY,
+ b CHAR(100),
+ INDEX(b)
+);
+
+MySQL [jan]> INSERT INTO t2 VALUES ('02dd050a978756da0aff6b1d1d7c8aef', 'aaa'), ('35bfbc09cb3c93d8ef032642521ac042', 'bbb');
+
+MySQL [jan]> EXPLAIN SELECT * FROM t2 WHERE guid = '02dd050a978756da0aff6b1d1d7c8aef';
++-------------+---------+------+-------------------------------+---------------+
+| id          | estRows | task | access object                 | operator info |
++-------------+---------+------+-------------------------------+---------------+
+| Point_Get_1 | 1.00    | root | table:t2, index:PRIMARY(guid) |               |
++-------------+---------+------+-------------------------------+---------------+
 
 ```  
-
+ - 
 
 
 
