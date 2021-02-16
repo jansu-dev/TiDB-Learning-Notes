@@ -70,7 +70,7 @@
        INDEX(b)
       );
       
-      MySQL [jan]> INSERT INTO t2 VALUES       ('02dd050a978756da0aff6b1d1d7c8aef', 'aaa'),       ('35bfbc09cb3c93d8ef032642521ac042', 'bbb');
+      MySQL [jan]> INSERT INTO t2 VALUES ('02dd050a978756da0aff6b1d1d7c8aef', 'aaa'), ('35bfbc09cb3c93d8ef032642521ac042', 'bbb');
       
       MySQL [jan]> EXPLAIN SELECT * FROM t2 WHERE guid = '02dd050a978756da0aff6b1d1d7c8aef';
       +-------------+---------+------+-------------------------------+---------------+
