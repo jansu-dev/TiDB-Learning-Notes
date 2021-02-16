@@ -39,6 +39,30 @@
 | 主键类型为 INTEGER 或 BIGINT | 无 |
 | 主键只有一列 | 无 |
 
+```sql
+MySQL [jan]> create database jan;
+
+MySQL [jan]> CREATE TABLE t1(id bigint not null primary key auto_increment,
+    b char(100),
+    index(b));
+
+
+MySQL [jan]> INSERT INTO t1 VALUES (1, 'aaa'), (2, 'bbb');
+
+MySQL [jan]> EXPLAIN SELECT * FROM t1 WHERE id = 1;
++-------------+---------+------+---------------+---------------+
+| id          | estRows | task | access object | operator info |
++-------------+---------+------+---------------+---------------+
+| Point_Get_1 | 1.00    | root | table:t1      | handle:1      |
++-------------+---------+------+---------------+---------------+
+1 row in set (0.00 sec)
+
+
+```  
+
+
+
+
 ## 开启异步提交事务功能  
 
 
