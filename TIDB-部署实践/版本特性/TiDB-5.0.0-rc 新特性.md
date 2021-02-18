@@ -200,6 +200,9 @@
 
  - 异步提交存在的解决方案     
 
+  [知乎：如何理解数据库的内部一致性和外部一致性？](https://www.zhihu.com/question/56073588)
+  [知乎：TiDB使用了raft之后为什么还需要2PC?](https://www.zhihu.com/question/266759495)
+
  - 异步提交存在的使用   
     ```sql   
      MySQL [(none)]> show variables like 'tidb_enable_async_commit';
