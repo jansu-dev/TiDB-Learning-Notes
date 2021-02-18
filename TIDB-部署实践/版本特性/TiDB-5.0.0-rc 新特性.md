@@ -173,16 +173,18 @@
  ![5rc-async-commit01.png](./release-feature-pic/5rc-async-commit01.png)
 
 
-| session 1 | session 2 |
-| - | - |
-| begin; |  |
-| insert into t1 values (2,'test_2'); |  |
-|  | begin; |
-|  | select * from t1 where t1.id=2; |
-|  | update t1 set name='change_test_2' where t1.id=2; |
-| commit; |  |
-|  | select * from t1 where t1.id=2; |
-|  | commit; |
+| session 1 | session 2 | 备注 |
+| - | - | - |
+| insert into t1 values (2,'test_2'); |  |  |
+| begin; |  |  |
+|  | begin; |  |
+| update t1 set name='change_test_2' where t1.id=2; |  |  |
+|  | update t1 set name='change_test_2' where t1.id=2; |  |
+| select * from t1 where t1.id=2; |  | 此时虽然 session 1 还没有输入 commit 命令，但对于 session 1 来说已经是提交完毕状态； |
+|  | commit; |  |
+| commit; |  |  |
+
+
 
  - 异步提交存在的解决方案     
 
