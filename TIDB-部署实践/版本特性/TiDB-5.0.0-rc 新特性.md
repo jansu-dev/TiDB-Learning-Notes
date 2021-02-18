@@ -168,25 +168,27 @@
  首先，TiDB 在很多情况下，一个事务中含有很多条 SQL 语句，而业务又要求 TPS 的延迟维持在 100ms 以下。因此，出于性能考虑在 TiDB 5.0.0-rc 给出了异步提交事务的解决方案；  
  其次，回顾一下 2PC 的发起时间与交互过程，详情参考文章 [老叶茶馆：浅析TiDB二阶段提交](https://blog.csdn.net/n88lpo/article/details/105235997) 讲解的 TiDB 2PC 过程；  
  ![5rc-2pc-01.jpg](./release-feature-pic/5rc-2pc-01.jpg)  
- 内部原理为只要 2PC 的 prewrite 完成，TiDB 便可返回给客户端结果，而后 Commit 阶段采用 async 异步的方式提交；   
+ 内部原理为只要 2PC 的 prewrite 完成，TiDB 便可返回给客户端结果，而后 Commit 阶段采用 async 异步的方式提交；      
 
 
  - 异步提交存在的问题  
- 截图链接：[Github：Async Commit ](https://github.com/tikv/tikv/issues/8316#issuecomment-664108977)   
- ![5rc-async-commit01.png](./release-feature-pic/5rc-async-commit01.png)
-
-
-| session 1 | session 2 | 备注 |
-| - | - | - |
-| insert into t1 values (2,'test_2'); |  |  |
-| begin; |  |  |
-|  | begin; |  |
-| update t1 set name='change_test_2' where t1.id=2; |  |  |
-|  | update t1 set name='change_test_2' where t1.id=2; |  |
-| select * from t1 where t1.id=2; |  | 此时虽然 session 1 还没有输入 commit 命令，但对于 session 1 来说已经是提交完毕状态； |
-|  | commit; |  |
-| commit; |  |  |
-
+  截图链接：[Github：Async Commit ](https://github.com/tikv/tikv/issues/8316#issuecomment-664108977)   
+  ![5rc-async-commit01.png](./release-feature-pic/5rc-async-commit01.png)
+   
+   
+   | session 1 | session 2 | 备注 |
+   | - | - | - |
+   | create table (id int,name varchar(20)); |  |  |
+   | insert into t1 values (2,'test_2'); |  |  |
+   | begin; |  |  |
+   |  | begin; |  |
+   | update t1 set name='change_test_2' where t1.id=2; |  |  |
+   |  | update t1 set name='change_test_2' where t1.id=2; |  |
+   | select * from t1 where t1.id=2; |  | 此时虽然 session 1 还没有输入 commit 命令，但对于 session 1 来说已经是提   交完毕状态； |
+   |  | commit; |  |
+   | commit; |  |  |
+ 
+   ![5rc-async-commit02.png](./release-feature-pic/5rc-2pc-02.png)
 
 
  - 异步提交存在的解决方案     
