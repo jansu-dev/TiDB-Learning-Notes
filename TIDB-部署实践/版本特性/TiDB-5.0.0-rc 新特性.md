@@ -165,10 +165,11 @@
 ## 开启异步提交事务功能  
 
  - 异步提交解决的问题    
- 2PC 过程，[老叶茶馆：浅析TiDB二阶段提交](https://blog.csdn.net/n88lpo/article/details/105235997)  
- ![5rc-2pc-01.jpg](./release-feature-pic/5rc-2pc-01.jpg)
- TiDB 在很多情况下，一个事务中含有很多条 SQL 语句，而业务又要求 TPS 的延迟维持在 100ms 以下。因此，出于性能考虑给出了异步提交事务的解决方案；  
- 即：内部原理为 2PC 的 prewrite 完成，TiDB 便可发牛给客户端结果，而后 Commit 阶段采用 async 异步的方式提交； 
+ 首先，TiDB 在很多情况下，一个事务中含有很多条 SQL 语句，而业务又要求 TPS 的延迟维持在 100ms 以下。因此，出于性能考虑在 TiDB 5.0.0-rc 给出了异步提交事务的解决方案；  
+ 其次，回顾一下 2PC 的发起时间与交互过程，详情参考文章 [老叶茶馆：浅析TiDB二阶段提交](https://blog.csdn.net/n88lpo/article/details/105235997) 讲解的 TiDB 2PC 过程；  
+ ![5rc-2pc-01.jpg](./release-feature-pic/5rc-2pc-01.jpg)  
+ 内部原理为只要 2PC 的 prewrite 完成，TiDB 便可返回给客户端结果，而后 Commit 阶段采用 async 异步的方式提交；   
+
 
  - 异步提交存在的问题  
  截图链接：[Github：Async Commit ](https://github.com/tikv/tikv/issues/8316#issuecomment-664108977)   
