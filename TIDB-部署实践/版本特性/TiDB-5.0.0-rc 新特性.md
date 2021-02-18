@@ -174,7 +174,7 @@
  - 异步提交存在的问题  
   截图链接：[Github：Async Commit ](https://github.com/tikv/tikv/issues/8316#issuecomment-664108977)   
   ![5rc-async-commit01.png](./release-feature-pic/5rc-async-commit01.png)
-   当 Client 尝试获取数据时被锁，可能对应超时、提交、回滚 3种状态；
+   当 Client 尝试获取数据时被锁，可能对应超时、提交、回滚 3种状态；    
     |    
     |— — 提交：提交后事务结束，锁消失；   
     |— — 回滚：回滚后事务结束，锁消失；   
