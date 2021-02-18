@@ -168,13 +168,17 @@
  首先，TiDB 在很多情况下，一个事务中含有很多条 SQL 语句，而业务又要求 TPS 的延迟维持在 100ms 以下。因此，出于性能考虑在 TiDB 5.0.0-rc 给出了异步提交事务的解决方案；  
  其次，回顾一下 2PC 的发起时间与交互过程，详情参考文章 [老叶茶馆：浅析TiDB二阶段提交](https://blog.csdn.net/n88lpo/article/details/105235997) 讲解的 TiDB 2PC 过程；  
  ![5rc-2pc-01.jpg](./release-feature-pic/5rc-2pc-01.jpg)  
- 内部原理为只要 2PC 的 prewrite 完成，TiDB 便可返回给客户端结果，而后 Commit 阶段采用 async 异步的方式提交；      
+ 内部原理为只要 2PC 的 prewrite 完成，TiDB 便可返回给客户端结果，而后 Commit 阶段采用 async 异步的方式提交,对应图中的 1~7 步；      
 
 
  - 异步提交存在的问题  
   截图链接：[Github：Async Commit ](https://github.com/tikv/tikv/issues/8316#issuecomment-664108977)   
   ![5rc-async-commit01.png](./release-feature-pic/5rc-async-commit01.png)
-   
+   当 Client 尝试获取数据时被锁，可能对应超时、提交、回滚 3种状态；
+    |    
+    |— — 提交：提交后事务结束，锁消失；   
+    |— — 回滚：回滚后事务结束，锁消失；   
+    |__ __超时：如果出现处理超时，TiDB 自动进入恢复过程（也就是重试）直到事务提交或回滚为止；**注意：这里的重试不是下图回显的超时，如："ERROR 1205 (HY000): Lock wait timeout exceeded; try restarting transaction"，而是存在于 TiDB 内部的重试，可以通过 max-retry-count 参数控制悲观事务中单个语句最大重试次数**，详情参考[官方文档-TiDB参数 ：max-retry-count](https://docs.pingcap.com/zh/tidb/v5.0/tidb-configuration-file#max-retry-count)；     
    
    | session 1 | session 2 | 备注 |
    | - | - | - |
@@ -182,11 +186,10 @@
    | insert into t1 values (2,'test_2'); |  |  |
    | begin; |  |  |
    |  | begin; |  |
-   | update t1 set name='change_test_2' where t1.id=2; |  |  |
-   |  | update t1 set name='change_test_2' where t1.id=2; |  |
-   | select * from t1 where t1.id=2; |  | 此时虽然 session 1 还没有输入 commit 命令，但对于 session 1 来说已经是提   交完毕状态； |
+   | select * from t1 where id=2 for update; |  |  |
+   |  | select * from t1 where id=2 for update; | session 2 的查询语句 hang 住，因为 session 1 加了行锁； |
+   | commit; |  | 随着 session 1 的提交 session 2 在未超时的状态加 |
    |  | commit; |  |
-   | commit; |  |  |
  
    ![5rc-async-commit02.png](./release-feature-pic/5rc-2pc-02.png)
 
