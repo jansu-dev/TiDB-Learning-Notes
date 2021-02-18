@@ -178,20 +178,24 @@
     |    
     |— — 提交：提交后事务结束，锁消失；   
     |— — 回滚：回滚后事务结束，锁消失；   
-    |__  __ 超时：如果出现处理超时，TiDB 自动进入恢复过程（也就是重试）直到事务提交或回滚为止；**注意：这里的重试不是下图回显的超时，如："ERROR 1205 (HY000): Lock wait timeout exceeded; try restarting transaction"，而是存在于 TiDB 内部的重试，可以通过 max-retry-count 参数控制悲观事务中单个语句最大重试次数**，详情参考[官方文档-TiDB参数 ：max-retry-count](https://docs.pingcap.com/zh/tidb/v5.0/tidb-configuration-file#max-retry-count)；     
-   
-   | session 1 | session 2 | 备注 |
-   | - | - | - |
-   | create table (id int,name varchar(20)); |  |  |
-   | insert into t1 values (2,'test_2'); |  |  |
-   | begin; |  |  |
-   |  | begin; |  |
-   | select * from t1 where id=2 for update; |  |  |
-   |  | select * from t1 where id=2 for update; | session 2 的查询语句 hang 住，因为 session 1 加了行锁； |
-   | commit; |  | 随着 session 1 的提交 session 2 在未超时的状态加 |
-   |  | commit; |  |
+    |__  __ 超时：如果出现处理超时，TiDB 自动进入恢复过程（也就是重试）直到事务提交或回滚为止；普遍情况下，发起 2PC 后，经历过 prewrite 后会很快提交，所以只有想要读取消息（事务加锁消息）发生之前的客户端会处于恢复过程，也就是内部的不断重试；        
+    ![5rc-async-commit03.png](./release-feature-pic/5rc-2pc-03.png)        
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**注意：这里的重试不是最后在命令行回显的超时，如下图："ERROR 1205 (HY000): Lock wait timeout exceeded; try restarting transaction"，而是存在于 TiDB 内部的重试，可以通过 max-retry-count 参数控制悲观事务中单个语句最大重试次数**，详情参考[官方文档-TiDB参数 ：max-retry-count](https://docs.pingcap.com/zh/tidb/v5.0/tidb-configuration-file#max-retry-count)；    
+    
+   - 操作步骤  
+     | session 1 | session 2 | 备注 |
+     | - | - | - |
+     | create table (id int,name varchar(20)); |  |  |
+     | insert into t1 values (2,'test_2'); |  |  |
+     | begin; |  |  |
+     |  | begin; |  |
+     | select * from t1 where id=2 for update; |  |  |
+     |  | select * from t1 where id=2 for update; | session 2 的查询语句 hang 住，因为 session 1 加了行锁； |
+     | commit; |  | 随着 session 1 的提交， session 2 在未超过悲观锁内部重试最大限制次数前提下，获取 id=2 行的数据；|
+     |  | commit; |  |
  
-   ![5rc-async-commit02.png](./release-feature-pic/5rc-2pc-02.png)
+   - 效果图
+     ![5rc-async-commit02.png](./release-feature-pic/5rc-2pc-02.png)
 
 
  - 异步提交存在的解决方案     
