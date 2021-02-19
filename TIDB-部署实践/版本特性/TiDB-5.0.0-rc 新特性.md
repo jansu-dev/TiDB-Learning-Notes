@@ -198,7 +198,7 @@
          |— — 回滚：回滚后事务结束，锁消失；   
          |— — 超时：如果出现处理超时，TiDB 自动进入恢复过程（也就是重试）直到事务提交或回滚为止；     
          ![5rc-async-commit03.png](./release-feature-pic/5rc-2pc-03.png)        
-         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**注意：这里的重试不是最后在命令行回显的超时，如下图："ERROR 1205 (HY000): Lock wait timeout exceeded; try restarting transaction"，而是存在于 TiDB 内部的重试，可以通过 max-retry-count 参数控制悲观事务中单个语句最大重试次数**，详情参考 [官方文档-TiDB参数:max-retry-count](https://docs.pingcap.com/zh/tidb/v5.0/    tidb-configuration-file#max-retry-count)；    
+         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**注意：这里的重试不是最后在命令行回显的超时，如下图："ERROR 1205 (HY000): Lock wait timeout exceeded; try restarting transaction"，而是存在于 TiDB 内部的重试，可以通过 max-retry-count 参数控制悲观事务中单个语句最大重试次数**，详情参考 [官方文档-TiDB参数:max-retry-count](https://docs.pingcap.com/zh/tidb/v5.0/tidb-configuration-file#max-retry-count)；    
     
 
 
@@ -207,7 +207,7 @@
        - 关闭时，如果两个事务修改的内容没有交集，其他事务观测到它们的提交顺序可能与它们实际的提交顺序不一致；       
        - 在不使用 Async Commit 特性时，无论该选项是否开启，都能保证外部一致性；详情参考--[官方文档：tidb_guarantee_external_consistency 参数](https://docs.pingcap.com/zh/tidb/v5.0/system-variables#tidb_guarantee_external_consistency-%E4%BB%8E-v500-rc-%E7%89%88%E6%9C%AC%E5%BC%80%E5%A7%8B%E5%BC%95%E5%85%A5)   
 
-    - 使用：
+    - 使用tidb_guarantee_external_consistency：
        ```sql
         MySQL [(none)]> show variables like 'tidb_guarantee_external_consistency';
         +-------------------------------------+-------+
@@ -217,6 +217,8 @@
         +-------------------------------------+-------+
     
         MySQL [(none)]> set global tidb_guarantee_external_consistency=1;  
+
+        MySQL [(none)]> exit
     
         MySQL [(none)]> show variables like 'tidb_guarantee_external_consistency';
         +-------------------------------------+-------+
@@ -227,17 +229,25 @@
        ```
   
 
- - 异步提交存在的使用   
+ - Async Commit 的使用   
     ```sql   
+     MySQL [(none)]> show variables like 'tidb_enable_async_commit';
+     +--------------------------+-------+
+     | Variable_name            | Value |
+     +--------------------------+-------+
+     | tidb_enable_async_commit | OFF   |
+     +--------------------------+-------+
+     
+     MySQL [(none)]> set global tidb_enable_async_commit=1;
+     
+     MySQL [(none)]> exit
+
      MySQL [(none)]> show variables like 'tidb_enable_async_commit';
      +--------------------------+-------+
      | Variable_name            | Value |
      +--------------------------+-------+
      | tidb_enable_async_commit | ON    |
      +--------------------------+-------+
-     
-     MySQL [(none)]> set global tidb_enable_async_commit=1;
-     
     ```
 
 ## 优化EXPLAIN功能
