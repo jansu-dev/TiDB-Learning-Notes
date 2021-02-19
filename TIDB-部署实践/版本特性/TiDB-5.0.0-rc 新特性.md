@@ -175,19 +175,21 @@
  - 异步提交存在的问题  
   截图链接：[Github：Async Commit ](https://github.com/tikv/tikv/issues/8316#issuecomment-664108977)   
   ![5rc-async-commit01.png](./release-feature-pic/5rc-async-commit01.png)
-   对于上面提出的问题，链接中的 Issue 使用 recovery procedure 解决，**“so only clients who try to read before that message happens will go through the recovery procedure”** 指出普遍情况下，发起 2PC 经历过 prewrite 后会很快提交，所以只有想要读取消息（含有 commit_ts 的事务提交消息）发生之前的客户端会处于 recovery procedure，也就是内部的不断重试；这里的 recovery procedure **应该**指在获取 commit_ts 之前，如果有其他 session 想要获取数据时只能以 txn 未结束的数据状态参考 MVCC 获取数据； 
+   对于上面提出的问题，链接中的 Issue 使用 recovery procedure 解决，**“so only clients who try to read before that message happens will go through the recovery procedure”** 指出普遍情况下，发起 2PC 经历过 prewrite 后会很快提交，所以只有想要读取消息（含有 commit_ts 的事务提交消息）发生之前的客户端会处于 recovery procedure，也就是内部的不断重试；这里的 recovery procedure **应该** 指在获取 commit_ts 之前，如果有其他 session 想要获取数据时只能以 txn 未结束的数据状态参考 MVCC 获取数据；   
+     - 流程说明   
      | session 1 | session 2 | 备注 |
      | - | - | - |
      | create table t1_A (id int,name varchar(20),money int); |  |  |
      | create table t2_B (id int,name varchar(20),money int); |  |  |
      | insert into t1_A values(1,'A',50); |  |  |
-     | insert into t2_B values(1,'B',50); |  |  |
+     | insert into t2_B values(2,'B',50); |  |  |
      | begin; |  |  |
      |  | begin; |  |
      | update t1_A set money=money-10 where name='A'; |  |  |
      | update t2_B set money=money+10 where name='B'; |  |  |
-     | commit; |  | 随着 session 1 的提交， session 2 在未超过悲观锁内部重试最大限制次数前提下，获取 id=2 行的数据；|
-     |  | select * from t1 where id=2 for update; | session 2 的查询语句 hang 住，因为 session 1 加了行锁； |
+     | commit; |  | 随着 session 1 的提交命令敲出后，session 2 在未获取 commit_ts 之前相对于开启 Async commit 特性的 session 1 是 txn 已结束的；|
+     |  | select money from t1_A where id=1; | session 2 在 session 1 未获取 commit_ts 之前，意味着 txn 对 session 1 是未结束只能取 txn 结束前的数据；**money 可能还是 50** |
+     |  | select money from t1_B where id=2; | session 2 在 session 1 未获取 commit_ts 之前，意味着 txn 对 session 1 是未结束只能取 txn 结束前的数据；**money 可能还是 50** |
      |  | commit; |  |
 
    当 Client 尝试获取数据时被锁，可能对应超时、提交、回滚 3种状态；    
