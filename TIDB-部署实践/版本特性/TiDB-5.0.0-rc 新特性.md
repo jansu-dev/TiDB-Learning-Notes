@@ -168,7 +168,7 @@
     - 问题场景：TiDB 在很多情况下，一个事务中含有很多条 SQL 语句，而业务又要求 TPS 的延迟维持在 100ms 以下。因此，出于性能考虑在 TiDB 5.0.0-rc 给出了异步提交事务的解决方案；  
     - 交互过程：回顾一下 2PC 的发起时间与交互过程，详情参考文章 [官方文档：TiDB 锁冲突问题处理](https://docs.pingcap.com/zh/tidb/stable/troubleshoot-lock-conflicts#tidb-%E9%94%81%E5%86%B2%E7%AA%81%E9%97%AE%E9%A2%98%E5%A4%84%E7%90%86) 讲解的 TiDB 悲观锁、乐观锁 2PC 过程；  
     ![悲观锁于乐观锁2PC.png](./release-feature-pic/悲观锁于乐观锁2PC.png)  
-    Async commit 内部原理为只要 2PC 的 prewrite 完成，TiDB 便可返回给客户端结果，而后 Commit 阶段采用 async 异步的方式提交,对应图中的 Async commit change phase（以后简称：ACCP）；可以看到在 “commit 阶段” 之前还没有从 PD 获取 commit_ts,也就意味着有可能出现相对于发起 txn 的 session 在 ACCP 是完成的，相对于其他 session 在 ACCP 是没有完成；   
+    Async commit 内部原理为只要 2PC 的 prewrite 完成，TiDB 便可返回给客户端结果，而后 Commit 阶段采用 async 异步的方式提交,对应图中的 Async commit change phase（以后简称：ACCP）；可以看到在 “commit 阶段” 之前还没有从 PD 获取 commit_ts,也就意味着有可能出现相对于发起 txn 的 session 在 ACCP 是完成的，相对于其他 session 在 ACCP 是没有完成；这种现象可能会引发 “外部一致性错误” ，也就是 CAP 定理中的 “C” 无法满足，详情参考 [知乎：如何理解数据库的内部一致性和外部一致性？](https://www.zhihu.com/question/56073588) 中介绍的 “外部一致性”；   
      
 
 
@@ -198,14 +198,13 @@
          |— — 回滚：回滚后事务结束，锁消失；   
          |— — 超时：如果出现处理超时，TiDB 自动进入恢复过程（也就是重试）直到事务提交或回滚为止；     
          ![5rc-async-commit03.png](./release-feature-pic/5rc-2pc-03.png)        
-         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**注意：这里的重试不是最后在命令行回显的超时，如下图："ERROR 1205 (HY000): Lock wait timeout exceeded; try restarting transaction"，而是存在于 TiDB 内部的重试，可以通过 max-retry-count 参数控制悲观事务中单个语句最大重试次数**，详情参考[官方文档-TiDB参数 ：max-retry-count](https://docs.pingcap.com/zh/tidb/v5.0/    tidb-configuration-file#max-retry-count)；    
+         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**注意：这里的重试不是最后在命令行回显的超时，如下图："ERROR 1205 (HY000): Lock wait timeout exceeded; try restarting transaction"，而是存在于 TiDB 内部的重试，可以通过 max-retry-count 参数控制悲观事务中单个语句最大重试次数**，详情参考 [官方文档-TiDB参数:max-retry-count](https://docs.pingcap.com/zh/tidb/v5.0/    tidb-configuration-file#max-retry-count)；    
     
 
 
  - 异步提交存在的解决方案     
 
-  [知乎：如何理解数据库的内部一致性和外部一致性？](https://www.zhihu.com/question/56073588)
-  [知乎：TiDB使用了raft之后为什么还需要2PC?](https://www.zhihu.com/question/266759495)
+  
 
  - 异步提交存在的使用   
     ```sql   
@@ -356,3 +355,6 @@ DBA 调试和选择相对最优的索引时，可以通过 SQL 语句将某个�
  - [官方文档-TiDB 5.0 RC Release Notes](https://docs.pingcap.com/zh/tidb/v5.0/release-5.0.0-rc)  
  
  - [官方文档-聚簇索引使用方法](https://docs.pingcap.com/zh/tidb/v5.0/clustered-indexes#tidb-v50-%E5%89%8D%E6%94%AF%E6%8C%81%E9%83%A8%E5%88%86%E4%B8%BB%E9%94%AE%E4%BD%9C%E4%B8%BA%E8%81%9A%E7%B0%87%E7%B4%A2%E5%BC%95)  
+
+ - [知乎：TiDB使用了raft之后为什么还需要2PC?](https://www.zhihu.com/question/266759495)
+
