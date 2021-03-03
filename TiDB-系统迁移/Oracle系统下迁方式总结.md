@@ -3,7 +3,7 @@
 
 
 
-
+![overview-pic](./Oracle系统下迁方式总结/overview-pic.png)
 
 下签方式：   
 
@@ -15,6 +15,15 @@
 
 
 割接
+
+
+Oracle的存储过程使用面向对象的Java实现，
+
+在线支持几百TB的数据，
+
+
+
+
 
 
 
