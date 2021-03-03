@@ -11,6 +11,7 @@
 > - [参考文章](#参考文章)   
 
 ## etcd快速开始
+详情参考 [Etcd Docs -- Download and build](https://etcd.io/docs/v3.4.0/dl-build/)
 
  - 单机版本
   ```shell
@@ -84,33 +85,154 @@
     # get
     [root@tidb-52-pd etcd]# ./etcdctl --endpoints=192.168.169.51:2379 get jan1
    ```
+ - txn write
+  ```shell
+    [root@tidb-52-pd etcd]# ./etcdctl --endpoints=192.168.169.51:2379 txn     --interactive
+    compares:
+    value("user1") = "bad"
+    
+    success requests (get, put, del):
+    put user1 123
+    
+    failure requests (get, put, del):
+    
+    SUCCESS
+    
+    OK
+    [root@tidb-52-pd etcd]# ./etcdctl --endpoints=192.168.169.51:2379 get user1
+    user1
+    123
+  ```
+ 
+ - watch 
+   监控某个 Key，如果该 Key 有变更操作，此监控操作将会得知操作信息；
+   注意：watch 操作金辉监控 put、del 操作，对于 get 操作不会获取；
+   ```shell
+     Ts_1: [root@tidb-52-pd etcd]# ./etcdctl --endpoints=192.168.169.51:2379 watch jan3
+
+     Ts_2: [root@tidb-52-pd etcd]# ./etcdctl --endpoints=192.168.169.51:2379 put jan3 jan_test3
+     OK
+
+     [root@tidb-52-pd etcd]# ./etcdctl --endpoints=192.168.169.51:2379      watch jan3
+     PUT
+     jan3
+     jan_test3
+   ```
+
  - Member
    ```shell
      [root@tidb-52-pd etcd]# ./etcdctl --endpoints=192.168.169.51:2379 member list  
      f47ddac781ce3323, started, jan-1, http://192.168.169.51:2380, http://192.168.169.51:2379, false
    ```
 
- - locks   
-   ```shell
-     
-   ```
- 
- - watch   
  
  - Lease   
- 
+   ```shell
+    [root@tidb-52-pd etcd]# ./etcdctl --endpoints=192.168.169.51:2379     lease grant 30
+    lease 332377f87288321e granted with TTL(30s)
+    [root@tidb-52-pd etcd]# ./etcdctl --endpoints=192.168.169.51:2379     put jan3 123 --lease=332377f87288321e
+    OK
+    [root@tidb-52-pd etcd]# ./etcdctl --endpoints=192.168.169.51:2379     get jan3
+    jan3
+    123
+    
+    # 30s 之后再次查看 key 为 jan3 的 value
+    [root@tidb-52-pd etcd]# ./etcdctl --endpoints=192.168.169.51:2379     get jan3
+   ```
+
+ - locks   
+   申请一个 name 独占锁后，如下 mutex1，其他 session 申请同 name 锁会被阻塞；
+   ```shell
+    Ts_1-session_1: [root@tidb-52-pd etcd]# ./etcdctl --endpoints=192.168.169.51:2379 lock mutex1
+    mutex1/332377f872883224
+    
+    Ts_2-session_2: [root@tidb-52-pd etcd]# ./etcdctl --endpoints=192.168.169.51:2379 lock mutex1
+    
+    Ts_3-session_1: ^C[root@tidb-52-pd etcd]# 
+    
+    Ts_4-session_2: [root@tidb-52-pd etcd]# ./etcdctl --endpoints=192.168.169.51:2379 lock mutex1
+    mutex1/332377f872883228
+   ```
+  
  - Elections   
+   ```shell
+    Ts_1-session_1: [root@tidb-52-pd etcd]# ./etcdctl --endpoints=192.168.169.51:2379 elect one p1
+    one/332377f872883233
+    
+    Ts_2-session_2: [root@tidb-52-pd etcd]# ./etcdctl --endpoints=192.168.169.51:2379 elect one p2
+    
+    Ts_3-session_1: ^C[root@tidb-52-pd etcd]# 
+    
+    Ts_4-session_2: [root@tidb-52-pd etcd]# ./etcdctl --endpoints=192.168.169.51:2379 elect one p2
+    one/332377f872883238
+    p2
+    
+   ```
  
  - Cluster status    
- 
+   ```shell
+    [root@tidb-52-pd etcd]# ./etcdctl --endpoints=192.168.169.51:2379 endpoint status --write-out="table"
+    +---------------------+------------------+---------------+---------+-----------+------------+-----------+------------+--------------------+--------+
+    |      ENDPOINT       |        ID        |    VERSION    | DB SIZE | IS LEADER | IS LEARNER | RAFT TERM | RAFT INDEX | RAFT APPLIED INDEX | ERRORS |
+    +---------------------+------------------+---------------+---------+-----------+------------+-----------+------------+--------------------+--------+
+    | 192.168.169.51:2379 | f47ddac781ce3323 | 3.5.0-alpha.0 |   29 kB |      true |      false |         5 |         70 |                 70 |        |
+    +---------------------+------------------+---------------+---------+-----------+------------+-----------+------------+--------------------+--------+
+    [root@tidb-52-pd etcd]# ./etcdctl --endpoints=192.168.169.51:2379 endpoint health --write-out="table"
+    +---------------------+--------+------------+-------+
+    |      ENDPOINT       | HEALTH |    TOOK    | ERROR |
+    +---------------------+--------+------------+-------+
+    | 192.168.169.51:2379 |   true | 2.453913ms |       |
+    +---------------------+--------+------------+-------+
+   ```
+
  - Snapshot
+   ```shell
+    [root@tidb-52-pd etcd]# ./etcdctl --endpoints=192.168.169.51:2379 snapshot status jan.db     --write-out="table"
+    +----------+----------+------------+------------+
+    |   HASH   | REVISION | TOTAL KEYS | TOTAL SIZE |
+    +----------+----------+------------+------------+
+    | 5b58e354 |       32 |         35 |      29 kB |
+    +----------+----------+------------+------------+
+   ```
 
- - Migrate  
+ - Auth  
+   开启etcd的权限控制
+   ```shell
+    [root@tidb-52-pd etcd]# ./etcdctl --endpoints=192.168.169.51:2379 role add root
+    Role root created
 
+    [root@tidb-52-pd etcd]# ./etcdctl --endpoints=192.168.169.51:2379 role grant-permission root readwrite     jan
+    Role root updated
 
+    [root@tidb-52-pd etcd]# ./etcdctl --endpoints=192.168.169.51:2379 role get root
+    Role root
+    KV Read:
+    	jan
+    KV Write:
+    	jan
 
- - Auth
+    [root@tidb-52-pd etcd]# ./etcdctl --endpoints=192.168.169.51:2379 user add root
+    Password of root: 
+    Type password of root again for confirmation: 
+    User root created
 
+    [root@tidb-52-pd etcd]# ./etcdctl --endpoints=192.168.169.51:2379 user grant-role root root
+    Role root is granted to user root
+
+    [root@tidb-52-pd etcd]# ./etcdctl --endpoints=192.168.169.51:2379 user get root
+    User: root
+    Roles: root
+
+    [root@tidb-52-pd etcd]# ./etcdctl --endpoints=192.168.169.51:2379 auth enable
+    Authentication Enabled
+
+    [root@tidb-52-pd etcd]# ./etcdctl --endpoints=192.168.169.51:2379 --user=root:root put jan_key jan_value
+    OK
+
+    [root@tidb-52-pd etcd]# ./etcdctl --endpoints=192.168.169.51:2379 --user=root:root get jan_key
+    jan_key
+    jan_value
+   ```
 
 ## etcdctl参数实践 
 
@@ -152,8 +274,6 @@
      jan_test_1
     ```
 
-
- - 
 
 
 ## 参考文章
