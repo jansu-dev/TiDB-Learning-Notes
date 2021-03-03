@@ -1,5 +1,6 @@
 # SQL 语句专项  
-时间：2020-01-31
+时间：2021-01-31
+版本：TiDB v4.0.x
 
  - SQL相关系统表  
 > - [slow_query](#slow_query)  
