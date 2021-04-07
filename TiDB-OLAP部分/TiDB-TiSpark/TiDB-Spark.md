@@ -53,5 +53,12 @@
 
  - [CSDN-Spark常用算子](https://blog.csdn.net/zyzzxycj/article/details/82706233)
 
+
+## 运转流程
+
+ - [CSDN-Spark执行计划分析与研究](https://blog.csdn.net/zyzzxycj/article/details/82704713)
+ - [CSDN-通过一条SQL分析SparkSQL执行流程](https://blog.csdn.net/silentwolfyh/article/details/52979534)
+
+
 ## 参考文章
- - https://zhuanlan.zhihu.com/p/129346816
+ - [知乎-spark中常说RDD，究竟RDD是什么？](https://zhuanlan.zhihu.com/p/129346816)
