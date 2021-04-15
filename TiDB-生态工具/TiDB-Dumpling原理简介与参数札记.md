@@ -19,7 +19,7 @@
 >   - [filesize参数case精讲](#filesize参数case精讲)  
 >   - [snapshot参数case精讲](#snapshot参数case精讲)  
 >   - [consistency参数case精讲](#consistency参数case精讲)  
-
+> - [常用案例]
 
 ## 原理讲解
 
@@ -635,7 +635,30 @@ MySQL [jan]> update mysql.tidb set VARIABLE_VALUE = '10m' where VARIABLE_NAME = 
 Query OK, 1 row affected (0.02 sec)
 Rows matched: 1  Changed: 1  Warnings: 0
 ```
+### 常用案例
 
+```
+tiup dumpling -u root -P 4000 --host 9.16.4.172 -o /data/tidb-deploy/dump_dir --filetype=sql -T "uastest.risk_factor" -t 16 -p "..."
+
+Starting component `dumpling`: /home/tidb/.tiup/components/dumpling/v4.0.8/dumpling -u root -P 4000 --host 9.16.4.172 -o /data/tidb-deploy/dump_dir --filetype=sql -T uastest.risk_factor -t 16 -p gsctidbtest2020
+Release version: v4.0.8
+Git commit hash: b84f64ff362cedcb795aa23fa1188ba7b7c9a7d7
+Git branch:      heads/refs/tags/v4.0.8
+Build timestamp: 2020-10-30 08:14:27Z
+Go version:      go version go1.13 linux/amd64
+
+[2021/04/08 01:34:24.657 +08:00] [INFO] [config.go:180] ["detect server type"] [type=TiDB]
+[2021/04/08 01:34:24.657 +08:00] [INFO] [config.go:198] ["detect server version"] [version=4.0.8]
+[2021/04/08 01:34:24.667 +08:00] [INFO] [client.go:148] ["[pd] create pd client with endpoints"] [pd-address="[9.1.179.15:2379]"]
+[2021/04/08 01:34:24.669 +08:00] [INFO] [base_client.go:253] ["[pd] switch leader"] [new-leader=http://9.1.179.15:2379] [old-leader=]
+[2021/04/08 01:34:24.669 +08:00] [INFO] [base_client.go:103] ["[pd] init cluster id"] [cluster-id=6909333068551768254]
+[2021/04/08 01:34:26.433 +08:00] [WARN] [block_allow_list.go:15] ["unsupported dump schema in TiDB now"] [schema=PERFORMANCE_SCHEMA]
+[2021/04/08 01:34:26.433 +08:00] [WARN] [block_allow_list.go:15] ["unsupported dump schema in TiDB now"] [schema=INFORMATION_SCHEMA]
+[2021/04/08 01:34:26.433 +08:00] [WARN] [block_allow_list.go:15] ["unsupported dump schema in TiDB now"] [schema=METRICS_SCHEMA]
+[2021/04/08 01:34:26.433 +08:00] [WARN] [block_allow_list.go:15] ["unsupported dump schema in TiDB now"] [schema=mysql]
+[2021/04/08 02:08:08.901 +08:00] [INFO] [main.go:234] ["dump data successfully, dumpling will exit now"]
+
+```
 
 ## 参考文章
 
