@@ -2,7 +2,7 @@
 时间:2021-03-25
 
 
-![whaleCode](./TIDB-TiSpark\ OOM问题/whaleCode.jpg)
+
 一.ThriftServer介绍
 ThriftServer是一个JDBC/ODBC接口，用户可以通过JDBC/ODBC连接ThriftServer来访问SparkSQL的数据。ThriftServer在启动的时候，会启动了一个sparkSQL的应用程序，而通过JDBC/ODBC连接进来的客户端共同分享这个sparkSQL应用程序的资源，也就是说不同的用户之间可以共享数据；ThriftServer启动时还开启一个侦听器，等待JDBC客户端的连接和提交查询。所以，在配置ThriftServer的时候，至少要配置ThriftServer的主机名和端口，如果要使用hive数据的话，还要提供hive metastore的uris。
 

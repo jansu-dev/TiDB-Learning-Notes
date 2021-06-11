@@ -42,3 +42,51 @@ server_configs:
 
 
     
+## 压测(xyy)
+
+```
+raftdb.use-direct-io-for-flush-and-compaction: true
+raftstore.hibernate-regions: false
+rocksdb.use-direct-io-for-flush-and-compaction: true
+
+gc.compaction-filter-skip-version-check: true
+gc.enable-compaction-filter: true
+
+readpool.storage.use-unified-pool: true
+readpool.unified.max-thread-count: 4
+
+raftdb.max-background-jobs: 3
+raftdb.max-sub-compactions: 1
+
+raftdb.defaultcf.max-bytes-for-level-base: 4 GB
+raftdb.defaultcf.max-write-buffer-number: 32
+raftdb.defaultcf.write-buffer-size: 128 MB
+raftdb.defaultcf.level0-file-num-compaction-trigger: 40
+raftdb.defaultcf.level0-slowdown-writes-trigger: 65
+raftdb.defaultcf.level0-stop-writes-trigger: 96
+
+rocksdb.rate-bytes-per-sec: 50MB
+rocksdb.max-background-jobs: 3
+rocksdb.max-sub-compactions: 2
+
+rocksdb.defaultcf.max-bytes-for-level-base: 4 GB
+rocksdb.defaultcf.max-write-buffer-number: 32
+rocksdb.defaultcf.write-buffer-size: 131MB
+rocksdb.defaultcf.level0-file-num-compaction-trigger: 40
+rocksdb.defaultcf.level0-slowdown-writes-trigger: 64
+rocksdb.defaultcf.level0-stop-writes-trigger: 96
+
+rocksdb.writecf.max-bytes-for-level-base: 4 GB
+rocksdb.writecf.max-write-buffer-number: 32
+rocksdb.writecf.write-buffer-size: 128 MB
+rocksdb.writecf.level0-file-num-compaction-trigger: 40
+rocksdb.writecf.level0-slowdown-writes-trigger: 64
+rocksdb.writecf.level0-stop-writes-trigger: 96
+
+rocksdb.lockcf.max-bytes-for-level-base: 4 GB
+rocksdb.lockcf.max-write-buffer-number: 32
+rocksdb.lockcf.write-buffer-size: 128 MB
+rocksdb.lockcf.level0-file-num-compaction-trigger: 40
+rocksdb.lockcf.level0-slowdown-writes-trigger: 64
+rocksdb.lockcf.level0-stop-writes-trigger: 96
+```

@@ -1,6 +1,64 @@
-# TiKV-Region分配规则与运维
+# TiKV-Region 概念解析
 时间:2021-03-02
 
+
+
+## Region 概念基础
+
+
+
+
+
+## Region 概念对比
+
+
+
+
+```rust
+/// Some information about the current region the coprocessor is running in.
+#[derive(Debug, Clone)]
+pub struct Region {
+    pub id: u64,
+    pub region_epoch: RegionEpoch,
+}
+
+#[derive(Debug, Clone)]
+pub struct RegionEpoch {
+    pub conf_ver: u64,
+    pub version: u64,
+}
+```
+
+
+
+
+
+
+[Internal Layout of a Heap Table File](https://www.interdb.jp/pg/pgsql01.html)
+
+
+
+ - Region 定义 Region 内容，只有读操作涉及基于 region 信息定位数据，写操作仅需按照操作 KV 方式 append 写入，后期 Region 自动 Split 即可 ，因此 Region 信息都可以在 coprocessor 中找到，也是注释 **“region the coprocessor is running in”** 的原因。
+ 
+ - RegionEpoch 记录 Region 的版本状态   
+   - conf_ver 会在每次做 ConfChange 的时候递增    
+   - version 则是会在每次做 split/merge 的时候递增     
+
+
+[](https://zhuanlan.zhihu.com/p/24564094)
+
+
+
+oracle block 
+
+https://blog.51cto.com/luruoyu/624464     
+
+同为逻辑概念 oracle 封装的是 C++ 的 seek 函数，该函数用于直接读取磁盘数据
+而TiDB则封装的是 RocksDB 的调用接口，该借口调用 LSM tree 中存储的数据
+
+
+
+## Region 信息存储
 
 
 单个节点的参数设置只会对该节点的 region 有效，如果有 region 的迁移，会重新按照新节点的参数设置进行一系列的操作
@@ -20,8 +78,7 @@ v3.0 版本起，PD 默认开启配置项 use-region-storage，将 Region Meta �
 
 
 
-
-
+## Region 运维方法
 
 
 
@@ -178,9 +235,6 @@ API获取表属性信息
  "is_columnar": false
 }
 ```
-
-
-
 
 
 
