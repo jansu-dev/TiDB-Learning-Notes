@@ -122,7 +122,7 @@ That the repository was build is aim to log process of mysql TiDB Learning.
     - [TiDB-PD集群参数归纳整理]()    
 
  - TiDB-CASE解决方案  
-   - [SQL Duration 升高现象问题排查](./TiDB-调优实践/TiDB-CASE解决方案/SQL Duration 抖动现象问题排查.md)  
+   - [SQL Duration 升高现象问题排查](./TiDB-调优实践/TiDB-CASE解决方案/CASE-磁盘抖动导致Duration抖动现象问题.md)  
 
    - [SQL Binding 修正 CBO 优化器不稳定情况](https://github.com/jansu-dev/TiDB-Learning-Notes/blob/master/TiDB-%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/TiDB-CASE%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/SQL%20Binding%20%E4%BF%AE%E6%AD%A3%20CBO%20%E4%BC%98%E5%8C%96%E5%99%A8%E4%B8%8D%E7%A8%B3%E5%AE%9A%E6%83%85%E5%86%B5.md)  
 
