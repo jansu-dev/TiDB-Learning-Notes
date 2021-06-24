@@ -124,7 +124,7 @@ That the repository was build is aim to log process of mysql TiDB Learning.
  - TiDB-CASE解决方案  
    - [CASE-磁盘抖动导致Duration抖动现象问题](./TiDB-调优实践/TiDB-CASE解决方案/CASE-磁盘抖动导致Duration抖动现象问题.md)  
 
-   - [SQL Binding 修正 CBO 优化器不稳定情况](./TiDB-调优实践/TiDB-CASE解决方案/CASE-SQLBinding修正优化器不稳定问题.md)  
+   - [CASE-SQLBinding修正优化器不稳定问题](./TiDB-调优实践/TiDB-CASE解决方案/CASE-SQLBinding修正优化器不稳定问题.md)  
 
 
 ## TiDB实践问题归纳
