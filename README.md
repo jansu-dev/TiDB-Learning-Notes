@@ -141,11 +141,19 @@ That the repository was build is aim to log process of mysql TiDB Learning.
 
 ### TiDB-Binlog读写分离方案
 
+[TiDB Binlog 潜在风险](./07TiDB-解决方案/TiDB-Binlog读写分离方案/binlog潜在风险.md)
+
 ### 两地三中心高可用方案
+
+[TiDB 容灾部署知识点归纳](./07TiDB-解决方案/两地三中心高可用方案/TiDB-容灾部署知识点归纳.md)
 
 ### 迁移MyCat至TiDB方案
 
+[某 OLAP 为主 OLTP 为辅的 MyCAT 系统下迁 TiDB](./07TiDB-解决方案/迁移MyCat至TiDB方案/某系统OLAP为主OLTP为辅系统下迁TiDB.md)   
+
 ### 迁移Oracle至TiDB方案
+
+[Oracle 到 TiDB 的 OGG 部署方案](./07TiDB-解决方案/迁移Oracle至TiDB方案/Oracle到TiDB的OGG部署方案.md)
 
 ### TiDB或MySQL迁移工具
 
