@@ -7,11 +7,11 @@ That the repository was build is aim to log process of mysql TiDB Learning.
 <!-- TOC -->
 
 - [TiDB-Learning-Notes](#tidb-learning-notes)
-    - [TiDB-原理总结](#tidb-原理总结)
-        - [论文阅读](#论文阅读)
-        - [特性摘要](#特性摘要)
-        - [组件原理](#组件原理)
-        - [存储引擎](#存储引擎)
+    - [01TiDB-原理总结](#01tidb-原理总结)
+        - [1-1论文阅读](#1-1论文阅读)
+        - [1-2特性摘要](#1-2特性摘要)
+        - [1-3组件原理](#1-3组件原理)
+        - [1-4存储引擎](#1-4存储引擎)
     - [TiDB-部署实践](#tidb-部署实践)
         - [Ansible部署实践](#ansible部署实践)
         - [TiUP部署实践](#tiup部署实践)
@@ -43,15 +43,15 @@ That the repository was build is aim to log process of mysql TiDB Learning.
 
 
 
-## TiDB-原理总结
+## 01TiDB-原理总结
 
-### 论文阅读
+### 1-1论文阅读
 
-### 特性摘要
+### 1-2特性摘要
 
-### 组件原理
+### 1-3组件原理
 
-### 存储引擎
+### 1-4存储引擎
 
 
 ## TiDB-部署实践
