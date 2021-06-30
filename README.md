@@ -47,7 +47,7 @@ That the repository was build is aim to log process of mysql TiDB Learning.
 
 ### 1-1 论文阅读
 
-[Percolator paper 学习笔记](./01T-iDB原理总结/11-论文阅读/Percolator-paper-学习笔记.md)
+[Percolator paper 学习笔记](./01-TiDB-原理总结/1-1-论文阅读/Percolator-paper-学习笔记.md)
 
 ### 1-2 特性摘要
 
