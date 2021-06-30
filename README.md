@@ -37,7 +37,7 @@ That the repository was build is aim to log process of mysql TiDB Learning.
         - [7-2 两地三中心高可用方案](#7-2-两地三中心高可用方案)
         - [7-3 迁移MyCat至TiDB方案](#7-3-迁移mycat至tidb方案)
         - [7-4 迁移Oracle至TiDB方案](#7-4-迁移oracle至tidb方案)
-        - [7-5 TiDB或MySQL迁移工具](#7-5-tidb或mysql迁移工具)
+        - [7-5 Oracle 下迁 TiDB 或 MySQL 工具](#7-5-oracle-下迁-tidb-或-mysql-工具)
     - [08 TiDB-源码阅读](#08-tidb-源码阅读)
 
 <!-- /TOC -->
@@ -156,8 +156,11 @@ That the repository was build is aim to log process of mysql TiDB Learning.
 
 [Oracle 到 TiDB 的 OGG 部署方案](./07TiDB-解决方案/迁移Oracle至TiDB方案/Oracle到TiDB的OGG部署方案.md)
 
-### 7-5 TiDB或MySQL迁移工具
+### 7-5 Oracle 下迁 TiDB 或 MySQL 工具
 
+[KWC](https://github.com/jansu-dev/kwc)  
+[Kettle](https://github.com/jansu-dev/kwc)  
+[Oracle GoldenGate](https://github.com/jansu-dev/kwc)  
 
 ## 08 TiDB-源码阅读
 
