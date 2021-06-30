@@ -128,15 +128,22 @@ That the repository was build is aim to log process of mysql TiDB Learning.
 
 
 
-### 6-1 TiDB-Binlog
+### 6-1 TiDB-Binlog  
+
+[Binlog及Reparo原理与使用](./06TiDB-生态工具/TiDB-Binlog及Reparo原理与使用.md)   
 
 ### 6-2 TiDB-DM
+[TiDB-BR工具原理简介与使用](./06TiDB-生态工具/TiDB-BR工具原理与使用.md)  
+[TiDB-DM工具原理与使用](./06TiDB-生态工具/TiDB-DM工具原理与使用.md)  
 
 ### 6-3 TiDB-Dumpling
+[TiDB-Dumpling原理与使用](./06TiDB-生态工具/TiDB-Dumpling原理与使用.md)  
 
 ### 6-4 TiDB-Lightning
+[TiDB-Lightning原理与使用](./06TiDB-生态工具/TiDB-Lightning原理与使用.md)  
 
-### 6-5 TiSpark
+### 6-5 TiSpark  
+[TiDB-Spark工作原理](./06TiDB-生态工具/TiDB-TiSpark/TiDB-Spark工作原理.md)  
 
 ## 07 TiDB-解决方案
 
