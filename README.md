@@ -7,7 +7,7 @@ That the repository was build is aim to log process of mysql TiDB Learning.
 <!-- TOC -->
 
 - [TiDB-Learning-Notes](#tidb-learning-notes)
-    - [01TiDB-原理总结](#01tidb-原理总结)
+    - [01 TiDB-原理总结](#01-tidb-原理总结)
         - [1-1论文阅读](#1-1论文阅读)
         - [1-2特性摘要](#1-2特性摘要)
         - [1-3组件原理](#1-3组件原理)
@@ -43,7 +43,7 @@ That the repository was build is aim to log process of mysql TiDB Learning.
 
 
 
-## 01TiDB-原理总结
+## 01 TiDB-原理总结
 
 ### 1-1论文阅读
 
