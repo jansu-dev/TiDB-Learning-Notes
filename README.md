@@ -22,10 +22,11 @@ That the repository was build is aim to log process of mysql TiDB Learning.
         - [3-3 非常规恢复](#3-3-非常规恢复)
     - [04 TiDB-版本特性](#04-tidb-版本特性)
     - [05 TiDB-调优实践](#05-tidb-调优实践)
-        - [5-1 SQL调优](#5-1-sql调优)
-        - [5-2 常见错误](#5-2-常见错误)
-        - [5-3 监控信息](#5-3-监控信息)
+        - [5-1 监控信息](#5-1-监控信息)
+        - [5-2 参数调优](#5-2-参数调优)
+        - [5-3 SQL调优](#5-3-sql调优)
         - [5-4 生产案例](#5-4-生产案例)
+        - [5-5 常见错误](#5-5-常见错误)
     - [06 TiDB-生态工具](#06-tidb-生态工具)
         - [6-1 Dumpling](#6-1-dumpling)
         - [6-2 TiDB-Lightning](#6-2-tidb-lightning)
@@ -111,11 +112,19 @@ That the repository was build is aim to log process of mysql TiDB Learning.
 [TiDB v5.0.0 新特性 LOCAL TSO 原理与使用]()   
 
 
-### 5-1 SQL调优
+### 5-1 监控信息
 
-### 5-2 常见错误
+[Grafana 定位 TiDB实例状态](./05TiDB-调优实践/5-1TiDB-监控信息/TiDB-Grafana定位TiDB实例状态.md)
 
-### 5-3 监控信息
+### 5-2 参数调优 
+
+[TiDB 最优参数推荐配置](05TiDB-调优实践/5-2TiDB-参数调优/TiDB集群TiDB配置文件推荐设置.md)
+[TiKV 最优参数推荐配置](05TiDB-调优实践/5-2TiDB-参数调优/TiDB集群TiKV配置文件推荐设置.md)
+[PD 最优参数推荐配置](05TiDB-调优实践/5-2TiDB-参数调优/TiDB集群PD配置文件推荐设置.md)
+[系统变量最优参数推荐配置](05TiDB-调优实践/5-2TiDB-参数调优/TiDB集群PD配置文件推荐设置.md)
+
+
+### 5-3 SQL调优
 
 ### 5-4 生产案例  
 [SQLBinding修正优化器不稳定问题](./05TiDB-调优实践/TiDB-生产案例/CASE-SQLBinding修正优化器不稳定问题.md)  
@@ -124,6 +133,9 @@ That the repository was build is aim to log process of mysql TiDB Learning.
 [磁盘抖动导致 Duration 抖动现象问题](./05TiDB-调优实践/TiDB-生产案例/CASE-磁盘抖动导致Duration抖动现象问题.md)  
 [网卡带宽打满导致 Duration 升高问题](./05TiDB-调优实践/TiDB-生产案例/CASE-网卡带宽打满导致Duration升高问题.md)  
 [非SSD磁盘性能引发 txnLockNotFound 问题](./05TiDB-调优实践/TiDB-生产案例/CASE-非SSD磁盘性能引发txnLockNotFound问题.md)
+
+### 5-5 常见错误
+
 
 ## 06 TiDB-生态工具
 
