@@ -144,6 +144,7 @@ That the repository was build is aim to log process of mysql TiDB Learning.
 
 ### 6-2 TiDB-Lightning
 [TiDB-Lightning原理与使用](./06TiDB-生态工具/TiDB-Lightning原理与使用.md)  
+[TIDB–不容易发现的 lightning tidb-backend 模式导入优化](06TiDB-生态工具/TIDB–不容易发现的lightning-tidb-backend模式导入优化.md)
 
 ### 6-3 TiDB-Binlog  
 
